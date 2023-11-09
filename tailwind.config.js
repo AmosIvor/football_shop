@@ -15,7 +15,8 @@ export default {
           sub: '#FEF1D8',
           primary: '#F5AC00',
           blue11: '#11006F',
-          grayF6: '#F6F5F9'
+          grayF6: '#F6F5F9',
+          gray7A: '#7A7A9D'
         }
       },
       keyframes: {

@@ -30,7 +30,15 @@ export default function Header() {
             </button>
           </div>
 
-          <div className='col-span-2 col-start-11 self-center text-right'>0332 541 875</div>
+          <div className='col-span-2 col-start-11 flex justify-end self-center text-right'>
+            <svg width={20} height={20} className='mr-2 fill-black' xmlns='http://www.w3.org/2000/svg'>
+              <path
+                d='M17.761 13.389l-2.752-.314a2.157 2.157 0 00-1.776.617l-1.994 1.993A16.299 16.299 0 014.1 8.546l2.004-2.004a2.156 2.156 0 00.618-1.777l-.314-2.73A2.168 2.168 0 004.252.118H2.378C1.154.118.135 1.136.21 2.36.785 11.612 8.184 19 17.425 19.575c1.224.076 2.243-.943 2.243-2.167v-1.874a2.147 2.147 0 00-1.907-2.145z'
+                className='fill-inherit'
+              />
+            </svg>
+            <span className='text-football-blue11'>0332 541 875</span>
+          </div>
         </div>
         <div className='navbar-container mt-5 flex items-center font-semibold capitalize text-football-blue11'>
           <div className='left-container flex basis-8/12 items-center gap-10'>

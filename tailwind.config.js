@@ -1,3 +1,7 @@
+/* eslint-disable no-undef */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -9,7 +13,9 @@ export default {
       colors: {
         football: {
           sub: '#FEF1D8',
-          primary: '#F5AC00'
+          primary: '#F5AC00',
+          blue11: '#11006F',
+          grayF6: '#F6F5F9'
         }
       },
       keyframes: {
@@ -28,5 +34,18 @@ export default {
       }
     }
   },
-  plugins: []
+  plugins: [
+    plugin(function ({ addComponents, theme }) {
+      addComponents({
+        '.container': {
+          width: '78%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          paddingLeft: theme('spacing.4'),
+          paddingRight: theme('spacing.4')
+        }
+      })
+    }),
+    require('@tailwindcss/line-clamp')
+  ]
 }

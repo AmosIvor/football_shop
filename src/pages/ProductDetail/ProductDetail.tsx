@@ -1,6 +1,9 @@
 import ProductRating from '~/components/ProductRating'
 import ProductRatingLarger from './components/ProductRatingLarger'
 import Product from '~/components/Product'
+import { Link } from 'react-router-dom'
+import PATH from '~/constants/path'
+import QuantityController from '~/components/QuantityController'
 
 export default function ProductDetail() {
   return (
@@ -105,46 +108,16 @@ export default function ProductDetail() {
             {/* Quantity */}
             <div className='mt-8 flex items-center'>
               <div className='capitalize'>Số lượng</div>
-              <div className='ml-10 flex items-center'>
-                <button className='flex h-10 w-10 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='currentColor'
-                    className='h-4 w-4'
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
-                  </svg>
-                </button>
-
-                <div className=''>
-                  <input
-                    type='text'
-                    className='h-10 w-14 border-b border-t border-gray-300 bg-transparent p-1 text-center outline-none'
-                  />
-                </div>
-
-                <button className='flex h-10 w-10 items-center justify-center rounded-r-sm border border-gray-300 text-gray-600'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='currentColor'
-                    className='h-4 w-4'
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
-                  </svg>
-                </button>
-              </div>
+              <QuantityController />
               <div className='ml-6 text-football-gray7A'>48 sản phẩm có sẵn</div>
             </div>
 
             {/* Add to cart */}
             <div className='mt-8 flex items-center'>
-              <button className='flex h-12 items-center justify-center rounded-sm border border-football-primary bg-white px-5 font-semibold capitalize text-football-primary shadow-sm hover:bg-gray-50'>
+              <Link
+                to={PATH.cart}
+                className='flex h-12 items-center justify-center rounded-sm border border-football-primary bg-white px-5 font-semibold capitalize text-football-primary shadow-sm hover:bg-gray-50'
+              >
                 <svg width={24} height={24} className='mr-3 fill-football-primary' xmlns='http://www.w3.org/2000/svg'>
                   <path
                     d='M18.833 19a2.333 2.333 0 11-2.333 2.333A2.325 2.325 0 0118.833 19zM.167.333h3.815l1.096 2.334h17.255A1.167 1.167 0 0123.5 3.833c0 .199-.058.397-.14.584l-4.177 7.548a2.346 2.346 0 01-2.041 1.202H8.45L7.4 15.068l-.035.14a.292.292 0 00.292.292h13.51v2.333h-14A2.333 2.333 0 014.832 15.5c0-.408.105-.793.28-1.12L6.7 11.522 2.5 2.667H.167V.333zm7 18.667a2.333 2.333 0 11-2.334 2.333A2.325 2.325 0 017.166 19zm10.5-8.167L20.91 5H6.163l2.753 5.833h8.75z'
@@ -152,7 +125,7 @@ export default function ProductDetail() {
                   />
                 </svg>
                 Thêm vào giỏ hàng
-              </button>
+              </Link>
 
               <button className='ml-4 flex h-12 items-center justify-center rounded-sm bg-football-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-football-primary/80'>
                 Mua ngay
@@ -168,9 +141,9 @@ export default function ProductDetail() {
             <h1 className='mb-6 text-lg font-semibold capitalize text-football-blue11'>Mô tả sản phẩm</h1>
             <span>
               Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành
-              được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners' Cup, vào năm 1971.
-              Sau một thời gian sa sút vào cuối những năm 1970 và 1980, câu lạc bộ đã hồi sinh vào những năm 1990 và gặt
-              hái được nhiều thành công hơn trong các giải đấu cúp.
+              được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm 1971. Sau
+              một thời gian sa sút vào cuối những năm 1970 và 1980, câu lạc bộ đã hồi sinh vào những năm 1990 và gặt hái
+              được nhiều thành công hơn trong các giải đấu cúp.
             </span>
           </div>
         </div>

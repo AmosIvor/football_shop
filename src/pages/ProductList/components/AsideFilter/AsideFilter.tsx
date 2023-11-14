@@ -9,7 +9,19 @@ export default function AsideFilter() {
         </div>
 
         {/* options */}
-        <div className='mt-2'>
+        <div className='mt-2 flex flex-wrap gap-x-3'>
+          <button className='mb-2 flex items-center justify-center gap-2 rounded-[4px] bg-football-primary px-3 py-[2px]'>
+            <svg width={14} height={14} className='fill-white' xmlns='http://www.w3.org/2000/svg'>
+              <path
+                d='M11.083 2.917l-8.166 8.166M2.917 2.917l8.166 8.166'
+                stroke='#fff'
+                strokeWidth={2}
+                strokeLinecap='round'
+              />
+            </svg>
+            <span className='capitalize text-white'>Premier League</span>
+          </button>
+
           <button className='mb-2 flex items-center justify-center gap-2 rounded-[4px] bg-football-primary px-3 py-[2px]'>
             <svg width={14} height={14} className='fill-white' xmlns='http://www.w3.org/2000/svg'>
               <path
@@ -30,7 +42,7 @@ export default function AsideFilter() {
         <span className='text-lg'>Danh mục sản phẩm</span>
 
         {/* catalogues */}
-        <div className='mt-2'>
+        <div className='mt-2 flex flex-wrap gap-x-3'>
           <button className='relative mb-2 overflow-hidden rounded-[4px] border border-transparent bg-gray-300/30 px-4 py-2 text-[#7A7A9D] hover:border-football-primary hover:bg-white hover:text-football-primary'>
             <svg width={24} height={22} className='absolute right-0 top-0' xmlns='http://www.w3.org/2000/svg'>
               <path
@@ -64,7 +76,7 @@ export default function AsideFilter() {
         <span className='text-lg'>Kích thước</span>
 
         {/* sizes */}
-        <div className='mt-2'>
+        <div className='mt-2 flex flex-wrap gap-x-3'>
           <button className='relative mb-2 overflow-hidden rounded-[4px] border border-transparent bg-gray-300/30 px-4 py-2 text-[#7A7A9D] hover:border-football-primary hover:bg-white hover:text-football-primary'>
             <svg width={24} height={22} className='absolute right-0 top-0' xmlns='http://www.w3.org/2000/svg'>
               <path

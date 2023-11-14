@@ -7,6 +7,8 @@ import Register from './pages/Register'
 import ProductList from './pages/ProductList'
 import PATH from './constants/path'
 import ProductDetail from './pages/ProductDetail'
+import Cart from './pages/Cart'
+import Payment from './pages/Payment'
 
 export default function useRouteElements() {
   const routeElements = useRoutes([
@@ -47,6 +49,22 @@ export default function useRouteElements() {
       element: (
         <MainLayout>
           <ProductDetail />
+        </MainLayout>
+      )
+    },
+    {
+      path: PATH.cart,
+      element: (
+        <MainLayout>
+          <Cart />
+        </MainLayout>
+      )
+    },
+    {
+      path: PATH.payment,
+      element: (
+        <MainLayout>
+          <Payment />
         </MainLayout>
       )
     }

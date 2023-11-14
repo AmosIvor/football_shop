@@ -6,6 +6,7 @@ const PATH = {
   products: '/products',
   productDetail: '/:nameId',
   cart: '/cart',
+  payment: '/payment',
   user: '/user',
   profile: '/user/profile',
   changePassword: '/user/password',

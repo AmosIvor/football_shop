@@ -47,6 +47,7 @@ export default {
         }
       })
     }),
-    require('@tailwindcss/line-clamp')
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms')
   ]
 }

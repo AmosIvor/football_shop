@@ -3,7 +3,7 @@ import PATH from '~/constants/path'
 
 export default function Header() {
   return (
-    <div className='flex w-full justify-center bg-gradient-to-b from-football-sub to-white pb-[11px]'>
+    <div className='flex w-full justify-center bg-gradient-to-b from-football-primary/20 to-white pb-[11px]'>
       <div className='container'>
         <div className='top-header mt-5 grid grid-cols-12 gap-10'>
           <Link

@@ -16,7 +16,7 @@ import HistoryPurchase from './pages/User/pages/HistoryPurchase'
 import RatingProducted from './pages/User/pages/RatingProducted'
 import Address from './pages/User/pages/Address'
 import Voucher from './pages/User/pages/Voucher'
-import DetailHistoryPurchase from './pages/User/pages/HistoryPurchase/DetailHistoryPurchase'
+import DetailHistoryPurchase from './pages/User/pages/DetailHistoryPurchase'
 
 export default function useRouteElements() {
   const routeElements = useRoutes([

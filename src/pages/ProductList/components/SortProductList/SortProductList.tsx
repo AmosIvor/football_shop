@@ -19,13 +19,20 @@ export default function SortProductList() {
             Bán chạy
           </button>
 
-          <select className='ml-2 cursor-pointer border border-football-primary bg-white px-4 py-[6px] text-base capitalize text-football-primary outline-none'>
-            <option value='' disabled className='bg-white text-gray-400'>
+          <select className='ml-2 w-48 cursor-pointer appearance-none border border-football-primary bg-white px-4 py-[6px] text-base capitalize text-football-primary outline-none focus:border-football-primary'>
+            <option value='' selected disabled className='bg-white text-gray-400'>
               Giá
             </option>
             <option className='bg-white text-black'>Giá: Thấp đến Cao</option>
             <option className='bg-white text-black'>Giá: Cao đến Thấp</option>
           </select>
+          {/* <div className='relative inline-block w-64'>
+            <select className='focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none'>
+              <option>Really long option that will likely overlap the chevron</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div> */}
         </div>
 
         <div className='flex items-center'>

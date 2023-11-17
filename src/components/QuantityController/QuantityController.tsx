@@ -21,7 +21,7 @@ export default function QuantityController({ classNameWrapper = 'ml-10' }: Props
       <div className=''>
         <input
           type='text'
-          className='h-10 w-14 border-b border-t border-gray-300 bg-transparent p-1 text-center outline-none'
+          className='h-10 w-14 border-b border-t border-gray-300 bg-transparent p-1 text-center outline-none focus:border-gray-300 focus:ring-transparent'
         />
       </div>
 

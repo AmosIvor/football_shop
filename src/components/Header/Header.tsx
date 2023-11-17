@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import PATH from '~/constants/path'
 
 export default function Header() {
   return (
@@ -13,10 +14,10 @@ export default function Header() {
             <span>Sports</span>
           </Link>
 
-          <div className='col-span-6 flex rounded-lg bg-white'>
+          <div className='col-span-6 flex h-[44px] rounded-lg bg-white'>
             <input
               type='text'
-              className='w-[100%] rounded-bl-md rounded-tl-md border-none py-2 pl-6 pr-3 text-lg font-normal outline-none'
+              className='flex w-[100%] items-center rounded-bl-md rounded-tl-md border-none py-2 pl-6 pr-3 text-lg font-normal outline-none'
               placeholder='Tìm kiếm'
             />
             <button className='rounded-br-md rounded-tr-md border-none bg-football-primary px-7 py-2'>
@@ -53,7 +54,7 @@ export default function Header() {
             </Link>
           </div>
           <div className='right-container flex basis-4/12 items-center justify-end gap-10'>
-            <Link to='/register' className='flex items-center'>
+            <Link to={PATH.cart} className='flex items-center'>
               <div className='relative'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -75,7 +76,7 @@ export default function Header() {
               </div>
               <span className='ml-[14px] hidden xl:inline-block'>Giỏ hàng</span>
             </Link>
-            <Link to='/register' className='flex items-center'>
+            <Link to={PATH.profile} className='flex items-center'>
               <div className='flex h-[24px] w-[24px] items-center justify-center'>
                 <img
                   src='https://bizweb.dktcdn.net/100/438/408/themes/919724/assets/icon-user.svg?1699408922234'

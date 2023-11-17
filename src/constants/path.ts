@@ -10,7 +10,8 @@ const PATH = {
   user: '/user',
   profile: '/user/profile',
   changePassword: '/user/password',
-  historyPurchase: '/user/purchase'
+  historyPurchase: '/user/purchase',
+  ratingProducted: '/user/rating'
 } as const
 
 export default PATH

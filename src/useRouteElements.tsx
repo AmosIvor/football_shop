@@ -14,6 +14,9 @@ import Profile from './pages/User/pages/Profile'
 import ChangePassword from './pages/User/pages/ChangePassword'
 import HistoryPurchase from './pages/User/pages/HistoryPurchase'
 import RatingProducted from './pages/User/pages/RatingProducted'
+import Address from './pages/User/pages/Address'
+import Voucher from './pages/User/pages/Voucher'
+import DetailHistoryPurchase from './pages/User/pages/HistoryPurchase/DetailHistoryPurchase'
 
 export default function useRouteElements() {
   const routeElements = useRoutes([
@@ -86,12 +89,24 @@ export default function useRouteElements() {
           element: <Profile />
         },
         {
+          path: PATH.address,
+          element: <Address />
+        },
+        {
           path: PATH.changePassword,
           element: <ChangePassword />
         },
         {
           path: PATH.historyPurchase,
           element: <HistoryPurchase />
+        },
+        {
+          path: PATH.detailHistoryPurchase,
+          element: <DetailHistoryPurchase />
+        },
+        {
+          path: PATH.voucher,
+          element: <Voucher />
         },
         {
           path: PATH.ratingProducted,

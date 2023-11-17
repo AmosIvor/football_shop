@@ -32,7 +32,7 @@ export default function HistoryPurchase() {
       <div className='bg-transparent'>
         {/* Product List */}
         <div className='mt-4 w-full rounded-sm border-black/10 bg-white px-8 py-6 text-gray-800 shadow-sm'>
-          <Link to={PATH.home} className='flex'>
+          <Link to={PATH.detailHistoryPurchase} className='flex'>
             <div className='flex basis-[70%] overflow-hidden'>
               <div className='h-[120px] w-[120px] flex-shrink-0'>
                 <img
@@ -56,9 +56,24 @@ export default function HistoryPurchase() {
           <div className='mb-4 mt-6 h-[1px] w-full bg-football-gray7A/30'></div>
           <div className='flex items-center justify-between'>
             <div className='flex items-center'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='-mt-[2px] mr-3 h-5 w-5 stroke-[#cd151c]'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636'
+                />
+              </svg>
+
               <span className='hidden text-[#26aa99]'>Giao hàng thành công</span>
               <div className='mx-3 hidden h-[50%] w-[1px] bg-football-gray7A'></div>
-              <span className='uppercase text-[#cd151c]'>Đã huỷ</span>
+              <span className='font-semibold uppercase text-[#cd151c]'>Đã huỷ</span>
             </div>
             <div>
               <span>Tổng giá tiền</span>
@@ -119,7 +134,7 @@ export default function HistoryPurchase() {
               </svg>
               <span className='text-[#26aa99]'>Giao hàng thành công</span>
               <div className='mx-3 h-[50%] w-[1px] bg-football-gray7A/40'></div>
-              <span className='uppercase text-football-primary'>Hoàn thành</span>
+              <span className='font-semibold uppercase text-football-primary'>Hoàn thành</span>
             </div>
             <div>
               <span>Tổng giá tiền</span>

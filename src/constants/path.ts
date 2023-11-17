@@ -9,9 +9,12 @@ const PATH = {
   payment: '/payment',
   user: '/user',
   profile: '/user/profile',
+  address: '/user/address',
   changePassword: '/user/password',
+  voucher: '/user/voucher',
   historyPurchase: '/user/purchase',
-  ratingProducted: '/user/rating'
+  ratingProducted: '/user/rating',
+  detailHistoryPurchase: '/user/purchase/order/:nameId'
 } as const
 
 export default PATH

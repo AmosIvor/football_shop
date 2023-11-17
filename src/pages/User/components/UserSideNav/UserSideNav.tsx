@@ -21,6 +21,7 @@ export default function UserSideNav() {
 
       {/* side nav */}
       <div className='flex flex-col'>
+        {/* Profile */}
         <NavLink
           to={PATH.profile}
           className={({ isActive }) =>
@@ -51,6 +52,38 @@ export default function UserSideNav() {
           </div>
         </NavLink>
 
+        {/* Address */}
+        <NavLink
+          to={PATH.address}
+          className={({ isActive }) =>
+            classNames('mb-1 flex h-[50px] items-center gap-4', {
+              'bg-gray-200/70 text-black': isActive,
+              'bg-transparent text-black': !isActive
+            })
+          }
+        >
+          <div className='flex w-[25%] justify-end'>
+            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
+              <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
+                fill='#000'
+              />
+              <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
+                fill='#000'
+              />
+            </svg>
+          </div>
+          <div className='flex w-[75%] items-center'>
+            <span className='mt-[2px]'>Sổ địa chỉ</span>
+          </div>
+        </NavLink>
+
+        {/* ChangePassword */}
         <NavLink
           to={PATH.changePassword}
           className={({ isActive }) =>
@@ -81,6 +114,7 @@ export default function UserSideNav() {
           </div>
         </NavLink>
 
+        {/* History Purchase */}
         <NavLink
           to={PATH.historyPurchase}
           className={({ isActive }) =>
@@ -111,6 +145,38 @@ export default function UserSideNav() {
           </div>
         </NavLink>
 
+        {/* Voucher */}
+        <NavLink
+          to={PATH.voucher}
+          className={({ isActive }) =>
+            classNames('mb-1 flex h-[50px] items-center gap-4', {
+              'bg-gray-200/70 text-black': isActive,
+              'bg-transparent text-black': !isActive
+            })
+          }
+        >
+          <div className='flex w-[25%] justify-end'>
+            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
+              <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
+                fill='#000'
+              />
+              <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
+                fill='#000'
+              />
+            </svg>
+          </div>
+          <div className='flex w-[75%] items-center'>
+            <span className='mt-[2px]'>Ví voucher</span>
+          </div>
+        </NavLink>
+
+        {/* RatingProducted */}
         <NavLink
           to={PATH.ratingProducted}
           className={({ isActive }) =>

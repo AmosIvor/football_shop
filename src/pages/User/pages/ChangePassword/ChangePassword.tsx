@@ -2,7 +2,7 @@ export default function ChangePassword() {
   return (
     <div className='rounded-sm bg-white px-8 py-5 text-lg font-normal text-black shadow'>
       {/* Header */}
-      <div className='border-b border-b-gray-200'>
+      <div className='border-b border-b-gray-200 pb-3'>
         <h1 className='capitalized text-2xl font-semibold text-black'>Đổi mật khẩu</h1>
         <div className='pb-2 pt-1 text-base text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
       </div>

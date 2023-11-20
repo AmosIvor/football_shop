@@ -1,7 +1,7 @@
 import Product from '~/components/Product'
 import AsideFilter from './components/AsideFilter'
-import SortProductList from './components/SortProductList'
 import Pagination from '~/components/Pagination'
+import SortProductList from './components/SortProductList'
 
 export default function ProductList() {
   return (
@@ -9,12 +9,12 @@ export default function ProductList() {
       <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
           {/* Aside Filter */}
-          <div className='col-span-3'>
+          <div className='hidden lg:col-span-3 lg:inline-flex'>
             <AsideFilter />
           </div>
 
           {/* Product List */}
-          <div className='col-span-9'>
+          <div className='col-span-12 lg:col-span-9'>
             {/* Sort Product List */}
             <SortProductList />
 

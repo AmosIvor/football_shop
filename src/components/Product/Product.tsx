@@ -17,19 +17,19 @@ export default function Product() {
           <div className='line-clamp-2 min-h-[3rem] capitalize'>
             Manchester City Manchester City Manchester City Manchester City 22/23
           </div>
-          <div className='mt-2 flex items-center'>
+          <div className='xs:flex-row xs:items-center mt-2 flex flex-col items-start'>
             <div className='trucate max-w-[50%] text-gray-500 line-through'>
               <span className='text-sm'>đ</span>
               <span className='text-lg'>218.000</span>
             </div>
-            <div className='ml-2 truncate text-football-primary'>
+            <div className='xs:ml-2 xs:mt-0 ml-0 mt-0 truncate text-football-primary'>
               <span className='text-sm'>đ</span>
               <span className='text-lg'>119.000</span>
             </div>
           </div>
-          <div className='mt-2 flex items-center justify-between'>
+          <div className='xs:flex-row xs:items-center mt-2 flex flex-col items-start justify-between'>
             <ProductRating />
-            <div className='mr-1'>Đã bán 4,5K</div>
+            <div className='xs:mt-0 xs:inline-block mr-1 mt-2 hidden sm:mr-0 md:mr-1'>Đã bán 4,5K</div>
           </div>
         </div>
       </div>

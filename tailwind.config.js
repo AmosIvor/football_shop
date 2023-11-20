@@ -7,6 +7,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      screens: {
+        xs: '475px'
+      },
       fontFamily: {
         Nunito: ['Nunito', 'sans-serif']
       },

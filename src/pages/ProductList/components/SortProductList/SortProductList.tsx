@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function SortProductList() {
   return (
     <div className='py-4'>
-      <div className='flex flex-wrap items-center justify-between gap-2 text-lg font-normal'>
+      <div className='flex flex-row flex-wrap items-center justify-between gap-2 text-lg font-normal'>
         <div className='hidden flex-wrap items-center gap-2 lg:flex'>
           <div>Sắp xếp theo</div>
 
@@ -26,16 +26,9 @@ export default function SortProductList() {
             <option className='bg-white text-black'>Giá: Thấp đến Cao</option>
             <option className='bg-white text-black'>Giá: Cao đến Thấp</option>
           </select>
-          {/* <div className='relative inline-block w-64'>
-            <select className='focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none'>
-              <option>Really long option that will likely overlap the chevron</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-            </select>
-          </div> */}
         </div>
 
-        <button className='flex items-center justify-start bg-transparent text-black lg:hidden'>
+        <button className='flex items-center justify-start bg-transparent text-black hover:text-football-primary lg:hidden'>
           Bộ lọc
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -53,7 +46,7 @@ export default function SortProductList() {
           </svg>
         </button>
 
-        <div className='flex items-center self-end'>
+        <div className='flex items-center justify-self-end'>
           <div>
             <span className='text-football-primary'>1</span>
             <span>/3</span>

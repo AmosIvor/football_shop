@@ -7,7 +7,7 @@
 }
 
 .asir-container {
-  @apply mx-auto w-full px-7 md:w-[90%] md:px-4 lg:w-[78%];
+  @apply mx-auto w-full px-7 md:w-[90%] md:px-4 lg:w-[84%] xl:w-[78%];
 }
 
 [type='text'],

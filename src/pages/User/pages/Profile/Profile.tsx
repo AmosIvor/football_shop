@@ -10,7 +10,7 @@ export default function Profile() {
       </div>
 
       {/* Form */}
-      <form className='mt-8 flex flex-row items-start'>
+      <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start'>
         {/* Information */}
         <div className='flex-grow pr-12'>
           {/* Email */}

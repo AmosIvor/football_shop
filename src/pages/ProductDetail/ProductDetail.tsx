@@ -4,57 +4,58 @@ import Product from '~/components/Product'
 import { Link } from 'react-router-dom'
 import PATH from '~/constants/path'
 import QuantityController from '~/components/QuantityController'
+import Accordition from '~/components/Accordition'
 
 export default function ProductDetail() {
   return (
     <div className='bg-football-grayF6 py-6'>
       {/* Detail product */}
-      <div className='container'>
-        <div className='grid grid-cols-12 gap-10'>
-          <div className='col-span-6'>
-            <div className='grid grid-cols-10 gap-3'>
+      <div className='asir-container'>
+        <div className='grid grid-cols-12 gap-x-0 gap-y-10 sm:gap-10'>
+          <div className='col-span-12 sm:col-span-9 md:col-span-7 lg:col-span-5'>
+            {/* Main Image  */}
+            <div className='relative w-full overflow-hidden pt-[100%] shadow'>
+              <img
+                src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
+                alt=''
+                className='absolute left-0 top-0 h-full w-full bg-white object-cover'
+              />
+            </div>
+
+            <div className='relative mt-4 grid grid-cols-4 gap-2'>
               {/* Slide Image */}
-              <div className='col-span-2 flex flex-col justify-between'>
-                <div className='relative w-full pt-[100%]'>
-                  <img
-                    src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
-                    alt=''
-                    className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
-                  />
-                  <div className='absolute inset-0 border-2 border-football-primary' />
-                </div>
-
-                {Array(3)
-                  .fill(0)
-                  .map((_, index) => (
-                    <div className='relative w-full pt-[100%]' key={index}>
-                      <img
-                        src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
-                        alt=''
-                        className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
-                      />
-                      <div className='absolute inset-0 hidden border-2 border-football-primary' />
-                    </div>
-                  ))}
-              </div>
-
-              {/* Main Image  */}
-              <div className='col-span-8'>
-                <div className='relative w-full overflow-hidden pt-[100%] shadow'>
-                  <img
-                    src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
-                    alt=''
-                    className='absolute left-0 top-0 h-full w-full bg-white object-cover'
-                  />
-                </div>
-              </div>
+              {Array(4)
+                .fill(0)
+                .map((_, index) => (
+                  <div className='relative w-full pt-[100%]' key={index}>
+                    <img
+                      src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
+                      alt=''
+                      className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
+                    />
+                    <div className='absolute inset-0 border-2 border-football-primary' />
+                  </div>
+                ))}
+              {/* {Array(3)
+                .fill(0)
+                .map((_, index) => (
+                  <div className='relative w-full pt-[100%]' key={index}>
+                    <img
+                      src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
+                      alt=''
+                      className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
+                    />
+                    <div className='absolute inset-0 hidden border-2 border-football-primary' />
+                  </div>
+                ))} */}
             </div>
           </div>
 
-          <div className='col-span-6 text-lg font-normal'>
+          <div className='col-span-12 text-lg font-normal md:col-span-9 lg:col-span-7'>
             {/* Title */}
             <h1 className='text-2xl font-semibold uppercase text-black'>Chelsea 2022 / 2023</h1>
 
+            {/* Sub title */}
             <div className='mt-3 flex items-center'>
               {/* Rating */}
               <div className='flex items-center'>
@@ -72,18 +73,19 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            <div className='mt-8 flex items-center'>
+            {/* Price */}
+            <div className='mt-8 flex items-center lg:mt-6 xl:mt-8'>
               <div className='text-football-gray7A line-through'>đ219.000</div>
 
               <div className='ml-3 text-4xl font-semibold text-football-primary'>đ181.000</div>
 
-              <div className='rouned-sm ml-5 bg-football-primary px-2 py-[2px] text-sm font-semibold uppercase text-white'>
+              <div className='rouned-sm ml-5 hidden bg-football-primary px-2 py-[2px] text-sm font-semibold uppercase text-white xs:inline-block'>
                 20% giảm
               </div>
             </div>
 
             {/* Size */}
-            <div className='mt-8 flex flex-col justify-center'>
+            <div className='mt-8 flex flex-col justify-center lg:mt-6 xl:mt-8'>
               <div className='flex items-center'>
                 <span>Kích thước:</span>
                 <span className='ml-5 font-semibold'>M</span>
@@ -106,17 +108,19 @@ export default function ProductDetail() {
             </div>
 
             {/* Quantity */}
-            <div className='mt-8 flex items-center'>
-              <div className='capitalize'>Số lượng</div>
-              <QuantityController />
-              <div className='ml-6 text-football-gray7A'>48 sản phẩm có sẵn</div>
+            <div className='mt-8 flex flex-col xs:flex-row xs:items-center lg:mt-6 xl:mt-8'>
+              <div className='flex items-center'>
+                <div className='capitalize'>Số lượng</div>
+                <QuantityController classNameWrapper='sm:ml-10 xs:ml-4 ml-10' />
+              </div>
+              <div className='ml-0 mt-6 text-football-gray7A xs:ml-3 xs:mt-0 sm:ml-6'>48 sản phẩm có sẵn</div>
             </div>
 
             {/* Add to cart */}
-            <div className='mt-8 flex items-center'>
+            <div className='mt-7 flex flex-col items-center xs:mt-8 xs:flex-row lg:mt-6 xl:mt-8'>
               <Link
                 to={PATH.cart}
-                className='flex h-12 items-center justify-center rounded-sm border border-football-primary bg-white px-5 font-semibold capitalize text-football-primary shadow-sm hover:bg-gray-50'
+                className='flex h-12 w-full items-center justify-center rounded-sm border border-football-primary bg-white px-5 font-semibold capitalize text-football-primary shadow-sm hover:bg-gray-50 xs:w-auto'
               >
                 <svg width={24} height={24} className='mr-3 fill-football-primary' xmlns='http://www.w3.org/2000/svg'>
                   <path
@@ -127,53 +131,79 @@ export default function ProductDetail() {
                 Thêm vào giỏ hàng
               </Link>
 
-              <button className='ml-4 flex h-12 items-center justify-center rounded-sm bg-football-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-football-primary/80'>
+              <button className='ml-0 mt-4 flex h-12 w-full items-center justify-center rounded-sm bg-football-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-football-primary/80 xs:ml-4 xs:mt-0 xs:w-auto'>
                 Mua ngay
               </button>
+            </div>
+
+            {/* Description  */}
+            <div className='hidden 2xl:mt-10 2xl:inline-block 2xl:border-t 2xl:border-t-football-gray7A/30 2xl:pt-5'>
+              <Accordition
+                title='Mô tả sản phẩm'
+                content='Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm 1971.'
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div className='container'>
-        <div className='mt-[70px] grid grid-cols-12 gap-10'>
-          <div className='col-span-6 text-base font-normal text-black'>
-            <h1 className='mb-6 text-lg font-semibold capitalize text-football-blue11'>Mô tả sản phẩm</h1>
-            <span>
-              Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành
+      {/* Description */}
+      <div className='asir-container 2xl:hidden'>
+        <div className='mt-[70px] grid grid-cols-12 gap-x-0 gap-y-10 sm:gap-10'>
+          <div className='col-span-12 text-base font-normal text-black lg:col-span-9'>
+            <Accordition
+              title='Mô tả sản phẩm'
+              content='Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành
               được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm 1971. Sau
               một thời gian sa sút vào cuối những năm 1970 và 1980, câu lạc bộ đã hồi sinh vào những năm 1990 và gặt hái
-              được nhiều thành công hơn trong các giải đấu cúp.
-            </span>
+              được nhiều thành công hơn trong các giải đấu cúp.'
+            />
           </div>
         </div>
       </div>
 
       {/* Ratings */}
-      <div className='container'>
-        <div className='mt-[70px] text-base font-normal'>
-          <div className='grid grid-cols-12 gap-10'>
-            <div className='col-span-6 flex flex-col'>
+      <div className='asir-container'>
+        <div className='mt-5 text-base font-normal'>
+          <div className='grid grid-cols-12 gap-x-0 gap-y-10 sm:gap-10'>
+            <div className='col-span-12 flex flex-col lg:col-span-9'>
               <h1 className='text-lg font-semibold capitalize text-football-blue11'>Đánh giá</h1>
-              <div className='mt-8 grid grid-cols-10 gap-3 bg-gray-300/30 px-20 py-9 shadow'>
-                <div className='col-span-4 flex flex-col items-center justify-center gap-2'>
+              {/* Table rating */}
+              <div className='mt-6 flex flex-col items-center gap-x-5 bg-gray-300/30 px-10 py-9 shadow xs:px-14 sm:flex-row sm:items-start xl:gap-x-10 xl:px-14'>
+                {/* Left Rating */}
+                <div className='flex w-full flex-col items-center justify-center gap-2 sm:basis-5/12 lg:basis-4/12 xl:basis-5/12'>
                   <span className='text-xl font-semibold text-football-blue11'>5 / 5</span>
                   <ProductRatingLarger />
                   <span className='mt-2'>(6 đánh giá)</span>
-                  <button className='mt-1 rounded-sm bg-football-blue11/90 px-4 py-2 text-white shadow hover:bg-football-blue11/75'>
+                  <button className='mt-1 w-full rounded-sm bg-football-blue11/90 px-4 py-2 text-white shadow hover:bg-football-blue11/75 xs:w-auto'>
                     Gửi đánh giá của bạn
                   </button>
                 </div>
-                <div className='col-span-6 ml-16'>
-                  <button className='mb-2 flex w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white py-2 text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
+
+                {/* Right Rating */}
+                <div className='mt-7 flex flex-wrap justify-center gap-x-3 gap-y-4 sm:mt-0 sm:basis-7/12 sm:gap-x-3 sm:gap-y-4 lg:basis-8/12 xl:basis-7/12 xl:gap-y-5 2xl:gap-x-8'>
+                  <button className='flex h-[40px] w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
                     <span className='capitalize'>Tất cả</span>
                   </button>
-                  <button className='mb-2 flex w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white py-2 text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
+                  <button className='flex h-[40px] w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
                     <span className='capitalize'>5 Điểm (1)</span>
                   </button>
-                  <button className='mb-2 flex w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white py-2 text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
+                  <button className='flex h-[40px] w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
                     <span className='capitalize'>4 Điểm (10)</span>
                   </button>
+                  <button className='flex h-[40px] w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white text-black shadow hover:border-football-blue11 hover:text-football-blue11'>
+                    <span className='capitalize'>3 Điểm (1)</span>
+                  </button>
+                  {Array(4)
+                    .fill(0)
+                    .map((_, index) => (
+                      <button
+                        className='flex h-[40px] w-[100px] items-center justify-center rounded-[4px] border border-transparent bg-white text-black shadow hover:border-football-blue11 hover:text-football-blue11'
+                        key={index}
+                      >
+                        <span className='capitalize'>4 Điểm (10)</span>
+                      </button>
+                    ))}
                 </div>
               </div>
               {/* Ratings */}
@@ -209,19 +239,23 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+
       {/* Recommend */}
-      <div className='container'>
+      <div className='asir-container'>
         <div className='py-[70px] text-base font-medium text-football-blue11'>
           <div className='mb-8 flex items-center justify-between text-lg font-semibold'>
             <h2 className='capitalize'>HVPP Sports gợi ý cho bạn</h2>
           </div>
           {/* products */}
-          <div className='grid grid-cols-10 gap-10'>
+          <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
             {Array(5)
               .fill(0)
               .map((productIndex) => (
-                <div className='col-span-2' key={productIndex}>
+                <div
+                  className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+                  key={productIndex}
+                >
                   <Product />
                 </div>
               ))}

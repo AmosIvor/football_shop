@@ -42,7 +42,7 @@ export default function HistoryPurchase() {
                 />
               </div>
               {/* name product */}
-              <div className='ml-3 flex h-[120px] flex-grow flex-col items-stretch justify-between overflow-hidden'>
+              <div className='ml-3 flex h-[120px] flex-grow flex-col justify-between overflow-hidden'>
                 <div className='line-clamp-2'>Manchester City 22/23</div>
                 <div className=''>Size: M</div>
                 <div className=''>x 2</div>

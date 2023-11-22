@@ -1,25 +1,7 @@
-import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import ModalPayment from '~/components/Modal/ModalPayment'
 import PATH from '~/constants/path'
 
 export default function Payment() {
-  const [idPurchase, setIdPurchase] = useState<null | number>(null)
-
-  const isVisible = useMemo(() => {
-    return idPurchase !== null
-  }, [idPurchase])
-
-  const showModal = (id: number) => {
-    console.log(isVisible)
-    setIdPurchase(id)
-  }
-
-  const hideModal = () => {
-    console.log('modal when hide: ', isVisible)
-    setIdPurchase(null)
-  }
-
   return (
     <div className='bg-football-grayF6 py-6'>
       <div className='container'>
@@ -122,7 +104,6 @@ export default function Payment() {
             </div>
           </div>
           <div className='col-span-3 text-lg font-normal text-black'>
-            {/* Address */}
             <div className='mt-4 rounded-[4px] bg-white px-5 pb-4 pt-3 shadow-sm'>
               <div className='flex items-center justify-between'>
                 <span className='text-xl font-semibold text-football-gray7A'>Giao tới</span>
@@ -136,7 +117,6 @@ export default function Payment() {
               <div className='text-football-gray7A'>43 Tân Lập, Phường Đông Hoà, Thị xã Dĩ An, Tỉnh Bình Dương</div>
             </div>
 
-            {/* Voucher */}
             <div className='mt-4 rounded-[4px] bg-white px-5 pb-4 pt-3 shadow-sm'>
               <span className='text-xl font-semibold text-football-gray7A'>HVPP Sports khuyến mãi</span>
               <button className='mb-1 mt-3 flex items-center bg-transparent text-football-primary'>
@@ -150,7 +130,6 @@ export default function Payment() {
               </button>
             </div>
 
-            {/* Total */}
             <div className='mt-4 flex flex-col items-center rounded-[4px] bg-white px-5 pb-4 pt-4 shadow-sm'>
               <div className='flex w-full items-center justify-between'>
                 <span className='text-lg font-semibold text-football-gray7A'>Tổng tiền hàng</span>
@@ -173,27 +152,15 @@ export default function Payment() {
               </div>
             </div>
 
-            {/* Button Payment */}
             <Link
               to={PATH.payment}
               className='mt-4 flex w-full items-center justify-center bg-football-primary py-2 text-lg uppercase text-white shadow hover:bg-football-primary/90'
             >
               Đặt hàng
             </Link>
-
-            {/* Button Modal */}
-            <Link
-              to={PATH.payment}
-              className='mt-4 flex w-full items-center justify-center bg-football-blue11/80 py-2 text-lg uppercase text-white shadow hover:bg-football-blue11/70'
-              onClick={() => showModal(1)}
-            >
-              Open Modal
-            </Link>
           </div>
         </div>
       </div>
-
-      <ModalPayment isVisible={isVisible} handleSubmit={hideModal} handleCancel={hideModal} />
     </div>
   )
 }

@@ -8,7 +8,8 @@ export default {
   theme: {
     extend: {
       screens: {
-        xs: '475px'
+        xs: '475px',
+        laptop: '1650px'
       },
       fontFamily: {
         Nunito: ['Nunito', 'sans-serif']

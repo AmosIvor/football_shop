@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { NavLink } from 'react-router-dom'
+import ICON from '~/assets/icons'
 import PATH from '~/constants/path'
 
 export default function UserSideNav() {
@@ -32,18 +33,18 @@ export default function UserSideNav() {
           }
         >
           <div className='flex w-[25%] justify-end'>
-            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='h-6 w-6'
+            >
               <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
-                fill='#000'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
-                fill='#000'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z'
               />
             </svg>
           </div>
@@ -63,18 +64,19 @@ export default function UserSideNav() {
           }
         >
           <div className='flex w-[25%] justify-end'>
-            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='h-6 w-6'
+            >
+              <path strokeLinecap='round' strokeLinejoin='round' d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z' />
               <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
-                fill='#000'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
-                fill='#000'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
               />
             </svg>
           </div>
@@ -94,18 +96,18 @@ export default function UserSideNav() {
           }
         >
           <div className='flex w-[25%] justify-end'>
-            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='h-6 w-6'
+            >
               <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
-                fill='#000'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
-                fill='#000'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z'
               />
             </svg>
           </div>
@@ -125,20 +127,9 @@ export default function UserSideNav() {
           }
         >
           <div className='flex w-[25%] justify-end'>
-            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
-                fill='#000'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
-                fill='#000'
-              />
-            </svg>
+            <div className='h-6 w-6'>
+              <img src={ICON.historyPurchase_64} alt='history-purchase' className='h-full w-full object-cover' />
+            </div>
           </div>
           <div className='flex w-[75%] items-center'>
             <span className='mt-[2px]'>Lịch sử đơn hàng</span>
@@ -156,20 +147,9 @@ export default function UserSideNav() {
           }
         >
           <div className='flex w-[25%] justify-end'>
-            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
-                fill='#000'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
-                fill='#000'
-              />
-            </svg>
+            <div className='h-6 w-6'>
+              <img src={ICON.coupon_64} alt='coupon' className='h-full w-full object-cover' />
+            </div>
           </div>
           <div className='flex w-[75%] items-center'>
             <span className='mt-[2px]'>Ví voucher</span>
@@ -187,18 +167,18 @@ export default function UserSideNav() {
           }
         >
           <div className='flex w-[25%] justify-end'>
-            <svg width={24} height={24} fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='h-6 w-6'
+            >
               <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z'
-                fill='#000'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.983 8.983 0 017.092 3.458A9.001 9.001 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.991 6.991 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z'
-                fill='#000'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z'
               />
             </svg>
           </div>

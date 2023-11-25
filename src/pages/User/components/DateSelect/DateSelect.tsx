@@ -2,9 +2,9 @@ import { range } from 'lodash'
 
 export default function DateSelect() {
   return (
-    <div className='mt-4 flex flex-row flex-wrap items-center'>
-      <div className='capitialized w-[20%] truncate pt-3 text-right'>Ngày sinh</div>
-      <div className='w-[80%] pl-8 pt-3 text-black'>
+    <div className='mt-3 flex flex-row flex-wrap'>
+      <div className='capitialized mt-[9px] w-[20%] truncate text-right'>Ngày sinh</div>
+      <div className='w-[80%] pl-8 text-black'>
         <div className='flex justify-between'>
           <select
             name='date'
@@ -42,6 +42,8 @@ export default function DateSelect() {
             ))}
           </select>
         </div>
+
+        <div className='mt-1 min-h-[24px] text-base text-red-600'></div>
       </div>
     </div>
   )

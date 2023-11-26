@@ -14,16 +14,16 @@ export default function ChangePassword() {
         <div className='flex-grow pr-12'>
           {/* Password */}
           <div className='flex flex-row flex-wrap'>
-            <div className='mt-[9px] w-[20%] truncate text-right capitalize'>Mật khẩu cũ</div>
-            <div className='w-[80%] pl-8'>
+            <div className='mt-[9px] w-[22%] truncate text-right capitalize'>Mật khẩu cũ</div>
+            <div className='w-[78%] pl-8'>
               <Input type='text' placeholder='Mật khẩu cũ' />
             </div>
           </div>
 
           {/* New Password */}
           <div className='mt-3 flex flex-row flex-wrap'>
-            <div className='mt-[9px] w-[20%] truncate text-right capitalize'>Mật khẩu mới</div>
-            <div className='w-[80%] pl-8'>
+            <div className='mt-[9px] w-[22%] truncate text-right capitalize'>Mật khẩu mới</div>
+            <div className='w-[78%] pl-8'>
               <Input type='text' placeholder='Mật khẩu mới' />
               {/* <div className='mt-1 min-h-[20px] text-sm text-red-600'></div> */}
             </div>
@@ -31,16 +31,16 @@ export default function ChangePassword() {
 
           {/* Confirm Password */}
           <div className='mt-3 flex flex-row flex-wrap'>
-            <div className='mt-[9px] w-[20%] truncate text-right capitalize'>Xác nhận mật khẩu</div>
-            <div className='w-[80%] pl-8'>
+            <div className='mt-[9px] w-[22%] truncate text-right capitalize'>Xác nhận mật khẩu</div>
+            <div className='w-[78%] pl-8'>
               <Input type='text' placeholder='Nhập lại mật khẩu mới' errorMessage='Hello' />
             </div>
           </div>
 
           {/* Button Save */}
           <div className='mt-3 flex flex-row flex-wrap'>
-            <div className='w-[20%] truncate text-right capitalize'></div>
-            <div className='w-[80%] pl-8 text-black'>
+            <div className='w-[22%] truncate text-right capitalize'></div>
+            <div className='w-[78%] pl-8 text-black'>
               <button
                 className='flex h-[46px] items-center rounded-sm bg-football-primary px-6 text-lg text-white hover:bg-football-primary/90'
                 type='submit'

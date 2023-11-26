@@ -5,7 +5,7 @@ import PATH from '~/constants/path'
 
 export default function UserSideNav() {
   return (
-    <div className='w-full rounded-sm bg-white px-5 py-5 text-lg font-normal shadow'>
+    <div className='w-full rounded-sm bg-white px-7 py-5 text-lg font-normal shadow xs:px-5 lg:px-4 laptopXS:px-5'>
       {/* header */}
       <div className='flex flex-col items-center'>
         <div className='h-20 w-20 flex-shrink overflow-hidden rounded-full border border-black/10'>
@@ -32,7 +32,7 @@ export default function UserSideNav() {
             })
           }
         >
-          <div className='flex w-[25%] justify-end'>
+          <div className='flex w-[25%] justify-end xs:w-[29%] sm:w-[35%] md:w-[38%] lg:w-[21%] xl:w-[19%] laptopXS:w-[20%] 2xl:w-[20%] laptop:w-[25%]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -48,7 +48,7 @@ export default function UserSideNav() {
               />
             </svg>
           </div>
-          <div className='flex w-[75%] items-center'>
+          <div className='flex w-[75%] items-center xs:w-[71%] sm:w-[65%] md:w-[62%] lg:w-[79%] xl:w-[81%] laptopXS:w-[80%] 2xl:w-[80%] laptop:w-[75%]'>
             <span className='mt-[2px]'>Tài khoản của tôi</span>
           </div>
         </NavLink>
@@ -63,7 +63,7 @@ export default function UserSideNav() {
             })
           }
         >
-          <div className='flex w-[25%] justify-end'>
+          <div className='flex w-[25%] justify-end xs:w-[29%] sm:w-[35%] md:w-[38%] lg:w-[21%] xl:w-[19%] laptopXS:w-[20%] 2xl:w-[20%] laptop:w-[25%]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -80,7 +80,7 @@ export default function UserSideNav() {
               />
             </svg>
           </div>
-          <div className='flex w-[75%] items-center'>
+          <div className='flex w-[75%] items-center xs:w-[71%] sm:w-[65%] md:w-[62%] lg:w-[79%] xl:w-[81%] laptopXS:w-[80%] 2xl:w-[80%] laptop:w-[75%]'>
             <span className='mt-[2px]'>Sổ địa chỉ</span>
           </div>
         </NavLink>
@@ -95,7 +95,7 @@ export default function UserSideNav() {
             })
           }
         >
-          <div className='flex w-[25%] justify-end'>
+          <div className='flex w-[25%] justify-end xs:w-[29%] sm:w-[35%] md:w-[38%] lg:w-[21%] xl:w-[19%] laptopXS:w-[20%] 2xl:w-[20%] laptop:w-[25%]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -111,7 +111,7 @@ export default function UserSideNav() {
               />
             </svg>
           </div>
-          <div className='flex w-[75%] items-center'>
+          <div className='flex w-[75%] items-center xs:w-[71%] sm:w-[65%] md:w-[62%] lg:w-[79%] xl:w-[81%] laptopXS:w-[80%] 2xl:w-[80%] laptop:w-[75%]'>
             <span className='mt-[2px]'>Đổi mật khẩu</span>
           </div>
         </NavLink>
@@ -126,12 +126,12 @@ export default function UserSideNav() {
             })
           }
         >
-          <div className='flex w-[25%] justify-end'>
+          <div className='flex w-[25%] justify-end xs:w-[29%] sm:w-[35%] md:w-[38%] lg:w-[21%] xl:w-[19%] laptopXS:w-[20%] 2xl:w-[20%] laptop:w-[25%]'>
             <div className='h-6 w-6'>
               <img src={ICON.historyPurchase_64} alt='history-purchase' className='h-full w-full object-cover' />
             </div>
           </div>
-          <div className='flex w-[75%] items-center'>
+          <div className='flex w-[75%] items-center xs:w-[71%] sm:w-[65%] md:w-[62%] lg:w-[79%] xl:w-[81%] laptopXS:w-[80%] 2xl:w-[80%] laptop:w-[75%]'>
             <span className='mt-[2px]'>Lịch sử đơn hàng</span>
           </div>
         </NavLink>
@@ -146,12 +146,12 @@ export default function UserSideNav() {
             })
           }
         >
-          <div className='flex w-[25%] justify-end'>
+          <div className='flex w-[25%] justify-end xs:w-[29%] sm:w-[35%] md:w-[38%] lg:w-[21%] xl:w-[19%] laptopXS:w-[20%] 2xl:w-[20%] laptop:w-[25%]'>
             <div className='h-6 w-6'>
               <img src={ICON.coupon_64} alt='coupon' className='h-full w-full object-cover' />
             </div>
           </div>
-          <div className='flex w-[75%] items-center'>
+          <div className='flex w-[75%] items-center xs:w-[71%] sm:w-[65%] md:w-[62%] lg:w-[79%] xl:w-[81%] laptopXS:w-[80%] 2xl:w-[80%] laptop:w-[75%]'>
             <span className='mt-[2px]'>Ví voucher</span>
           </div>
         </NavLink>
@@ -166,7 +166,7 @@ export default function UserSideNav() {
             })
           }
         >
-          <div className='flex w-[25%] justify-end'>
+          <div className='flex w-[25%] justify-end xs:w-[29%] sm:w-[35%] md:w-[38%] lg:w-[21%] xl:w-[19%] laptopXS:w-[20%] 2xl:w-[20%] laptop:w-[25%]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -182,7 +182,7 @@ export default function UserSideNav() {
               />
             </svg>
           </div>
-          <div className='flex w-[75%] items-center'>
+          <div className='flex w-[75%] items-center xs:w-[71%] sm:w-[65%] md:w-[62%] lg:w-[79%] xl:w-[81%] laptopXS:w-[80%] 2xl:w-[80%] laptop:w-[75%]'>
             <span className='mt-[2px]'>Đánh giá sản phẩm</span>
           </div>
         </NavLink>

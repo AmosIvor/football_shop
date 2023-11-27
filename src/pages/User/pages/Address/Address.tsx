@@ -7,26 +7,26 @@ export default function Address() {
           <h1 className='capitalized text-2xl font-semibold text-black'>Địa chỉ của tôi</h1>
           <div className='pb-2 pt-1 text-base text-gray-700'>Cập nhật thông tin địa chỉ để nhận hàng sớm hơn</div>
         </div>
-        <button className='mt-1 flex items-center bg-football-primary py-3 pl-6 pr-8 text-white hover:bg-football-primary/90'>
+        <button className='mt-1 hidden items-center bg-football-primary py-3 text-white hover:bg-football-primary/90 sm:flex sm:px-4 md:pl-3 md:pr-4 lg:px-4 xl:pl-6 xl:pr-8'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
             viewBox='0 0 24 24'
             strokeWidth={1.5}
             stroke='currentColor'
-            className='mr-2 h-5 w-5'
+            className='h-5 w-5 sm:mr-0 md:mr-2 lg:mr-0 xl:mr-2'
           >
             <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
           </svg>
-          Thêm mới địa chỉ
+          <span className='sm:hidden md:inline-block lg:hidden xl:inline-block'>Thêm mới địa chỉ</span>
         </button>
       </div>
 
       {/* Body */}
       <div className='pt-3'>
         {/* address list */}
-        <div className='my-7 flex '>
-          <div className='flex w-[80%] flex-col'>
+        <div className='flex flex-col border-b border-b-football-gray7A/40 py-7 sm:flex-row'>
+          <div className='flex flex-col text-base xs:w-auto sm:w-[66%] md:w-[70%] md:text-lg lg:w-[66%] lg:text-base xl:w-[78%] xl:text-lg laptopXS:w-[80%]'>
             <div className='flex items-center'>
               <span>Trần Tuấn Vũ</span>
               <div className='mx-4 h-4 w-[1px] bg-football-gray7A/40'></div>
@@ -52,25 +52,27 @@ export default function Address() {
               <span className='ml-[6px] text-base'>Địa chỉ mặc định</span>
             </div>
           </div>
-          <div className='flex w-[20%] flex-col text-base'>
-            <div className='mb-2 flex items-center justify-end text-football-primary'>
-              <button className='bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90'>
+          <div className='mt-2 flex flex-col gap-y-3 text-base xs:mt-2 xs:w-auto xs:flex-row xs:flex-wrap xs:justify-between xs:gap-x-2 xs:gap-y-3 sm:mt-0 sm:w-[34%] sm:flex-col sm:flex-nowrap sm:justify-start sm:gap-0 md:w-[30%] lg:w-[34%] xl:w-[22%] laptopXS:w-[20%]'>
+            <div className='mb-0 flex items-center text-football-primary xs:justify-end sm:mb-2 sm:justify-end'>
+              <button className='grow border border-football-gray7A/50 bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90 xs:w-[84px] xs:grow-0 sm:w-auto sm:border-none'>
                 Cập nhật
               </button>
-              <button className='ml-3 bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90'>
+              <button className='ml-3 grow border border-football-gray7A/50 bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90 xs:w-[84px] xs:grow-0 sm:w-auto sm:border-none'>
                 Xoá
               </button>
             </div>
-            <button className='border border-football-gray7A/50 bg-white px-2 py-1 hover:text-black/90'>
-              Thiết lập mặc định
-            </button>
+            <div className='flex flex-wrap xs:justify-end'>
+              <button className='grow border border-football-gray7A/50 bg-white py-1 hover:text-black/90 xs:grow-0 xs:px-2 sm:px-3 md:px-4 lg:px-2 xl:px-4'>
+                Thiết lập mặc định
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className='h-[1px] w-full bg-football-gray7A/40'></div>
+        {/* <div className='h-[1px] w-full bg-football-gray7A/40'></div> */}
 
-        <div className='my-7 flex'>
-          <div className='flex w-[80%] flex-col'>
+        <div className='flex flex-col border-b border-b-football-gray7A/40 py-7 sm:flex-row'>
+          <div className='flex flex-col text-base xs:w-auto sm:w-[66%] md:w-[70%] md:text-lg lg:w-[66%] lg:text-base xl:w-[78%] xl:text-lg laptopXS:w-[80%]'>
             <div className='flex items-center'>
               <span>Trần Tuấn Vũ</span>
               <div className='mx-4 h-4 w-[1px] bg-football-gray7A/40'></div>
@@ -96,20 +98,36 @@ export default function Address() {
               <span className='ml-[6px] text-base'>Địa chỉ mặc định</span>
             </div>
           </div>
-          <div className='flex w-[20%] flex-col text-base'>
-            <div className='mb-2 flex items-center justify-end text-football-primary'>
-              <button className='bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90'>
+          <div className='mt-2 flex flex-col gap-y-3 text-base xs:mt-2 xs:w-auto xs:flex-row xs:flex-wrap xs:justify-between xs:gap-x-2 xs:gap-y-3 sm:mt-0 sm:w-[34%] sm:flex-col sm:flex-nowrap sm:justify-start sm:gap-x-0 sm:gap-y-0 md:w-[30%] lg:w-[34%] xl:w-[22%] laptopXS:w-[20%] laptopXS:gap-x-0 laptopXS:gap-y-0'>
+            <div className='mb-0 flex items-center text-football-primary xs:justify-end sm:mb-2 sm:justify-end'>
+              <button className='grow border border-football-gray7A/50 bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90 xs:w-[84px] xs:grow-0 sm:w-auto sm:border-none'>
                 Cập nhật
               </button>
-              <button className='ml-3 bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90'>
+              <button className='ml-3 grow border border-football-gray7A/50 bg-transparent px-2 py-1 text-football-primary hover:text-football-primary/90 xs:w-[84px] xs:grow-0 sm:w-auto sm:border-none'>
                 Xoá
               </button>
             </div>
-            <button className='border border-football-gray7A/50 bg-white px-2 py-1 hover:text-black/90'>
-              Thiết lập mặc định
-            </button>
+            <div className='flex flex-wrap xs:justify-end'>
+              <button className='grow border border-football-gray7A/50 bg-white py-1 hover:text-black/90 xs:grow-0 xs:px-2 sm:px-3 md:px-4 lg:px-2 xl:px-4'>
+                Thiết lập mặc định
+              </button>
+            </div>
           </div>
         </div>
+
+        <button className='mt-5 flex w-full items-center justify-center bg-football-primary py-3 text-white hover:bg-football-primary/90 sm:hidden'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='-mt-[1px] mr-2 h-5 w-5'
+          >
+            <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
+          </svg>
+          <span className=''>Thêm mới địa chỉ</span>
+        </button>
       </div>
     </div>
   )

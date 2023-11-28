@@ -1,3 +1,5 @@
+import Input from '~/components/Input'
+
 export default function ChangePassword() {
   return (
     <div className='rounded-sm bg-white px-8 py-5 text-lg font-normal text-black shadow'>
@@ -9,62 +11,43 @@ export default function ChangePassword() {
 
       {/* Old Password */}
       <form className='mt-8 flex flex-row items-start'>
-        <div className='flex-grow pr-12'>
-          {/* Password */}
-          <div className='flex flex-row flex-wrap items-center'>
-            <div className='w-[20%] truncate pt-3 text-right capitalize'>Mật khẩu cũ</div>
-            <div className='w-[80%] pl-8'>
-              <div className='pt-3 text-black'>
-                <div className=''>
-                  <input
-                    type='text'
-                    className='w-full rounded-sm border border-gray-300 px-3 py-2 text-lg outline-none focus:border-football-primary focus:shadow-sm focus:ring-transparent'
-                    placeholder='Mật khẩu cũ'
-                  />
-                </div>
-              </div>
+        <div className='flex-grow md:pr-6 lg:pr-0 laptopXS:pr-12'>
+          {/* Old Password */}
+          <div className='mt-[10px] flex flex-col flex-wrap xs:flex-col sm:flex-col md:flex-row lg:flex-col xl:mt-[10px] xl:flex-row laptop:mt-3 laptop:flex-row'>
+            <div className='truncate capitalize xs:mt-0 xs:w-auto xs:text-left sm:mt-0 sm:w-auto sm:text-left md:mt-[9px] md:w-[30%] md:text-right lg:mt-0 lg:w-auto lg:text-left xl:mt-[9px] xl:w-[22%] xl:text-right 2xl:mt-[9px] laptop:mt-[9px] laptop:w-[22%] laptop:text-right'>
+              Mật khẩu cũ
+            </div>
+            <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-[6px] sm:w-auto sm:pl-0 md:mt-0 md:w-[70%] md:pl-8 lg:mt-[6px] lg:w-auto lg:pl-0 xl:mt-0 xl:w-[78%] xl:pl-7 2xl:mt-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
+              <Input type='text' placeholder='Mật khẩu cũ' errorMessage='Hello' />
             </div>
           </div>
 
           {/* New Password */}
-          <div className='mt-4 flex flex-row flex-wrap items-center'>
-            <div className='w-[20%] truncate pt-3 text-right capitalize'>Mật khẩu mới</div>
-            <div className='w-[80%]'>
-              <div className='pt-3 text-black'>
-                <div className='pl-8'>
-                  <input
-                    type='text'
-                    className='w-full rounded-sm border border-gray-300 px-3 py-2 text-lg outline-none focus:border-football-primary focus:shadow-sm focus:ring-transparent'
-                    placeholder='Mật khẩu mới'
-                  />
-                  {/* <div className='mt-1 min-h-[20px] text-sm text-red-600'></div> */}
-                </div>
-              </div>
+          <div className='mt-[10px] flex flex-col flex-wrap xs:flex-col sm:flex-col md:flex-row lg:flex-col xl:mt-[10px] xl:flex-row laptop:mt-3 laptop:flex-row'>
+            <div className='truncate capitalize xs:mt-0 xs:w-auto xs:text-left sm:mt-0 sm:w-auto sm:text-left md:mt-[9px] md:w-[30%] md:text-right lg:mt-0 lg:w-auto lg:text-left xl:mt-[9px] xl:w-[22%] xl:text-right 2xl:mt-[9px] laptop:mt-[9px] laptop:w-[22%] laptop:text-right'>
+              Mật khẩu mới
+            </div>
+            <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-[6px] sm:w-auto sm:pl-0 md:mt-0 md:w-[70%] md:pl-8 lg:mt-[6px] lg:w-auto lg:pl-0 xl:mt-0 xl:w-[78%] xl:pl-7 2xl:mt-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
+              <Input type='text' placeholder='Mật khẩu mới' errorMessage='Hello' />
             </div>
           </div>
 
           {/* Confirm Password */}
-          <div className='mt-4 flex flex-row flex-wrap items-center'>
-            <div className='w-[20%] truncate pt-3 text-right capitalize'>Xác nhận mật khẩu</div>
-            <div className='w-[80%]'>
-              <div className='pt-3 text-black'>
-                <div className='pl-8'>
-                  <input
-                    type='text'
-                    className='w-full rounded-sm border border-gray-300 px-3 py-2 text-lg outline-none focus:border-football-primary focus:shadow-sm focus:ring-transparent'
-                    placeholder='Nhập lại mật khẩu mới'
-                  />
-                </div>
-              </div>
+          <div className='mt-[10px] flex flex-col flex-wrap xs:flex-col sm:flex-col md:flex-row lg:flex-col xl:mt-[10px] xl:flex-row laptop:mt-3 laptop:flex-row'>
+            <div className='truncate capitalize xs:mt-0 xs:w-auto xs:text-left sm:mt-0 sm:w-auto sm:text-left md:mt-[9px] md:w-[30%] md:text-right lg:mt-0 lg:w-auto lg:text-left xl:mt-[9px] xl:w-[22%] xl:text-right 2xl:mt-[9px] laptop:mt-[9px] laptop:w-[22%] laptop:text-right'>
+              Xác nhận mật khẩu
+            </div>
+            <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-[6px] sm:w-auto sm:pl-0 md:mt-0 md:w-[70%] md:pl-8 lg:mt-[6px] lg:w-auto lg:pl-0 xl:mt-0 xl:w-[78%] xl:pl-7 2xl:mt-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
+              <Input type='text' placeholder='Xác nhận mật khẩu' errorMessage='Hello' />
             </div>
           </div>
 
           {/* Button Save */}
-          <div className='mt-4 flex flex-row flex-wrap'>
-            <div className='w-[20%] truncate pt-3 text-right capitalize'></div>
-            <div className='w-[80%] pl-8 pt-3 text-black'>
+          <div className='mt-3 flex sm:flex-wrap sm:justify-center md:justify-start lg:justify-center xl:justify-start'>
+            <div className='mt-[9px] hidden truncate capitalize sm:inline-block sm:w-auto md:w-[30%] lg:w-auto xl:w-[22%]'></div>
+            <div className='flex w-full pl-0 text-black sm:w-auto sm:flex-none sm:pl-0 md:w-[70%] md:pl-8 lg:w-auto lg:pl-0 xl:w-[78%] xl:pl-7 laptop:w-[78%] laptop:pl-8'>
               <button
-                className='flex h-[46px] items-center rounded-sm bg-football-primary px-6 text-lg text-white hover:bg-football-primary/90'
+                className='flex h-[46px] grow items-center justify-center rounded-sm bg-football-primary px-6 text-lg text-white hover:bg-football-primary/90 sm:grow-0 sm:justify-start'
                 type='submit'
               >
                 Lưu

@@ -5,7 +5,7 @@ import PATH from '~/constants/path'
 export default function Home() {
   return (
     <div className='bg-football-grayF6'>
-      <div className='mx-auto w-full px-0 md:w-[90%] md:px-4 lg:w-[78%]'>
+      <div className='mx-auto w-full px-0 md:w-[90%] md:px-4 lg:w-[84%] xl:w-[78%]'>
         {/* Slider */}
         <div className='relative'>
           <div className='md:h-[480px]'>
@@ -100,13 +100,13 @@ export default function Home() {
             </Link>
           </div>
           {/* products */}
-          <div className='xs:gap-4 grid grid-cols-12 gap-x-3 gap-y-5 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
+          <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
             {Array(5)
               .fill(0)
               .map((productIndex) => (
                 <div
-                  className='xs:col-span-6 col-span-6 sm:col-span-4 md:col-span-4 xl:col-span-3 2xl:col-span-2'
+                  className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
                   key={productIndex}
                 >
                   <Product />
@@ -135,13 +135,13 @@ export default function Home() {
           </div>
 
           {/* products */}
-          <div className='xs:gap-4 grid grid-cols-12 gap-x-3 gap-y-5 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
+          <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
             {Array(5)
               .fill(0)
               .map((productIndex) => (
                 <div
-                  className='xs:col-span-6 col-span-6 sm:col-span-4 md:col-span-4 xl:col-span-3 2xl:col-span-2'
+                  className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
                   key={productIndex}
                 >
                   <Product />

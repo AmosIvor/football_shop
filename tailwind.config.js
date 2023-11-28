@@ -8,7 +8,9 @@ export default {
   theme: {
     extend: {
       screens: {
-        xs: '475px'
+        xs: '475px',
+        laptopXS: '1380px',
+        laptop: '1650px'
       },
       fontFamily: {
         Nunito: ['Nunito', 'sans-serif']
@@ -51,6 +53,7 @@ export default {
       })
     }),
     require('@tailwindcss/line-clamp'),
-    require('@tailwindcss/forms')
+    require('@tailwindcss/forms'),
+    require('tailwind-scrollbar-hide')
   ]
 }

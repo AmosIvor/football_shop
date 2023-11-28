@@ -226,12 +226,12 @@ export default function Payment() {
                 </svg>
                 Quay trở lại giỏ hàng
               </Link>
-              <Link
-                to={PATH.payment}
+              <button
                 className='flex w-full items-center justify-center bg-football-primary px-6 py-2 text-lg uppercase text-white shadow hover:bg-football-primary/90 sm:w-52 2xl:w-full'
+                onClick={() => showModal(1)}
               >
                 Đặt hàng
-              </Link>
+              </button>
             </div>
           </div>
         </div>

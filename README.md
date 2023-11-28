@@ -1,27 +1,59 @@
-# React + TypeScript + Vite
+# Football Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to Football Shop, your one-stop solution for all your football-related merchandise needs!
 
-Currently, two official plugins are available:
+## Table of Contents
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Introduction
 
-## Expanding the ESLint configuration
+Football Shop is a web application that allows football enthusiasts to explore and purchase a wide range of football merchandise, including jerseys, accessories, and collectibles. Whether you're a fan of a specific team or just love the sport, Football Shop has something for everyone.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Key Features
 
-- Configure the top-level `parserOptions` property like this:
+- **Extensive Product Catalog:** Browse through a diverse catalog of football merchandise from various teams and brands.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+- **User Accounts:** Create an account to track your orders, save favorite items, and enjoy a personalized shopping experience.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **Responsive Design:** Access Football Shop seamlessly on desktops, tablets, and mobile devices for a convenient shopping experience.
+
+## Installation
+
+Follow these steps to set up Football Shop locally on your machine.
+
+### Prerequisites
+
+- Ensure you have [Node.js](https://nodejs.org/) installed.
+
+### Steps
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/AmosIvor/football_shop.git
+   ```
+   
+2. Navigate to the project directory:
+   ```bash
+   cd football_shop
+   ```
+   
+3. Install dependencies:
+   ```bash
+   yarn install
+   ```
+   
+4. Start the development server:
+   ```bash
+   yarn dev
+   ```
+
+## Usage
+
+## Features
+
+## License

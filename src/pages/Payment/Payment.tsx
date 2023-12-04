@@ -11,12 +11,12 @@ export default function Payment() {
   }, [idPurchase])
 
   const showModal = (id: number) => {
-    console.log(isVisible)
+    // console.log(isVisible)
     setIdPurchase(id)
   }
 
   const hideModal = () => {
-    console.log('modal when hide: ', isVisible)
+    // console.log('modal when hide: ', isVisible)
     setIdPurchase(null)
   }
 

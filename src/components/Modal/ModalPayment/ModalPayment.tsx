@@ -1,49 +1,11 @@
-import { AnimatePresence, Variants, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { createPortal } from 'react-dom'
+import VARIANT from '~/constants/variant'
 
 interface Props {
   isVisible: boolean
   handleSubmit: () => void
   handleCancel: () => void
-}
-
-const backdropVariant: Variants = {
-  initial: {
-    opacity: 0
-  },
-
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.2
-    }
-  },
-
-  exit: {
-    opacity: 0
-  }
-}
-
-const modalVariant: Variants = {
-  initial: {
-    opacity: 0
-  },
-
-  visible: {
-    transition: {
-      ease: 'easeOut',
-      duration: 0.3
-    },
-    opacity: 1
-  },
-
-  exit: {
-    opacity: 0,
-    transition: {
-      ease: 'easeIn',
-      duration: 0.2
-    }
-  }
 }
 
 const root = document.getElementById('root') as HTMLElement
@@ -54,13 +16,13 @@ export default function ModalPayment({ isVisible, handleSubmit, handleCancel }: 
       <AnimatePresence>
         {/* bg */}
         {isVisible && (
-          <motion.div initial='initial' animate='visible' exit='exit' variants={backdropVariant}>
+          <motion.div initial='initial' animate='visible' exit='exit' variants={VARIANT.backdrop}>
             <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
           </motion.div>
         )}
         {/* content */}
         {isVisible && (
-          <motion.div initial='initial' animate='visible' exit='exit' variants={modalVariant}>
+          <motion.div initial='initial' animate='visible' exit='exit' variants={VARIANT.modal}>
             <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
               <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
                 <div className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>

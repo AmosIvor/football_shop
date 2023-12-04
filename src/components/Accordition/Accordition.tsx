@@ -1,28 +1,37 @@
-import classNames from 'classnames'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 interface Props {
   title: string
-  content: string
+  children?: React.ReactNode
+  titleActiveColor?: string
+  titleColor?: string
+  paddingBottom?: string
 }
 
-export default function Accordition({ title, content }: Props) {
+export default function Accordition({
+  title,
+  titleColor = 'text-football-blue11',
+  children,
+  titleActiveColor = 'text-football-blue11',
+  paddingBottom = 'pb-10'
+}: Props) {
   const [isActive, setIsActive] = useState<boolean>(false)
   const handleToggleActive = () => {
     setIsActive(!isActive)
   }
 
+  const isActiveStyle = useMemo(() => {
+    return isActive ? `is-active ${paddingBottom}` : ''
+  }, [paddingBottom, isActive])
+
   return (
     <div
-      className={classNames('group w-full cursor-pointer text-lg font-normal text-black', {
-        'is-active pb-10': isActive,
-        '': !isActive
-      })}
+      className={`group w-full cursor-pointer text-lg font-normal text-black ${isActiveStyle}`}
       onClick={handleToggleActive}
       aria-hidden='true'
     >
       {/* Main Title */}
-      <div className='flex items-center text-football-blue11'>
+      <div className={`flex items-center ${titleColor} group-[.is-active]:${titleActiveColor}`}>
         {/* title */}
         <div className='w-full font-semibold'>{title}</div>
 
@@ -51,7 +60,9 @@ export default function Accordition({ title, content }: Props) {
         </svg>
       </div>
       {/* content hidden */}
-      <div className='mt-2 max-h-0 overflow-hidden text-justify group-[.is-active]:max-h-min'>{content}</div>
+      <div className='mt-0 max-h-0 overflow-hidden text-justify group-[.is-active]:mt-2 group-[.is-active]:max-h-min'>
+        {children}
+      </div>
     </div>
   )
 }

@@ -15,7 +15,7 @@ export default function Home() {
               className='h-full w-full object-cover'
             />
           </div>
-          <div className='absolute left-[1%] top-[50%] -translate-y-1/2'>
+          <button className='absolute left-[1%] top-[50%] -translate-y-1/2'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -26,8 +26,8 @@ export default function Home() {
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
             </svg>
-          </div>
-          <div className='absolute right-[1%] top-[50%] -translate-y-1/2'>
+          </button>
+          <button className='absolute right-[1%] top-[50%] -translate-y-1/2'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -38,11 +38,11 @@ export default function Home() {
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
             </svg>
-          </div>
+          </button>
           <div className='absolute bottom-[2%] left-[50%] flex w-auto -translate-x-1/2 items-center gap-2 bg-transparent'>
-            <div className='h-3 w-3 rounded-full border bg-football-primary'></div>
-            <div className='h-3 w-3 rounded-full border bg-white'></div>
-            <div className='h-3 w-3 rounded-full border bg-white'></div>
+            <button className='h-3 w-3 rounded-full border bg-football-primary'></button>
+            <button className='h-3 w-3 rounded-full border bg-white'></button>
+            <button className='h-3 w-3 rounded-full border bg-white'></button>
           </div>
         </div>
       </div>

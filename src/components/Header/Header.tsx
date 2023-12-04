@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import PATH from '~/constants/path'
+import Popover from '../Popover'
+import PopoverNotArrow from '../PopoverNotArrow'
 
 export default function Header() {
   return (
@@ -73,15 +75,38 @@ export default function Header() {
                 <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5' />
               </svg>
             </Link>
-            <Link to='/register' className='asir-top-menu-item hidden text-[#cd151c] md:inline-block'>
+            <Link to='/products' className='asir-item-new-arrival hidden text-[#cd151c] md:inline-block'>
               Hàng mới về
             </Link>
-            <Link to='/register' className='asir-top-menu-item hidden md:inline-block'>
+            <Link to='/products' className='asir-top-menu-item hidden md:inline-block'>
               Câu lạc bộ
             </Link>
-            <Link to='/register' className='asir-top-menu-item hidden md:inline-block'>
+            <Link to='/products' className='asir-top-menu-item hidden md:inline-block'>
               Đội tuyển quốc gia
             </Link>
+            <PopoverNotArrow
+              className=''
+              placement='bottom'
+              renderPopover={
+                <div className='grid grid-cols-12 gap-x-20 bg-gray-200 px-5 py-4'>
+                  {Array(5)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div className='col-span-2 flex flex-col gap-2 text-base' key={index}>
+                        <div className='mb-2 font-semibold uppercase'>Premier League</div>
+                        <div className='font-normal capitalize'>Manchester City</div>
+                        <div className='font-normal capitalize'>Manchester City</div>
+                        <div className='font-normal capitalize'>Manchester City</div>
+                        <div className='font-normal capitalize'>Manchester City</div>
+                      </div>
+                    ))}
+                </div>
+              }
+            >
+              <Link to='/products' className='asir-top-menu-item hidden md:inline-block'>
+                Test
+              </Link>
+            </PopoverNotArrow>
           </div>
           <div className='right-container x flex items-center justify-end gap-8 lg:gap-6 xl:gap-10'>
             <Link to={PATH.cart} className='flex items-center'>

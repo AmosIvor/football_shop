@@ -1,7 +1,25 @@
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ModalPayment from '~/components/Modal/ModalPayment'
 import PATH from '~/constants/path'
 
 export default function Payment() {
+  const [idPurchase, setIdPurchase] = useState<null | number>(null)
+
+  const isVisible = useMemo(() => {
+    return idPurchase !== null
+  }, [idPurchase])
+
+  const showModal = (id: number) => {
+    console.log(isVisible)
+    setIdPurchase(id)
+  }
+
+  const hideModal = () => {
+    console.log('modal when hide: ', isVisible)
+    setIdPurchase(null)
+  }
+
   return (
     <div className='bg-football-grayF6 py-6'>
       <div className='asir-container'>
@@ -208,16 +226,18 @@ export default function Payment() {
                 </svg>
                 Quay trở lại giỏ hàng
               </Link>
-              <Link
-                to={PATH.payment}
+              <button
                 className='flex w-full items-center justify-center bg-football-primary px-6 py-2 text-lg uppercase text-white shadow hover:bg-football-primary/90 sm:w-52 2xl:w-full'
+                onClick={() => showModal(1)}
               >
                 Đặt hàng
-              </Link>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <ModalPayment isVisible={isVisible} handleSubmit={hideModal} handleCancel={hideModal} />
     </div>
   )
 }

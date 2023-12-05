@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import Button from '~/components/Button'
 import Input from '~/components/Input'
+import PATH from '~/constants/path'
 
 export default function Register() {
   return (
@@ -9,7 +11,8 @@ export default function Register() {
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm'>
               <div className='text-2xl'>Đăng ký</div>
-              <Input className='mt-8' placeholder='Email' />
+              <Input className='mt-8' placeholder='Username' />
+              <Input className='mt-2' placeholder='Password' />
               <Input className='mt-2' placeholder='Password' />
               <Input className='mt-2' placeholder='Confirm Password' />
 
@@ -22,6 +25,13 @@ export default function Register() {
                 >
                   Đăng ký
                 </Button>
+              </div>
+
+              <div className='mt-6 flex items-center justify-center'>
+                <span className='text-lg font-normal text-football-gray7A/60'>Bạn đã có tài khoản?</span>
+                <Link to={PATH.login} className='ml-2 text-football-primary'>
+                  Đăng nhập
+                </Link>
               </div>
             </form>
           </div>

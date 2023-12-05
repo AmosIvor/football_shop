@@ -54,7 +54,7 @@ export default function ModalPayment({ isVisible, handleSubmit }: Props) {
         )}
         {/* content */}
         {isVisible && (
-          <motion.div initial='initial' animate='visible' exit='exit' variants={VARIANT.modal}>
+          <motion.div initial='initial' animate='visible' exit='exit' variants={VARIANT.menu}>
             <div className='fixed inset-0 w-screen overflow-y-auto' aria-hidden='true' onClick={handleClick}>
               <div className='relative flex min-h-full items-end justify-start p-4 text-center sm:items-start sm:p-0'>
                 <div

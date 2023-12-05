@@ -39,9 +39,33 @@ const modal: Variants = {
   }
 }
 
+const menu: Variants = {
+  initial: {
+    opacity: 0
+  },
+
+  visible: {
+    opacity: 1,
+    transition: {
+      ease: 'anticipate',
+      duration: 0.3
+    },
+    left: `100px`
+  },
+
+  exit: {
+    opacity: 0,
+    transition: {
+      ease: 'anticipate',
+      duration: 0.3
+    }
+  }
+}
+
 const VARIANT = {
   backdrop,
-  modal
+  modal,
+  menu
 }
 
 export default VARIANT

@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 
 export default function RegisterHeader() {
+  const registerMatch = useMatch('/register')
+  const isRegister = Boolean(registerMatch)
   return (
     <div className='flex w-full justify-center bg-white pb-5'>
       <div className='asir-container'>
@@ -9,7 +11,9 @@ export default function RegisterHeader() {
             <span className='text-football-blue11'>HVPP </span>
             <span>Sports</span>
           </Link>
-          <span className='ml-10 text-[20px] font-semibold text-black md:text-[24px] xl:text-[28px]'>Đăng nhập</span>
+          <span className='ml-10 text-[20px] font-semibold text-black md:text-[24px] xl:text-[28px]'>
+            {isRegister ? 'Đăng ký' : 'Đăng nhập'}
+          </span>
         </div>
       </div>
     </div>

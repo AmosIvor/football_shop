@@ -138,10 +138,11 @@ export default function ProductDetail() {
 
             {/* Description  */}
             <div className='hidden 2xl:mt-10 2xl:inline-block 2xl:border-t 2xl:border-t-football-gray7A/30 2xl:pt-5'>
-              <Accordition
-                title='Mô tả sản phẩm'
-                content='Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm 1971.'
-              />
+              <Accordition title='Mô tả sản phẩm'>
+                Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã
+                giành được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm
+                1971.
+              </Accordition>
             </div>
           </div>
         </div>
@@ -151,13 +152,12 @@ export default function ProductDetail() {
       <div className='asir-container 2xl:hidden'>
         <div className='mt-[70px] grid grid-cols-12 gap-x-0 gap-y-10 sm:gap-10'>
           <div className='col-span-12 text-base font-normal text-black lg:col-span-9'>
-            <Accordition
-              title='Mô tả sản phẩm'
-              content='Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành
+            <Accordition title='Mô tả sản phẩm'>
+              Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành
               được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm 1971. Sau
               một thời gian sa sút vào cuối những năm 1970 và 1980, câu lạc bộ đã hồi sinh vào những năm 1990 và gặt hái
-              được nhiều thành công hơn trong các giải đấu cúp.'
-            />
+              được nhiều thành công hơn trong các giải đấu cúp.
+            </Accordition>
           </div>
         </div>
       </div>

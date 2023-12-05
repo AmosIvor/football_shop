@@ -10,6 +10,7 @@ import {
   autoUpdate,
   useHover,
   useFocus,
+  useClick,
   useDismiss,
   useRole,
   useInteractions,
@@ -27,7 +28,7 @@ interface Props {
   arrowColor?: string
 }
 
-export default function Popover({
+export default function DropdownMenu({
   children,
   className,
   renderPopover,
@@ -47,11 +48,12 @@ export default function Popover({
     placement
   })
   const { refs, floatingStyles, context } = data
-  const hover = useHover(context, { handleClose: safePolygon() })
+  // const hover = useHover(context, { handleClose: safePolygon() })
+  const click = useClick(context)
   const focus = useFocus(context)
   const dismiss = useDismiss(context)
   const role = useRole(context, { role: 'tooltip' })
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role])
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, focus, dismiss, role])
   const id = useId()
 
   return (

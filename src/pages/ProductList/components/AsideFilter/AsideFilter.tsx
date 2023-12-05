@@ -34,7 +34,7 @@ export default function AsideFilter() {
             <span className='capitalize text-white'>Premier League</span>
           </button>
         </div>
-        <div className='mb-7 mt-9 h-[1px] bg-gray-300' />
+        <div className='mb-4 mt-6 h-[1px] bg-gray-300' />
       </div>
 
       {/* Catalogue */}
@@ -69,10 +69,10 @@ export default function AsideFilter() {
         </div>
       </div>
 
-      <div className='mt-9 h-[1px] bg-gray-300' />
+      <div className='mt-6 h-[1px] bg-gray-300' />
 
       {/* Size */}
-      <div className='mt-7 text-base font-normal text-black'>
+      <div className='mt-4 text-base font-normal text-black'>
         <span className='text-lg'>Kích thước</span>
 
         {/* sizes */}
@@ -103,10 +103,10 @@ export default function AsideFilter() {
         </div>
       </div>
 
-      <div className='mt-9 h-[1px] bg-gray-300' />
+      <div className='mt-6 h-[1px] bg-gray-300' />
 
       {/* Price */}
-      <div className='mt-7 text-base font-normal text-black'>
+      <div className='mt-4 text-base font-normal text-black'>
         <span className='text-lg'>Khoảng giá</span>
 
         {/* prices */}

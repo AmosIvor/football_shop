@@ -1,6 +1,18 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import DropdownMenu from '~/components/DropdownMenu'
+import Filter from '~/components/Filter'
+import PATH from '~/constants/path'
 
 export default function SortProductList() {
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const showModal = () => {
+    setIsVisible(true)
+  }
+
+  const hideModal = () => {
+    setIsVisible(false)
+  }
   return (
     <div className='py-4'>
       <div className='flex flex-row flex-wrap items-center justify-between gap-2 text-lg font-normal'>
@@ -28,7 +40,47 @@ export default function SortProductList() {
           </select>
         </div>
 
-        <button className='flex items-center justify-start bg-transparent text-black hover:text-football-primary lg:hidden'>
+        <DropdownMenu
+          className='lg:hidden'
+          renderPopover={
+            <div className='flex flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
+              <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                Phổ biến
+              </Link>
+              <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                Mới nhất
+              </Link>
+              <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                Bán chạy
+              </Link>
+              <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                Giá: Thấp đến Cao
+              </Link>
+              <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                Giá: Cao đến Thấp
+              </Link>
+            </div>
+          }
+        >
+          <div className='flex cursor-pointer items-center gap-x-2 text-lg'>
+            <span>Sắp xếp</span>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='-mt-1 h-[18px] w-[18px]'
+            >
+              <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
+            </svg>
+          </div>
+        </DropdownMenu>
+
+        <button
+          className='flex items-center justify-start bg-transparent text-black hover:text-football-primary lg:hidden'
+          onClick={showModal}
+        >
           Bộ lọc
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -46,7 +98,7 @@ export default function SortProductList() {
           </svg>
         </button>
 
-        <div className='flex items-center justify-self-end'>
+        <div className='hidden items-center justify-self-end lg:flex'>
           <div>
             <span className='text-football-primary'>1</span>
             <span>/3</span>
@@ -86,6 +138,7 @@ export default function SortProductList() {
           </div>
         </div>
       </div>
+      <Filter isVisible={isVisible} handleSubmit={hideModal} />
     </div>
   )
 }

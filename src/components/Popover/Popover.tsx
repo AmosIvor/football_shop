@@ -49,9 +49,14 @@ export default function Popover({
   const { refs, floatingStyles, context } = data
   const hover = useHover(context, { handleClose: safePolygon() })
   const focus = useFocus(context)
-  const dismiss = useDismiss(context)
+  const dismiss = useDismiss(context, { referencePress: true })
   const role = useRole(context, { role: 'tooltip' })
   const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role])
+  getReferenceProps({
+    onClick() {
+      setOpen(false)
+    }
+  })
   const id = useId()
 
   return (

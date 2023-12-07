@@ -13,8 +13,8 @@ export default function Register() {
               <div className='text-2xl'>Đăng ký</div>
               <Input className='mt-8' placeholder='Username' />
               <Input className='mt-2' placeholder='Password' />
-              <Input className='mt-2' placeholder='Password' />
               <Input className='mt-2' placeholder='Confirm Password' />
+              <Input className='mt-2' placeholder='Phone' />
 
               <div className='mt-3'>
                 <Button

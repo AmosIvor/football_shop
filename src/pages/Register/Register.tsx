@@ -7,14 +7,15 @@ export default function Register() {
   return (
     <div className='asir-background'>
       <div className='asir-container'>
-        <div className='grid grid-cols-1 lg:grid-cols-5 lg:py-32 lg:pr-10'>
+        <div className='grid grid-cols-1 lg:grid-cols-5 lg:pb-32 lg:pr-10 lg:pt-8'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm'>
               <div className='text-2xl'>Đăng ký</div>
               <Input className='mt-8' placeholder='Username' />
+              <Input className='mt-2' placeholder='Email' />
+              <Input className='mt-2' placeholder='Phone' />
               <Input className='mt-2' placeholder='Password' />
               <Input className='mt-2' placeholder='Confirm Password' />
-              <Input className='mt-2' placeholder='Phone' />
 
               <div className='mt-3'>
                 <Button

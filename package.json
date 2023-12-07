@@ -17,8 +17,8 @@
     "@hookform/resolvers": "^3.3.2",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@tanstack/react-query": "^5.0.5",
-    "@tanstack/react-query-devtools": "^5.4.2",
+    "@tanstack/react-query": "^5.12.2",
+    "@tanstack/react-query-devtools": "^5.13.3",
     "axios": "^1.6.2",
     "classnames": "^2.3.2",
     "framer-motion": "^10.16.5",
@@ -30,7 +30,8 @@
     "yup": "^1.3.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.201",
+    "@tanstack/eslint-plugin-query": "^5.12.1",
+    "@types/lodash": "^4.14.202",
     "@types/node": "^20.8.8",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

@@ -1,3 +1,4 @@
+import { API } from '~/constants/api'
 import { AuthResponse } from '~/types/auth.type'
 import { RegisterResponse } from '~/types/register.type'
 import http from '~/utils/http'
@@ -7,13 +8,13 @@ export type RegisterRequest = Omit<RegisterSchema, 'confirm_password'>
 
 const authApi = {
   registerAccount(body: RegisterRequest) {
-    return http.post<RegisterResponse>('/api/Accounts/register', body)
+    return http.post<RegisterResponse>(`${API.auth}/register`, body)
   },
   loginAccount(body: { email: string; password: string }) {
-    return http.post<AuthResponse>('/api/Accounts/login', body)
+    return http.post<AuthResponse>(`${API.auth}/login`, body)
   },
   logout() {
-    return http.get('/api/Accounts/logout')
+    return http.get(`${API.auth}/logout`)
   }
 }
 

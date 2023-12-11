@@ -1,3 +1,4 @@
-export type AuthResponse = {
-  access_token: string
-}
+import { User } from './user.type'
+import { SuccessResponse } from './utils.type'
+
+export type AuthResponse = SuccessResponse<{ access_token: string } & User>

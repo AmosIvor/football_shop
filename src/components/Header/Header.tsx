@@ -2,17 +2,35 @@ import { Link, useMatch } from 'react-router-dom'
 import PATH from '~/constants/path'
 import Popover from '../Popover'
 import PopoverNotArrow from '../PopoverNotArrow'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Menu from '../Menu'
 import classNames from 'classnames'
+import { AppContext } from '~/contexts/app.context'
+import { useMutation } from '@tanstack/react-query'
+import authApi from '~/apis/auth.api'
 
 export default function Header() {
-  const cartMatch = useMatch('/cart')
-  const isCart = Boolean(cartMatch)
-
+  const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const [openClub, setOpenClub] = useState<boolean>(false)
   const [openNation, setOpenNation] = useState<boolean>(false)
   const [isVisible, setIsVisible] = useState<boolean>(false)
+
+  const cartMatch = useMatch('/cart')
+  const isCart = Boolean(cartMatch)
+
+  const logoutMutation = useMutation({
+    mutationFn: () => authApi.logout(),
+    // it will auto navigate
+    onSuccess: () => {
+      setIsAuthenticated(false)
+      setProfile(null)
+    }
+  })
+
+  const handleLogout = () => {
+    console.log('click logout')
+    logoutMutation.mutate()
+  }
 
   const showModal = () => {
     setIsVisible(true)
@@ -295,44 +313,54 @@ export default function Header() {
                 </Link>
               </Popover>
             )}
-            {/* <Link to={PATH.profile} className='flex items-center'>
-              <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                <img
-                  src='https://bizweb.dktcdn.net/100/438/408/themes/919724/assets/icon-user.svg?1699408922234'
-                  alt=''
-                  className='h-full w-full object-cover'
-                />
-              </div>
-              <span className='ml-2 hidden xl:inline-block'>Đăng ký / Đăng nhập</span>
-            </Link> */}
-
-            <Popover
-              placement='bottom'
-              renderPopover={
-                <div className='flex flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
-                  <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
-                    Tài khoản của tôi
-                  </Link>
-                  <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
-                    Đơn mua
-                  </Link>
-                  <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
-                    Đăng xuất
-                  </Link>
-                </div>
-              }
-            >
-              <Link to={PATH.profile} className='flex items-center'>
-                <div className='h-[24px] w-[24px] overflow-hidden rounded-full'>
+            {!isAuthenticated && (
+              <Link to={PATH.login} className='flex items-center'>
+                <div className='flex h-[24px] w-[24px] items-center justify-center'>
                   <img
-                    src='https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                    src='https://bizweb.dktcdn.net/100/438/408/themes/919724/assets/icon-user.svg?1699408922234'
                     alt=''
                     className='h-full w-full object-cover'
                   />
                 </div>
-                <span className='ml-2 hidden normal-case lg:inline-block'>tuanvu@gmail.com</span>
+                <span className='ml-2 hidden xl:inline-block'>Đăng ký / Đăng nhập</span>
               </Link>
-            </Popover>
+            )}
+
+            {isAuthenticated && (
+              <Popover
+                placement='bottom'
+                renderPopover={
+                  <div className='flex flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
+                    <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                      Tài khoản của tôi
+                    </Link>
+                    <Link
+                      to={PATH.historyPurchase}
+                      className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'
+                    >
+                      Đơn mua
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className='bg-white px-6 py-3 text-left hover:bg-white hover:text-football-primary'
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                }
+              >
+                <Link to={PATH.profile} className='flex items-center'>
+                  <div className='h-[24px] w-[24px] overflow-hidden rounded-full'>
+                    <img
+                      src='https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                      alt=''
+                      className='h-full w-full object-cover'
+                    />
+                  </div>
+                  <span className='ml-2 hidden normal-case lg:inline-block'>{profile?.name}</span>
+                </Link>
+              </Popover>
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useRef, useId, type ElementType } from 'react'
+import { useState, useRef, useId, type ElementType, useEffect } from 'react'
 import {
   useFloating,
   FloatingPortal,
@@ -24,18 +24,38 @@ interface Props {
   as?: ElementType
   initialOpen?: boolean
   placement?: Placement
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Popover({
+export default function PopoverNotArrow({
   children,
   className,
   renderPopover,
   as: Element = 'div',
   initialOpen,
-  placement = 'bottom-end'
+  placement = 'bottom-end',
+  open,
+  setOpen
 }: Props) {
-  const [open, setOpen] = useState(initialOpen || false)
+  const [windowSize, setWindowSize] = useState([window.innerWidth, window.innerHeight])
+  // const [open, setOpen] = useState(initialOpen || false)
   const arrowRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const handleWindowSize = () => {
+      setWindowSize([window.innerWidth, window.innerHeight])
+    }
+
+    window.addEventListener('resize', handleWindowSize)
+
+    return () => {
+      window.removeEventListener('resize', handleWindowSize)
+    }
+  }, [])
+
+  const widthPopover = windowSize[0] >= 1280 ? '78%' : '84%'
+
   const data = useFloating({
     open,
     onOpenChange: setOpen,
@@ -47,9 +67,14 @@ export default function Popover({
   const { refs, floatingStyles, context } = data
   const hover = useHover(context, { handleClose: safePolygon() })
   const focus = useFocus(context)
-  const dismiss = useDismiss(context)
+  const dismiss = useDismiss(context, { referencePress: true })
   const role = useRole(context, { role: 'tooltip' })
   const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role])
+  getReferenceProps({
+    onClick() {
+      setOpen(false)
+    }
+  })
   const id = useId()
 
   return (
@@ -61,12 +86,16 @@ export default function Popover({
             <motion.div
               ref={refs.setFloating}
               style={{
-                ...floatingStyles
+                ...floatingStyles,
+                width: widthPopover,
+                paddingLeft: '16px',
+                paddingRight: '16px',
+                left: '50%'
               }}
               {...getFloatingProps()}
-              initial={{ opacity: 0, transform: `scale(0)` }}
-              animate={{ opacity: 1, transform: `scale(1)` }}
-              exit={{ opacity: 0, transform: `scale(0)` }}
+              initial={{ opacity: 0, x: '-50%' }}
+              animate={{ opacity: 1, x: '-50%' }}
+              exit={{ opacity: 0, x: '-50%' }}
               transition={{ duration: 0.2 }}
             >
               {renderPopover}

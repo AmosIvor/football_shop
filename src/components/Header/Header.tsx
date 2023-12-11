@@ -2,14 +2,35 @@ import { Link, useMatch } from 'react-router-dom'
 import PATH from '~/constants/path'
 import Popover from '../Popover'
 import PopoverNotArrow from '../PopoverNotArrow'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Menu from '../Menu'
+import classNames from 'classnames'
+import { AppContext } from '~/contexts/app.context'
+import { useMutation } from '@tanstack/react-query'
+import authApi from '~/apis/auth.api'
 
 export default function Header() {
+  const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
+  const [openClub, setOpenClub] = useState<boolean>(false)
+  const [openNation, setOpenNation] = useState<boolean>(false)
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+
   const cartMatch = useMatch('/cart')
   const isCart = Boolean(cartMatch)
 
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const logoutMutation = useMutation({
+    mutationFn: () => authApi.logout(),
+    // it will auto navigate
+    onSuccess: () => {
+      setIsAuthenticated(false)
+      setProfile(null)
+    }
+  })
+
+  const handleLogout = () => {
+    console.log('click logout')
+    logoutMutation.mutate()
+  }
 
   const showModal = () => {
     setIsVisible(true)
@@ -108,33 +129,98 @@ export default function Header() {
             <Link to={PATH.products} className='asir-item-new-arrival hidden text-[#cd151c] lg:inline-block'>
               Hàng mới về
             </Link>
-            <Link to={PATH.products} className='asir-top-menu-item hidden lg:inline-block'>
-              Câu lạc bộ
-            </Link>
-            <Link to={PATH.products} className='asir-top-menu-item hidden lg:inline-block'>
-              Đội tuyển quốc gia
-            </Link>
+
+            {/* Club team */}
             <PopoverNotArrow
               className=''
               placement='bottom'
+              open={openClub}
+              setOpen={setOpenClub}
               renderPopover={
-                <div className='grid grid-cols-12 gap-x-20 bg-gray-200 px-5 py-4'>
-                  {Array(5)
-                    .fill(0)
-                    .map((_, index) => (
-                      <div className='col-span-2 flex flex-col gap-2 text-base' key={index}>
-                        <div className='mb-2 font-semibold uppercase'>Premier League</div>
-                        <div className='font-normal capitalize'>Manchester City</div>
-                        <div className='font-normal capitalize'>Manchester City</div>
-                        <div className='font-normal capitalize'>Manchester City</div>
-                        <div className='font-normal capitalize'>Manchester City</div>
-                      </div>
-                    ))}
+                <div className='grid grid-cols-12 gap-x-6 border border-gray-200 bg-white px-8 py-6 shadow-md lg:px-6 laptopXS:px-10'>
+                  <div className='col-span-9 grid grid-cols-12 gap-x-10 gap-y-8 xl:col-span-9 xl:gap-y-8 2xl:col-span-9 2xl:gap-x-10 2xl:gap-y-12'>
+                    {Array(6)
+                      .fill(0)
+                      .map((_, index) => (
+                        <div
+                          className='col-span-4 flex flex-col gap-y-2 text-base font-normal capitalize xl:col-span-4 laptopXS:col-span-3 2xl:col-span-3'
+                          key={index}
+                        >
+                          <div className='mb-[6px] font-semibold uppercase'>Premier League</div>
+                          <div className='truncate'>Manchester City Citi</div>
+                          <div className='truncate'>Manchester City</div>
+                          <div className='truncate'>Manchester City</div>
+                          <div className='truncate'>Manchester City</div>
+                        </div>
+                      ))}
+                  </div>
+                  <div className='col-span-3 xl:col-span-3 2xl:col-span-3'>
+                    <div className='relative h-full w-full flex-shrink-0 overflow-hidden rounded-md shadow-md'>
+                      <img
+                        src='https://plus.unsplash.com/premium_photo-1701713781709-966e8f4c5920?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                        alt=''
+                        className='absolute left-0 top-0 h-full w-full object-cover'
+                      />
+                    </div>
+                  </div>
                 </div>
               }
             >
-              <Link to='/products' className='asir-top-menu-item hidden md:inline-block'>
-                Test
+              <Link
+                to={PATH.products}
+                className={classNames('asir-top-menu-item hidden lg:inline-block', {
+                  'text-football-primary after:w-full': openClub,
+                  '': !openClub
+                })}
+              >
+                Câu lạc bộ
+              </Link>
+            </PopoverNotArrow>
+
+            {/* Nation Team */}
+            <PopoverNotArrow
+              className=''
+              open={openNation}
+              setOpen={setOpenNation}
+              placement='bottom'
+              renderPopover={
+                <div className='grid grid-cols-12 gap-x-6 border border-gray-200 bg-white px-8 py-6 shadow-md lg:px-6 laptopXS:px-10'>
+                  <div className='col-span-9 grid grid-cols-12 gap-x-10 gap-y-8 xl:col-span-9 xl:gap-y-8 2xl:col-span-9 2xl:gap-x-10 2xl:gap-y-12'>
+                    {Array(6)
+                      .fill(0)
+                      .map((_, index) => (
+                        <div
+                          className='col-span-4 flex flex-col gap-y-2 text-base font-normal capitalize xl:col-span-4 laptopXS:col-span-3 2xl:col-span-3'
+                          key={index}
+                        >
+                          <div className='mb-[6px] font-semibold uppercase'>Premier League</div>
+                          <div className='truncate'>Manchester City Citi</div>
+                          <div className='truncate'>Manchester City</div>
+                          <div className='truncate'>Manchester City</div>
+                          <div className='truncate'>Manchester City</div>
+                        </div>
+                      ))}
+                  </div>
+                  <div className='col-span-3 xl:col-span-3 2xl:col-span-3'>
+                    <div className='relative h-full w-full flex-shrink-0 overflow-hidden rounded-md shadow-md'>
+                      <img
+                        src='https://plus.unsplash.com/premium_photo-1701713781709-966e8f4c5920?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                        alt=''
+                        className='absolute left-0 top-0 h-full w-full object-cover'
+                      />
+                    </div>
+                  </div>
+                </div>
+              }
+            >
+              <Link
+                to={PATH.products}
+                className={classNames('asir-top-menu-item hidden lg:inline-block', {
+                  'text-football-primary after:w-full': openNation,
+                  '': !openNation
+                })}
+              >
+                Đội tuyển quốc gia
               </Link>
             </PopoverNotArrow>
           </div>
@@ -227,44 +313,54 @@ export default function Header() {
                 </Link>
               </Popover>
             )}
-            {/* <Link to={PATH.profile} className='flex items-center'>
-              <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                <img
-                  src='https://bizweb.dktcdn.net/100/438/408/themes/919724/assets/icon-user.svg?1699408922234'
-                  alt=''
-                  className='h-full w-full object-cover'
-                />
-              </div>
-              <span className='ml-2 hidden xl:inline-block'>Đăng ký / Đăng nhập</span>
-            </Link> */}
-
-            <Popover
-              placement='bottom'
-              renderPopover={
-                <div className='flex flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
-                  <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
-                    Tài khoản của tôi
-                  </Link>
-                  <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
-                    Đơn mua
-                  </Link>
-                  <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
-                    Đăng xuất
-                  </Link>
-                </div>
-              }
-            >
-              <Link to={PATH.profile} className='flex items-center'>
-                <div className='h-[24px] w-[24px] overflow-hidden rounded-full'>
+            {!isAuthenticated && (
+              <Link to={PATH.login} className='flex items-center'>
+                <div className='flex h-[24px] w-[24px] items-center justify-center'>
                   <img
-                    src='https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                    src='https://bizweb.dktcdn.net/100/438/408/themes/919724/assets/icon-user.svg?1699408922234'
                     alt=''
                     className='h-full w-full object-cover'
                   />
                 </div>
-                <span className='ml-2 hidden normal-case lg:inline-block'>tuanvu@gmail.com</span>
+                <span className='ml-2 hidden xl:inline-block'>Đăng ký / Đăng nhập</span>
               </Link>
-            </Popover>
+            )}
+
+            {isAuthenticated && (
+              <Popover
+                placement='bottom'
+                renderPopover={
+                  <div className='flex flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
+                    <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                      Tài khoản của tôi
+                    </Link>
+                    <Link
+                      to={PATH.historyPurchase}
+                      className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'
+                    >
+                      Đơn mua
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className='bg-white px-6 py-3 text-left hover:bg-white hover:text-football-primary'
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                }
+              >
+                <Link to={PATH.profile} className='flex items-center'>
+                  <div className='h-[24px] w-[24px] overflow-hidden rounded-full'>
+                    <img
+                      src='https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                      alt=''
+                      className='h-full w-full object-cover'
+                    />
+                  </div>
+                  <span className='ml-2 hidden normal-case lg:inline-block'>{profile?.name}</span>
+                </Link>
+              </Popover>
+            )}
           </div>
         </div>
       </div>
@@ -272,3 +368,22 @@ export default function Header() {
     </div>
   )
 }
+
+// interface MainLayoutProps {
+//   children?: React.ReactNode
+// }
+
+// export default function MainLayout({ children }: MainLayoutProps) {
+//   const [open, setOpen] = useState(false)
+//   return <div>{children}</div>
+// }
+
+// export default function App() {
+//   return (
+//     <MainLayout>
+//       <Link to={PATH.products} className='text-black'>
+//         Câu lạc bộ
+//       </Link>
+//     </MainLayout>
+//   )
+// }

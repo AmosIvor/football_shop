@@ -10,7 +10,7 @@ export default function Home() {
         <div className='relative'>
           <div className='md:h-[480px]'>
             <img
-              src='https://i.eurosport.com/2020/08/15/2865191-59049828-2560-1440.jpg'
+              src='https://www.mykhel.com/img/2018/04/kevindebruyne-cropped_mj5kuoisho5611r2iq9at50tv.jpg'
               alt=''
               className='h-full w-full object-cover'
             />

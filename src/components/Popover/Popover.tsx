@@ -52,6 +52,11 @@ export default function Popover({
   const dismiss = useDismiss(context)
   const role = useRole(context, { role: 'tooltip' })
   const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role])
+  getReferenceProps({
+    onClick() {
+      setOpen(false)
+    }
+  })
   const id = useId()
 
   return (

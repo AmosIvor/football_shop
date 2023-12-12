@@ -1,7 +1,37 @@
 import Input from '~/components/Input'
 import DateSelect from '../../components/DateSelect'
+import { useContext } from 'react'
+import { AppContext } from '~/contexts/app.context'
+import { ProfileSchema, profileSchema } from '~/utils/rules'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import InputNumber from '~/components/InputNumber'
+
+type FormData = ProfileSchema
 
 export default function Profile() {
+  const { setProfile } = useContext(AppContext)
+  const {
+    register,
+    control,
+    formState: { errors },
+    handleSubmit,
+    setValue
+  } = useForm<FormData>({
+    defaultValues: {
+      name: '',
+      phone: '',
+      address: '',
+      avatar: '',
+      date_of_birth: new Date(1990, 0, 1)
+    },
+    resolver: yupResolver(profileSchema)
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
   return (
     <div className='rounded-sm bg-white px-7 py-5 text-lg font-normal text-black shadow xs:px-8'>
       {/* Header */}
@@ -11,7 +41,7 @@ export default function Profile() {
       </div>
 
       {/* Form */}
-      <form className='mt-6 flex flex-col-reverse xl:flex-row xl:items-start'>
+      <form className='mt-6 flex flex-col-reverse xl:flex-row xl:items-start' onSubmit={onSubmit}>
         {/* Information */}
         <div className='mt-8 flex-grow sm:pr-6 md:pr-8 lg:pr-6 xl:mt-0 laptop:pr-12'>
           {/* Email */}
@@ -30,7 +60,7 @@ export default function Profile() {
               Họ tên
             </div>
             <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-0 sm:w-[76%] sm:pl-7 md:mt-0 md:w-[78%] md:pl-8 lg:mt-0 lg:w-[77%] lg:pl-7 xl:mt-[6px] xl:w-auto xl:pl-0 laptopXS:mt-0 laptopXS:w-[78%] laptopXS:pl-7 2xl:mt-2 2xl:w-auto 2xl:pl-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
-              <Input type='text' placeholder='Họ và tên' errorMessage='Hello' />
+              <Input nameInput='name' placeholder='Họ và tên' register={register} errorMessage={errors.name?.message} />
             </div>
           </div>
 
@@ -40,7 +70,21 @@ export default function Profile() {
               Số điện thoại
             </div>
             <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-0 sm:w-[76%] sm:pl-7 md:mt-0 md:w-[78%] md:pl-8 lg:mt-0 lg:w-[77%] lg:pl-7 xl:mt-[6px] xl:w-auto xl:pl-0 laptopXS:mt-0 laptopXS:w-[78%] laptopXS:pl-7 2xl:mt-2 2xl:w-auto 2xl:pl-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
-              <Input type='text' placeholder='Số điện thoại' errorMessage='Hello' />
+              {/* <Input type='text' placeholder='Số điện thoại' errorMessage='Hello' /> */}
+              <Controller
+                control={control}
+                name='phone'
+                render={({ field }) => (
+                  <InputNumber
+                    type='text'
+                    placeholder='Số điện thoại'
+                    errorMessage={errors.phone?.message}
+                    value={field.value}
+                    ref={field.ref}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
             </div>
           </div>
 
@@ -50,12 +94,23 @@ export default function Profile() {
               Địa chỉ
             </div>
             <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-0 sm:w-[76%] sm:pl-7 md:mt-0 md:w-[78%] md:pl-8 lg:mt-0 lg:w-[77%] lg:pl-7 xl:mt-[6px] xl:w-auto xl:pl-0 laptopXS:mt-0 laptopXS:w-[78%] laptopXS:pl-7 2xl:mt-2 2xl:w-auto 2xl:pl-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
-              <Input type='text' placeholder='Địa chỉ' errorMessage='Hello' />
+              <Input
+                nameInput='address'
+                placeholder='Địa chỉ'
+                register={register}
+                errorMessage={errors.address?.message}
+              />
             </div>
           </div>
 
           {/* Date Select */}
-          <DateSelect />
+          <Controller
+            control={control}
+            name='date_of_birth'
+            render={({ field }) => (
+              <DateSelect onChange={field.onChange} value={field.value} errorMessage={errors.date_of_birth?.message} />
+            )}
+          />
 
           {/* Button Save */}
           <div className='mt-3 flex sm:flex-wrap sm:justify-start xl:justify-center laptopXS:justify-start 2xl:justify-center laptop:justify-start'>

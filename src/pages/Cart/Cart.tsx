@@ -42,6 +42,7 @@ export default function Cart() {
           {Array(6)
             .fill(0)
             .map((_, index) => (
+              // item
               <div
                 className='mb-3 mt-3 grid grid-cols-12 items-start gap-3 border border-gray-200  px-4 py-4 text-base text-black sm:px-5 md:px-4 md:text-base lg:items-center lg:px-5 lg:text-base xl:text-lg'
                 key={index}

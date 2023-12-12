@@ -1,8 +1,58 @@
-import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import classNames from 'classnames'
+import { isUndefined, omit, omitBy } from 'lodash'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
+import productApi from '~/apis/product.api'
 import Product from '~/components/Product'
 import PATH from '~/constants/path'
+import useQueryParams from '~/hooks/useQueryParams'
+import { ProductListConfig } from '~/types/product.type'
+
+type QueryConfig = {
+  [key in keyof ProductListConfig]: string
+}
+
+const CATEGORY = {
+  club: 'club',
+  nation: 'nation'
+} as const
 
 export default function Home() {
+  const queryParams: QueryConfig = useQueryParams()
+  const queryConfig: QueryConfig = omitBy(
+    {
+      page: queryParams.page || '1',
+      limit: queryParams.limit || '20',
+      price_min: queryParams.price_min,
+      price_max: queryParams.price_max,
+      category: queryParams.category || CATEGORY.club,
+      value: queryParams.value
+    },
+    isUndefined
+  )
+  console.log('query config: ', queryConfig)
+  const { category } = queryConfig
+
+  const navigate = useNavigate()
+
+  const { data: productsData } = useQuery({
+    queryKey: ['products', queryConfig],
+    queryFn: productApi.getProducts
+  })
+
+  const isActiveCategory = (categoryValue: keyof typeof CATEGORY) => {
+    return categoryValue === category
+  }
+
+  const handleSort = (categoryValue: keyof typeof CATEGORY) => {
+    navigate({
+      pathname: PATH.home,
+      search: createSearchParams(omit({ ...queryConfig, category: categoryValue }, ['page', 'limit'])).toString()
+    })
+  }
+
+  // console.log('productList: ', productsData)
+
   return (
     <div className='bg-football-grayF6'>
       <div className='mx-auto w-full px-0 md:w-[90%] md:px-4 lg:w-[84%] xl:w-[78%]'>
@@ -51,11 +101,37 @@ export default function Home() {
         <div className='py-[70px] text-lg font-semibold text-football-blue11'>
           <h2 className='mb-8 capitalize'>Bộ sưu tập</h2>
           <div className='mx-5 flex items-center justify-center gap-6 md:mx-10 md:gap-10'>
-            <button className='flex h-[40px] w-full flex-col items-center justify-start border-b-[2px] border-football-primary font-semibold normal-case text-football-primary hover:border-football-primary hover:text-football-primary sm:h-[50px] sm:border-b-[3px] md:font-bold md:uppercase lg:w-[30%]'>
+            {/* <button className='flex h-[40px] w-full flex-col items-center justify-start border-b-[2px] border-football-primary font-semibold normal-case text-football-primary hover:border-football-primary hover:text-football-primary sm:h-[50px] sm:border-b-[3px] md:font-bold md:uppercase lg:w-[30%]'>
               Câu lạc bộ
             </button>
 
             <button className='flex h-[40px] w-full flex-col items-center justify-start border-b-[2px] border-gray-400 font-semibold normal-case text-gray-400 hover:border-football-primary hover:text-football-primary sm:h-[50px] sm:border-b-[3px] md:font-bold md:uppercase lg:w-[30%]'>
+              Đội tuyển
+            </button> */}
+
+            <button
+              className={classNames(
+                'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',
+                {
+                  'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.club),
+                  'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.club)
+                }
+              )}
+              onClick={() => handleSort(CATEGORY.club)}
+            >
+              Câu lạc bộ
+            </button>
+
+            <button
+              className={classNames(
+                'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',
+                {
+                  'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.nation),
+                  'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.nation)
+                }
+              )}
+              onClick={() => handleSort(CATEGORY.nation)}
+            >
               Đội tuyển
             </button>
           </div>

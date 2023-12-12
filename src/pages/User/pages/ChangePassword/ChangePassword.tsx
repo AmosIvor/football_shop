@@ -1,6 +1,23 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
+import { PasswordSchema, passwordSchema } from '~/utils/rules'
+
+type FormData = PasswordSchema
 
 export default function ChangePassword() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit
+  } = useForm<FormData>({
+    resolver: yupResolver(passwordSchema)
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
   return (
     <div className='rounded-sm bg-white px-8 py-5 text-lg font-normal text-black shadow'>
       {/* Header */}
@@ -10,7 +27,7 @@ export default function ChangePassword() {
       </div>
 
       {/* Old Password */}
-      <form className='mt-8 flex flex-row items-start'>
+      <form className='mt-8 flex flex-row items-start' onSubmit={onSubmit}>
         <div className='flex-grow md:pr-6 lg:pr-0 laptopXS:pr-12'>
           {/* Old Password */}
           <div className='mt-[10px] flex flex-col flex-wrap xs:flex-col sm:flex-col md:flex-row lg:flex-col xl:mt-[10px] xl:flex-row laptop:mt-3 laptop:flex-row'>
@@ -18,7 +35,13 @@ export default function ChangePassword() {
               Mật khẩu cũ
             </div>
             <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-[6px] sm:w-auto sm:pl-0 md:mt-0 md:w-[70%] md:pl-8 lg:mt-[6px] lg:w-auto lg:pl-0 xl:mt-0 xl:w-[78%] xl:pl-7 2xl:mt-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
-              <Input type='text' placeholder='Mật khẩu cũ' errorMessage='Hello' />
+              <Input
+                nameInput='old_password'
+                type='password'
+                placeholder='Mật khẩu cũ'
+                register={register}
+                errorMessage={errors.old_password?.message}
+              />
             </div>
           </div>
 
@@ -28,7 +51,13 @@ export default function ChangePassword() {
               Mật khẩu mới
             </div>
             <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-[6px] sm:w-auto sm:pl-0 md:mt-0 md:w-[70%] md:pl-8 lg:mt-[6px] lg:w-auto lg:pl-0 xl:mt-0 xl:w-[78%] xl:pl-7 2xl:mt-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
-              <Input type='text' placeholder='Mật khẩu mới' errorMessage='Hello' />
+              <Input
+                nameInput='password'
+                type='password'
+                placeholder='Mật khẩu mới'
+                register={register}
+                errorMessage={errors.password?.message}
+              />
             </div>
           </div>
 
@@ -38,7 +67,13 @@ export default function ChangePassword() {
               Xác nhận mật khẩu
             </div>
             <div className='mt-[6px] w-auto pl-0 text-black xs:w-auto xs:pl-0 sm:mt-[6px] sm:w-auto sm:pl-0 md:mt-0 md:w-[70%] md:pl-8 lg:mt-[6px] lg:w-auto lg:pl-0 xl:mt-0 xl:w-[78%] xl:pl-7 2xl:mt-0 laptop:mt-0 laptop:w-[78%] laptop:pl-8'>
-              <Input type='text' placeholder='Xác nhận mật khẩu' errorMessage='Hello' />
+              <Input
+                nameInput='confirm_password'
+                type='password'
+                placeholder='Xác nhận mật khẩu'
+                register={register}
+                errorMessage={errors.confirm_password?.message}
+              />
             </div>
           </div>
 

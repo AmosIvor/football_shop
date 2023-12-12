@@ -21,10 +21,18 @@ export interface Product {
 
 export type ProductList = Product[]
 
+// export interface ProductListConfig {
+//   page?: number
+//   limit?: number
+//   price_min?: number
+//   price_max?: number
+//   category?: string
+// }
 export interface ProductListConfig {
   page?: number
   limit?: number
   price_min?: number
   price_max?: number
   category?: string
+  value?: string
 }

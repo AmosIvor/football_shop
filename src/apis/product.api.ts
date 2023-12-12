@@ -22,6 +22,9 @@ const productApi = {
   getProductsByPrice({ price_min = PRICE_MIN, price_max = PRICE_MAX, page = 1, limit = 10 }: ProductListConfig) {
     return http.get<Product>(`${API.product}/get-by-price/${price_min}/${price_max}/${page}/${limit}`)
   },
+  getProductsByCategory({ category, value, page, limit }: ProductListConfig) {
+    return http.get<Product>(`${API.product}/get-by-cate/${category}/${value}/${page}/${limit}`)
+  },
 
   getProductDetail(idProduct: string) {
     return http.get<Product>(`${API.product}/get-by-id/${idProduct}`)

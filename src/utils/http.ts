@@ -26,7 +26,6 @@ class Http {
       (config) => {
         if (this.accessToken && config.headers) {
           config.headers.Authorization = this.accessToken
-          console.log('config_request: ', config)
           return config
         }
         return config
@@ -39,7 +38,6 @@ class Http {
     // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
-        console.log('response', response)
         const { url } = response.config
         // if (url === '/login' || url === '/register')
         if (url === '/api/Accounts/login') {

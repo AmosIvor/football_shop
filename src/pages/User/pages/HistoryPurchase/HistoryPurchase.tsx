@@ -1,31 +1,48 @@
-import { Link } from 'react-router-dom'
+import classNames from 'classnames'
+import { Link, createSearchParams } from 'react-router-dom'
 import PATH from '~/constants/path'
-// import useQueryParams from '~/hooks/useQueryParams'
+import { PURCHASES_STATUS } from '~/constants/purchase'
+import useQueryParams from '~/hooks/useQueryParams'
+
+const purchaseTabs = [
+  { status: PURCHASES_STATUS.all, name: 'Tất cả' },
+  { status: PURCHASES_STATUS.waitForConfirmation, name: 'Chờ xác nhận' },
+  { status: PURCHASES_STATUS.waitForGetting, name: 'Chờ lấy hàng' },
+  { status: PURCHASES_STATUS.inProgress, name: 'Đang giao' },
+  { status: PURCHASES_STATUS.delivered, name: 'Đã giao' },
+  { status: PURCHASES_STATUS.cancelled, name: 'Đã hủy' }
+]
 
 export default function HistoryPurchase() {
-  // const searchParams = useQueryParams()
+  const queryParams: { status?: string } = useQueryParams()
+  const status: number = Number(queryParams.status) || PURCHASES_STATUS.all
+
+  const purchaseTabsLink = purchaseTabs.map((tab) => (
+    <Link
+      key={tab.status}
+      to={{
+        pathname: PATH.historyPurchase,
+        search: createSearchParams({
+          status: String(tab.status)
+        }).toString()
+      }}
+      className={classNames(
+        'userScreenS:flex-1 userScreenS:px-0 md:first:grow-1 md:last:grow-1 flex w-auto flex-shrink-0 items-center justify-center border-b-2 border-transparent bg-white px-5 py-3 text-center hover:text-football-primary lg:w-auto lg:flex-auto lg:flex-shrink-0 lg:px-5 xl:flex-1 xl:px-0',
+        {
+          'border-b-2 border-b-football-primary text-football-primary': status === tab.status,
+          'border-transparent text-black': status !== tab.status
+        }
+      )}
+    >
+      {tab.name}
+    </Link>
+  ))
 
   return (
     <div className='bg-transparent'>
       {/* Header */}
-      <div className='scrollbar-hide sticky top-0 flex overflow-x-auto scroll-smooth rounded-t-sm bg-white text-base text-black shadow-sm sm:flex sm:flex-nowrap sm:overflow-auto sm:text-lg'>
-        <Link
-          to={PATH.home}
-          className='w-[100px] flex-shrink-0 items-center justify-center border-b-2 border-transparent border-b-football-primary bg-white py-3 text-center text-football-primary hover:text-football-primary sm:flex sm:w-auto sm:flex-1'
-        >
-          Tất cả
-        </Link>
-        {Array(5)
-          .fill(0)
-          .map((_, index) => (
-            <Link
-              to={PATH.home}
-              className='flex w-[100px] flex-shrink-0 items-center justify-center border-b-2 border-transparent bg-white px-5 py-3 text-center hover:text-football-primary sm:w-auto sm:flex-1 sm:px-0'
-              key={index}
-            >
-              Tất cả
-            </Link>
-          ))}
+      <div className='sticky top-0 flex overflow-x-auto scroll-smooth rounded-t-sm bg-white text-base text-black shadow-sm scrollbar-hide sm:flex sm:flex-nowrap sm:overflow-auto sm:text-lg lg:overflow-x-scroll xl:overflow-auto'>
+        {purchaseTabsLink}
       </div>
 
       {/* Body */}

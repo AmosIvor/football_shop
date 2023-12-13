@@ -9,6 +9,7 @@ export default {
     extend: {
       screens: {
         xs: '475px',
+        userScreenS: '860px',
         laptopXS: '1380px',
         laptop: '1650px'
       },

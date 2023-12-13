@@ -27,7 +27,7 @@ export default function HistoryPurchase() {
         }).toString()
       }}
       className={classNames(
-        'userScreenS:flex-1 userScreenS:px-0 md:first:grow-1 md:last:grow-1 flex w-auto flex-shrink-0 items-center justify-center border-b-2 border-transparent bg-white px-5 py-3 text-center hover:text-football-primary lg:w-auto lg:flex-auto lg:flex-shrink-0 lg:px-5 xl:flex-1 xl:px-0',
+        'md:first:grow-1 md:last:grow-1 flex w-auto flex-shrink-0 items-center justify-center border-b-2 border-transparent bg-white px-5 py-3 text-center hover:text-football-primary userScreenS:flex-1 userScreenS:px-0 lg:w-auto lg:flex-auto lg:flex-shrink-0 lg:px-5 xl:flex-1 xl:px-0',
         {
           'border-b-2 border-b-football-primary text-football-primary': status === tab.status,
           'border-transparent text-black': status !== tab.status

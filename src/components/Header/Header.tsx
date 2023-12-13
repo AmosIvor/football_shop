@@ -8,11 +8,13 @@ import classNames from 'classnames'
 import { AppContext } from '~/contexts/app.context'
 import { useMutation } from '@tanstack/react-query'
 import authApi from '~/apis/auth.api'
+import PopoverUser from '../PopoverUser'
 
 export default function Header() {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const [openClub, setOpenClub] = useState<boolean>(false)
   const [openNation, setOpenNation] = useState<boolean>(false)
+  const [openUser, setOpenUser] = useState<boolean>(false)
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
   const cartMatch = useMatch('/cart')
@@ -28,8 +30,8 @@ export default function Header() {
   })
 
   const handleLogout = () => {
-    console.log('click logout')
     logoutMutation.mutate()
+    setOpenUser(false)
   }
 
   const showModal = () => {
@@ -39,6 +41,10 @@ export default function Header() {
   const hideModal = () => {
     // console.log('into')
     setIsVisible(false)
+  }
+
+  const onClickMC = () => {
+    console.log('clicked')
   }
 
   return (
@@ -150,7 +156,9 @@ export default function Header() {
                           <div className='truncate'>Manchester City Citi</div>
                           <div className='truncate'>Manchester City</div>
                           <div className='truncate'>Manchester City</div>
-                          <div className='truncate'>Manchester City</div>
+                          <Link to={PATH.home} className='truncate hover:text-football-primary' onClick={onClickMC}>
+                            Manchester City
+                          </Link>
                         </div>
                       ))}
                   </div>
@@ -327,16 +335,23 @@ export default function Header() {
             )}
 
             {isAuthenticated && (
-              <Popover
+              <PopoverUser
+                open={openUser}
+                setOpen={setOpenUser}
                 placement='bottom'
                 renderPopover={
                   <div className='flex flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
-                    <Link to={PATH.profile} className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'>
+                    <Link
+                      to={PATH.profile}
+                      className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'
+                      onClick={() => setOpenUser(false)}
+                    >
                       Tài khoản của tôi
                     </Link>
                     <Link
                       to={PATH.historyPurchase}
                       className='bg-white px-6 py-3 hover:bg-white hover:text-football-primary'
+                      onClick={() => setOpenUser(false)}
                     >
                       Đơn mua
                     </Link>
@@ -359,7 +374,7 @@ export default function Header() {
                   </div>
                   <span className='ml-2 hidden normal-case lg:inline-block'>{profile?.name}</span>
                 </Link>
-              </Popover>
+              </PopoverUser>
             )}
           </div>
         </div>
@@ -368,22 +383,3 @@ export default function Header() {
     </div>
   )
 }
-
-// interface MainLayoutProps {
-//   children?: React.ReactNode
-// }
-
-// export default function MainLayout({ children }: MainLayoutProps) {
-//   const [open, setOpen] = useState(false)
-//   return <div>{children}</div>
-// }
-
-// export default function App() {
-//   return (
-//     <MainLayout>
-//       <Link to={PATH.products} className='text-black'>
-//         Câu lạc bộ
-//       </Link>
-//     </MainLayout>
-//   )
-// }

@@ -30,7 +30,6 @@ export default function Home() {
     },
     isUndefined
   )
-  console.log('query config: ', queryConfig)
   const { category } = queryConfig
 
   const navigate = useNavigate()

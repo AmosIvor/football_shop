@@ -1,5 +1,7 @@
 import classNames from 'classnames'
+import { useState } from 'react'
 import { Link, createSearchParams } from 'react-router-dom'
+import ModalRating from '~/components/Modal/ModalRating'
 import ProductRating from '~/components/ProductRating'
 import PATH from '~/constants/path'
 import { RATING_STATUS } from '~/constants/rating'
@@ -11,6 +13,7 @@ const ratingTabs = [
 ]
 
 export default function RatingProducted() {
+  const [isVisible, setIsVisible] = useState<boolean>(false)
   const queryParams: { status?: string } = useQueryParams()
   const status: number = Number(queryParams.status) || RATING_STATUS.waitingReview
 
@@ -52,7 +55,7 @@ export default function RatingProducted() {
                   className='mt-3 w-full rounded-sm border-black/10 bg-white px-7 py-6 text-gray-800 shadow-sm first:mt-4 xs:px-8'
                   key={index}
                 >
-                  <Link to={PATH.home} className='flex'>
+                  <div className='flex'>
                     {/* image product */}
                     <div className='h-[160px] w-[120px] flex-shrink-0 xs:h-[150px] xs:w-[150px] sm:h-[140px] sm:w-[140px]'>
                       <img
@@ -71,11 +74,14 @@ export default function RatingProducted() {
                         <div className='mx-4 hidden h-4 w-[1px] bg-football-gray7A/40 xs:inline-block'></div>
                         <div className='mt-1 xs:mt-0'>Số lượng: 2</div>
                       </div>
-                      <button className='w-[180px] rounded-sm bg-football-primary px-4 py-1 text-white shadow-sm hover:bg-football-primary/90'>
+                      <button
+                        className='w-[180px] rounded-sm bg-football-primary px-4 py-1 text-white shadow-sm hover:bg-football-primary/90'
+                        onClick={() => setIsVisible(true)}
+                      >
                         Đánh giá
                       </button>
                     </div>
-                  </Link>
+                  </div>
                 </div>
               ))}
           </>
@@ -135,6 +141,11 @@ export default function RatingProducted() {
           </>
         )}
       </div>
+      <ModalRating
+        isVisible={isVisible}
+        handleSubmit={() => setIsVisible(false)}
+        handleCancel={() => setIsVisible(false)}
+      />
     </div>
   )
 }

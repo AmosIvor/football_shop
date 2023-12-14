@@ -100,14 +100,6 @@ export default function Home() {
         <div className='py-[70px] text-lg font-semibold text-football-blue11'>
           <h2 className='mb-8 capitalize'>Bộ sưu tập</h2>
           <div className='mx-5 flex items-center justify-center gap-6 md:mx-10 md:gap-10'>
-            {/* <button className='flex h-[40px] w-full flex-col items-center justify-start border-b-[2px] border-football-primary font-semibold normal-case text-football-primary hover:border-football-primary hover:text-football-primary sm:h-[50px] sm:border-b-[3px] md:font-bold md:uppercase lg:w-[30%]'>
-              Câu lạc bộ
-            </button>
-
-            <button className='flex h-[40px] w-full flex-col items-center justify-start border-b-[2px] border-gray-400 font-semibold normal-case text-gray-400 hover:border-football-primary hover:text-football-primary sm:h-[50px] sm:border-b-[3px] md:font-bold md:uppercase lg:w-[30%]'>
-              Đội tuyển
-            </button> */}
-
             <button
               className={classNames(
                 'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',

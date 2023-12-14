@@ -6,7 +6,6 @@ import useQueryParams from '~/hooks/useQueryParams'
 
 const voucherTabs = [
   { status: VOUCHER_STATUS.newest, name: 'Mới nhất' },
-  { status: VOUCHER_STATUS.popular, name: 'Phổ biến' },
   { status: VOUCHER_STATUS.expiringSoon, name: 'Sắp hết hạn' }
 ]
 
@@ -69,8 +68,6 @@ export default function Voucher() {
               ))}
           </>
         )}
-
-        {status === VOUCHER_STATUS.popular && <div>Popular</div>}
 
         {status === VOUCHER_STATUS.expiringSoon && <div>Expiring Soon</div>}
       </div>

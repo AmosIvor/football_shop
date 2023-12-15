@@ -33,11 +33,16 @@ export default {
         fadeIn: {
           from: { opacity: 0 },
           to: { opacity: 1 }
+        },
+        zoomIn: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.2)' }
         }
       },
       animation: {
         slideDown: 'slideDown 0.4s ease-in-out',
-        fadeIn: 'fadeIn 0.5s ease-in-out'
+        fadeIn: 'fadeIn 0.5s ease-in-out',
+        zoomIn: 'zoomIn 0.5s ease-in-out'
       }
     }
   },

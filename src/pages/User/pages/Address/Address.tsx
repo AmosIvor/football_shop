@@ -1,4 +1,13 @@
+import { useState } from 'react'
+import ModalAddress from '~/components/Modal/ModalAddress'
+
 export default function Address() {
+  const [isVisibile, setIsVisible] = useState<boolean>(false)
+
+  const handleCreateAddress = () => {
+    setIsVisible(true)
+  }
+
   return (
     <div className='rounded-sm bg-white px-8 py-5 text-lg font-normal text-black shadow'>
       {/* Header */}
@@ -7,7 +16,10 @@ export default function Address() {
           <h1 className='capitalized text-2xl font-semibold text-black'>Địa chỉ của tôi</h1>
           <div className='pb-2 pt-1 text-base text-gray-700'>Cập nhật thông tin địa chỉ để nhận hàng sớm hơn</div>
         </div>
-        <button className='mt-1 hidden items-center bg-football-primary py-3 text-white hover:bg-football-primary/90 sm:flex sm:px-4 md:pl-3 md:pr-4 lg:px-4 xl:pl-6 xl:pr-8'>
+        <button
+          className='mt-1 hidden items-center bg-football-primary py-3 text-white hover:bg-football-primary/90 sm:flex sm:px-4 md:pl-3 md:pr-4 lg:px-4 xl:pl-6 xl:pr-8'
+          onClick={handleCreateAddress}
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -115,7 +127,10 @@ export default function Address() {
           </div>
         </div>
 
-        <button className='mt-5 flex w-full items-center justify-center bg-football-primary py-3 text-white hover:bg-football-primary/90 sm:hidden'>
+        <button
+          className='mt-5 flex w-full items-center justify-center bg-football-primary py-3 text-white hover:bg-football-primary/90 sm:hidden'
+          onClick={handleCreateAddress}
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -129,6 +144,11 @@ export default function Address() {
           <span className=''>Thêm mới địa chỉ</span>
         </button>
       </div>
+      <ModalAddress
+        isVisible={isVisibile}
+        handleCancel={() => setIsVisible(false)}
+        handleSubmit={() => setIsVisible(false)}
+      />
     </div>
   )
 }

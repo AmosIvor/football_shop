@@ -13,6 +13,7 @@ export interface Product {
   timeAdded: string
   description: string
   point: number
+  sold: number
   urlMain: string
   urlSub1: string
   urlSub2: string
@@ -21,18 +22,19 @@ export interface Product {
 
 export type ProductList = Product[]
 
-// export interface ProductListConfig {
-//   page?: number
-//   limit?: number
-//   price_min?: number
-//   price_max?: number
-//   category?: string
-// }
 export interface ProductListConfig {
+  names?: string
+  seasons?: string
+  club?: boolean
+  nation?: boolean
+  minPrice?: number
+  maxPrice?: number
+  sortBy?: string
+  descending?: number
+  sizeS?: boolean
+  sizeM?: boolean
+  sizeL?: boolean
+  sizeXL?: boolean
   page?: number
-  limit?: number
-  price_min?: number
-  price_max?: number
-  category?: string
-  value?: string
+  productPerPage?: number
 }

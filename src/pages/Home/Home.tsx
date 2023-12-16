@@ -4,6 +4,8 @@ import { isUndefined, omit, omitBy } from 'lodash'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import productApi from '~/apis/product.api'
 import Product from '~/components/Product'
+import { CLUB } from '~/constants/club'
+import { NATION } from '~/constants/nation'
 import PATH from '~/constants/path'
 import useQueryParams from '~/hooks/useQueryParams'
 import { ProductListConfig } from '~/types/product.type'
@@ -22,35 +24,56 @@ export default function Home() {
   const queryConfig: QueryConfig = omitBy(
     {
       page: queryParams.page || '1',
-      limit: queryParams.limit || '20',
-      price_min: queryParams.price_min,
-      price_max: queryParams.price_max,
-      category: queryParams.category || CATEGORY.club,
-      value: queryParams.value
+      productPerPage: queryParams.productPerPage || '20',
+      sortBy: queryParams.sortBy || 'Name',
+      club: queryParams.club || 'true',
+      nation: queryParams.nation || 'false'
     },
     isUndefined
   )
-  const { category } = queryConfig
+  const { club, nation } = queryConfig
+  console.log('query config: ', queryConfig)
 
   const navigate = useNavigate()
 
   const { data: productsData } = useQuery({
     queryKey: ['products', queryConfig],
-    queryFn: productApi.getProducts
+    queryFn: () => {
+      return productApi.getProducts(queryConfig as ProductListConfig)
+    }
   })
 
-  const isActiveCategory = (categoryValue: keyof typeof CATEGORY) => {
-    return categoryValue === category
+  const isActiveCategory = (nameCategory: keyof typeof CATEGORY) => () => {
+    if (nameCategory === CATEGORY.club) {
+      return club && club === 'true'
+    } else if (nameCategory === CATEGORY.nation) {
+      return nation && nation === 'true'
+    }
   }
 
-  const handleSort = (categoryValue: keyof typeof CATEGORY) => {
+  const handleSort = (nameCategory: keyof typeof CATEGORY) => () => {
+    let resultParams = {}
+    if (nameCategory === CATEGORY.club) {
+      resultParams = {
+        ...queryConfig,
+        club: true,
+        nation: false
+      }
+    } else if (nameCategory === CATEGORY.nation) {
+      resultParams = {
+        ...queryConfig,
+        nation: true,
+        club: false
+      }
+    }
+
     navigate({
       pathname: PATH.home,
-      search: createSearchParams(omit({ ...queryConfig, category: categoryValue }, ['page', 'limit'])).toString()
+      search: createSearchParams(omit(resultParams, ['productPerPage', 'page', 'sortBy'])).toString()
     })
   }
 
-  // console.log('productList: ', productsData)
+  console.log('productList: ', productsData)
 
   return (
     <div className='bg-football-grayF6'>
@@ -104,11 +127,11 @@ export default function Home() {
               className={classNames(
                 'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',
                 {
-                  'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.club),
-                  'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.club)
+                  'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.club)(),
+                  'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.club)()
                 }
               )}
-              onClick={() => handleSort(CATEGORY.club)}
+              onClick={handleSort(CATEGORY.club)}
             >
               Câu lạc bộ
             </button>
@@ -117,34 +140,48 @@ export default function Home() {
               className={classNames(
                 'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',
                 {
-                  'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.nation),
-                  'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.nation)
+                  'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.nation)(),
+                  'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.nation)()
                 }
               )}
-              onClick={() => handleSort(CATEGORY.nation)}
+              onClick={handleSort(CATEGORY.nation)}
             >
               Đội tuyển
             </button>
           </div>
 
           <div className='grid grid-cols-12 justify-items-center gap-2 pt-14 lg:mx-10 lg:gap-6 xl:grid-cols-10 xl:gap-8'>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <div
-                  className='col-span-6 flex h-[175px] w-[172px] cursor-pointer flex-col items-center justify-center transition-transform duration-100 hover:translate-y-[-0.8rem] hover:text-football-primary sm:col-span-4 lg:col-span-3 xl:col-span-2'
-                  key={index}
-                >
-                  <div className='h-[120px] w-[120px] overflow-hidden rounded-full bg-gray-500 hover:shadow-lg'>
-                    <img
-                      src='https://sportrankers.com/wp-content/uploads/2022/10/Premier-League-Logos-1024x577.png'
-                      alt='option'
-                      className='h-full w-full object-cover'
-                    />
+            {isActiveCategory(CATEGORY.club)() &&
+              CLUB.map((item, index) => {
+                if (index >= 5) {
+                  return
+                }
+                return (
+                  <div
+                    className='col-span-6 flex h-[175px] w-[172px] cursor-pointer flex-col items-center justify-center transition-transform duration-100 hover:translate-y-[-0.8rem] hover:text-football-primary sm:col-span-4 lg:col-span-3 xl:col-span-2'
+                    key={index}
+                  >
+                    <div className='h-[120px] w-[120px] overflow-hidden rounded-full bg-white shadow-lg hover:shadow-lg'>
+                      <img src={item.imageNoText} alt='option' className='h-full w-full object-cover' />
+                    </div>
+                    <span className='mt-3 truncate normal-case sm:uppercase'>{item.name}</span>
                   </div>
-                  <span className='mt-3 truncate normal-case sm:uppercase'>Premier League</span>
-                </div>
-              ))}
+                )
+              })}
+            {isActiveCategory(CATEGORY.nation)() &&
+              NATION.map((item, index) => {
+                return (
+                  <div
+                    className='col-span-6 flex h-[175px] w-[172px] cursor-pointer flex-col items-center justify-center transition-transform duration-100 hover:translate-y-[-0.8rem] hover:text-football-primary sm:col-span-4 lg:col-span-3 xl:col-span-2'
+                    key={index}
+                  >
+                    <div className='h-[120px] w-[120px] overflow-hidden rounded-full bg-white shadow-lg hover:shadow-lg'>
+                      <img src={item.imageNoText} alt='option' className='h-full w-full object-cover' />
+                    </div>
+                    <span className='mt-3 truncate normal-case sm:uppercase'>{item.name}</span>
+                  </div>
+                )
+              })}
           </div>
         </div>
 

@@ -16,6 +16,7 @@ import nation_americas from './americas.jpg'
 import nation_africa from './africa.jpg'
 import nation_oceania from './oceania.png'
 import nation_asian_no_text from './asian_no_text.png'
+import manchester_city from './manchester_city.jpg'
 const IMAGE = {
   no_product,
   club_premier_league,
@@ -34,6 +35,7 @@ const IMAGE = {
   nation_americas,
   nation_africa,
   nation_oceania,
-  nation_asian_no_text
+  nation_asian_no_text,
+  manchester_city
 }
 export default IMAGE

@@ -206,16 +206,18 @@ export default function Home() {
           {/* products */}
           <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
-            {Array(5)
-              .fill(0)
-              .map((productIndex) => (
-                <div
-                  className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
-                  key={productIndex}
-                >
-                  <Product />
-                </div>
-              ))}
+
+            {productsData &&
+              productsData.data.map((product) => {
+                return (
+                  <div
+                    className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+                    key={product.id}
+                  >
+                    <Product product={product} />
+                  </div>
+                )
+              })}
           </div>
         </div>
 
@@ -241,16 +243,17 @@ export default function Home() {
           {/* products */}
           <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
-            {Array(5)
-              .fill(0)
-              .map((productIndex) => (
-                <div
-                  className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
-                  key={productIndex}
-                >
-                  <Product />
-                </div>
-              ))}
+            {productsData &&
+              productsData.data.map((product) => {
+                return (
+                  <div
+                    className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+                    key={product.id}
+                  >
+                    <Product product={product} />
+                  </div>
+                )
+              })}
           </div>
         </div>
       </div>

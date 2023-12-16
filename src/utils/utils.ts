@@ -13,3 +13,21 @@ export function isAxiosLoginError<FormError>(error: unknown): error is AxiosErro
       error.response?.status === HttpStatusCode.Unauthorized)
   )
 }
+
+export function formatCurrency(currency: number) {
+  return new Intl.NumberFormat('de-DE').format(currency)
+}
+
+export function formatNumberToSocialStyle(value: number) {
+  return new Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumFractionDigits: 1
+  })
+    .format(value)
+    .replace('.', ',')
+    .toLowerCase()
+}
+
+export const rateSale = (original: number, sale: number) => {
+  return Math.round(((original - sale) / original) * 100) + '%'
+}

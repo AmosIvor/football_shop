@@ -7,17 +7,13 @@ import Product from '~/components/Product'
 import { CLUB } from '~/constants/club'
 import { NATION } from '~/constants/nation'
 import PATH from '~/constants/path'
+import { CATEGORY } from '~/constants/product'
 import useQueryParams from '~/hooks/useQueryParams'
 import { ProductListConfig } from '~/types/product.type'
 
 type QueryConfig = {
   [key in keyof ProductListConfig]: string
 }
-
-const CATEGORY = {
-  club: 'club',
-  nation: 'nation'
-} as const
 
 export default function Home() {
   const queryParams: QueryConfig = useQueryParams()

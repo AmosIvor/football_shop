@@ -3,7 +3,7 @@ import ProductRating from '../ProductRating'
 import PATH from '~/constants/path'
 import { Product as ProductType } from '~/types/product.type'
 import DEFAULT_VALUE from '~/constants/default'
-import { formatCurrency, formatNumberToSocialStyle } from '~/utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, generateNameId } from '~/utils/utils'
 
 interface Props {
   product: ProductType
@@ -11,7 +11,7 @@ interface Props {
 
 export default function Product({ product }: Props) {
   return (
-    <Link to={PATH.productDetail} preventScrollReset={false}>
+    <Link to={`${PATH.home}${generateNameId({ name: product.name, id: product.id })}`} preventScrollReset={false}>
       <div className='font-medidum overflow-hidden rounded-sm bg-white text-base shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
           <img
@@ -25,7 +25,7 @@ export default function Product({ product }: Props) {
           <div className='mt-2 flex flex-col items-start xs:flex-row xs:items-center'>
             <div className='trucate max-w-[50%] text-gray-500 line-through'>
               <span className='text-sm'>đ</span>
-              <span className='text-lg'>{formatCurrency(product.price - 10)}</span>
+              <span className='text-lg'>{formatCurrency(product.price + 10)}</span>
             </div>
             <div className='ml-0 mt-0 truncate text-football-primary xs:ml-2 xs:mt-0'>
               <span className='text-sm'>đ</span>

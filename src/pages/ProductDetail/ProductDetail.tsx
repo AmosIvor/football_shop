@@ -1,12 +1,93 @@
 import ProductRating from '~/components/ProductRating'
 import ProductRatingLarger from './components/ProductRatingLarger'
 import Product from '~/components/Product'
-import { Link } from 'react-router-dom'
+import { Link, createSearchParams, useLocation, useNavigate, useParams } from 'react-router-dom'
 import PATH from '~/constants/path'
 import QuantityController from '~/components/QuantityController'
 import Accordition from '~/components/Accordition'
+import { useQuery } from '@tanstack/react-query'
+import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '~/utils/utils'
+import productApi from '~/apis/product.api'
+import DEFAULT_VALUE from '~/constants/default'
+import useQueryParams from '~/hooks/useQueryParams'
+import { SIZE } from '~/constants/product'
+import classNames from 'classnames'
+import { useState } from 'react'
+
+const sizes = Object.values(SIZE).map((size) => ({ size }))
 
 export default function ProductDetail() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const [buyCount, setBuyCount] = useState<number>(1)
+
+  const queryParams: { size?: string } = useQueryParams()
+  const size = queryParams.size || SIZE.S
+
+  const { nameId } = useParams()
+  const id = getIdFromNameId(nameId as string)
+
+  // get product detail
+  const { data: productDetailData } = useQuery({
+    queryKey: ['product', id],
+    queryFn: () => productApi.getProductDetail(id)
+  })
+
+  const isActiveSize = (sizeValue: keyof typeof SIZE) => {
+    return size === sizeValue
+  }
+
+  const handleSize = (sizeValue: keyof typeof SIZE) => {
+    navigate({
+      pathname: location.pathname,
+      search: createSearchParams({ size: sizeValue }).toString()
+    })
+    setBuyCount(1)
+  }
+
+  const product = productDetailData?.data
+
+  const getQuantityActiveSize = () => {
+    switch (size) {
+      case SIZE.S:
+        return product?.sizeS
+      case SIZE.M:
+        return product?.sizeM
+      case SIZE.L:
+        return product?.sizeL
+      case SIZE.XL:
+        return product?.sizeXL
+      default:
+        return 0
+    }
+  }
+
+  const quantitySizes = {
+    [SIZE.S]: {
+      quantity: product?.sizeS,
+      disabled: product?.sizeS === 0 ? true : false
+    },
+    [SIZE.M]: {
+      quantity: product?.sizeM,
+      disabled: product?.sizeM === 0 ? true : false
+    },
+    [SIZE.L]: {
+      quantity: product?.sizeL,
+      disabled: product?.sizeL === 0 ? true : false
+    },
+    [SIZE.XL]: {
+      quantity: product?.sizeXL,
+      disabled: product?.sizeXL === 0 ? true : false
+    }
+  }
+
+  const handleBuyCount = (value: number) => {
+    setBuyCount(value)
+  }
+
+  if (!product) return null
+
   return (
     <div className='bg-football-grayF6 py-6'>
       {/* Detail product */}
@@ -16,8 +97,8 @@ export default function ProductDetail() {
             {/* Main Image  */}
             <div className='relative w-full overflow-hidden pt-[100%] shadow'>
               <img
-                src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
-                alt=''
+                src={product.urlMain}
+                alt={product.name}
                 className='absolute left-0 top-0 h-full w-full bg-white object-cover'
               />
             </div>
@@ -29,58 +110,54 @@ export default function ProductDetail() {
                 .map((_, index) => (
                   <div className='relative w-full pt-[100%]' key={index}>
                     <img
-                      src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
-                      alt=''
+                      src={DEFAULT_VALUE.club.image}
+                      alt={product.name}
                       className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
                     />
                     <div className='absolute inset-0 border-2 border-football-primary' />
                   </div>
                 ))}
-              {/* {Array(3)
-                .fill(0)
-                .map((_, index) => (
-                  <div className='relative w-full pt-[100%]' key={index}>
-                    <img
-                      src='https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw74498a3b/images/large/701225663CP001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit'
-                      alt=''
-                      className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
-                    />
-                    <div className='absolute inset-0 hidden border-2 border-football-primary' />
-                  </div>
-                ))} */}
             </div>
           </div>
 
           <div className='col-span-12 text-lg font-normal md:col-span-9 lg:col-span-7'>
             {/* Title */}
-            <h1 className='text-2xl font-semibold uppercase text-black'>Chelsea 2022 / 2023</h1>
+            <h1 className='text-2xl font-semibold uppercase text-black'>{product.name}</h1>
 
             {/* Sub title */}
             <div className='mt-3 flex items-center'>
               {/* Rating */}
               <div className='flex items-center'>
-                <span className='mr-2 border-b border-b-football-primary font-semibold text-football-primary'>4.9</span>
+                <span className='mr-2 border-b border-b-football-primary font-semibold text-football-primary'>
+                  {product.point}
+                </span>
 
-                <ProductRating />
+                <ProductRating rating={product.point} />
               </div>
 
               <div className='mx-4 h-4 w-[1px] bg-black/40' />
 
               {/* Product Sold */}
               <div>
-                <span>4,5K</span>
+                <span>{formatNumberToSocialStyle(product.sold)}</span>
                 <span className='ml-2 text-football-gray7A'>Đã bán</span>
               </div>
             </div>
 
             {/* Price */}
             <div className='mt-8 flex items-center lg:mt-6 xl:mt-8'>
-              <div className='text-football-gray7A line-through'>đ219.000</div>
+              <div className='flex items-start text-football-gray7A line-through'>
+                <span className='mr-[2px] mt-[2px] text-sm'>đ</span>
+                <span>{formatCurrency(product.price + 10)}</span>
+              </div>
 
-              <div className='ml-3 text-4xl font-semibold text-football-primary'>đ181.000</div>
+              <div className='ml-3 flex items-start text-4xl font-semibold text-football-primary'>
+                <span className='mr-[3px] text-2xl'>đ</span>
+                <span>{formatCurrency(product.price)}</span>
+              </div>
 
               <div className='rouned-sm ml-5 hidden bg-football-primary px-2 py-[2px] text-sm font-semibold uppercase text-white xs:inline-block'>
-                20% giảm
+                {rateSale(product.price + 10, product.price)} giảm
               </div>
             </div>
 
@@ -88,22 +165,32 @@ export default function ProductDetail() {
             <div className='mt-8 flex flex-col justify-center lg:mt-6 xl:mt-8'>
               <div className='flex items-center'>
                 <span>Kích thước:</span>
-                <span className='ml-5 font-semibold'>M</span>
+                <span className='ml-5 font-semibold'>{size}</span>
               </div>
 
               {/* sizes */}
               <div className='mt-3 flex items-center gap-4'>
-                <button className='mb-2 flex w-[55px] items-center justify-center rounded-[4px] bg-gray-300/30 py-2 text-[#7A7A9D] shadow hover:border-football-primary hover:bg-football-primary hover:text-white'>
-                  <span className='capitalize'>S</span>
-                </button>
-
-                <button className='mb-2 flex w-[55px] items-center justify-center rounded-[4px] bg-football-primary py-2 text-white shadow hover:border-football-primary hover:bg-football-primary hover:text-white'>
-                  <span className='capitalize'>M</span>
-                </button>
-
-                <button className='mb-2 flex w-[55px] items-center justify-center rounded-[4px] bg-gray-300/30 py-2 text-[#7A7A9D] shadow hover:border-football-primary hover:bg-football-primary hover:text-white'>
-                  <span className='capitalize'>L</span>
-                </button>
+                {sizes.map((size) => {
+                  const wrapperClassName = quantitySizes[size.size].disabled
+                    ? 'cursor-not-allowed'
+                    : 'hover:border-football-primary hover:bg-football-primary hover:text-white cursor-pointer'
+                  return (
+                    <button
+                      className={classNames(
+                        `mb-2 flex w-[55px] items-center justify-center rounded-[4px] py-2 shadow ${wrapperClassName}`,
+                        {
+                          'bg-football-gray7A/10 text-football-gray7A': !isActiveSize(size.size),
+                          'bg-football-primary text-white': isActiveSize(size.size)
+                        }
+                      )}
+                      onClick={() => handleSize(size.size)}
+                      disabled={quantitySizes[size.size].disabled}
+                      key={size.size}
+                    >
+                      <span className='capitalize'>{size.size}</span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
@@ -111,9 +198,18 @@ export default function ProductDetail() {
             <div className='mt-8 flex flex-col xs:flex-row xs:items-center lg:mt-6 xl:mt-8'>
               <div className='flex items-center'>
                 <div className='capitalize'>Số lượng</div>
-                <QuantityController classNameWrapper='sm:ml-10 xs:ml-4 ml-10' />
+                <QuantityController
+                  classNameWrapper='sm:ml-10 xs:ml-4 ml-10'
+                  onDecrease={handleBuyCount}
+                  onIncrease={handleBuyCount}
+                  onType={handleBuyCount}
+                  value={buyCount}
+                  max={getQuantityActiveSize()}
+                />
               </div>
-              <div className='ml-0 mt-6 text-football-gray7A xs:ml-3 xs:mt-0 sm:ml-6'>48 sản phẩm có sẵn</div>
+              <div className='ml-0 mt-6 text-football-gray7A xs:ml-3 xs:mt-0 sm:ml-6'>
+                {getQuantityActiveSize()} sản phẩm có sẵn
+              </div>
             </div>
 
             {/* Add to cart */}
@@ -138,11 +234,7 @@ export default function ProductDetail() {
 
             {/* Description  */}
             <div className='hidden 2xl:mt-10 2xl:inline-block 2xl:border-t 2xl:border-t-football-gray7A/30 2xl:pt-5'>
-              <Accordition title='Mô tả sản phẩm'>
-                Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã
-                giành được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm
-                1971.
-              </Accordition>
+              <Accordition title='Mô tả sản phẩm'>{product.description}</Accordition>
             </div>
           </div>
         </div>
@@ -152,12 +244,7 @@ export default function ProductDetail() {
       <div className='asir-container 2xl:hidden'>
         <div className='mt-[70px] grid grid-cols-12 gap-x-0 gap-y-10 sm:gap-10'>
           <div className='col-span-12 text-base font-normal text-black lg:col-span-9'>
-            <Accordition title='Mô tả sản phẩm'>
-              Chelsea giành được danh hiệu lớn đầu tiên, chức vô địch Football League vào năm 1955. Câu lạc bộ đã giành
-              được Cúp FA lần đầu tiên vào năm 1970 và danh hiệu châu Âu đầu tiên của họ, Winners Cup, vào năm 1971. Sau
-              một thời gian sa sút vào cuối những năm 1970 và 1980, câu lạc bộ đã hồi sinh vào những năm 1990 và gặt hái
-              được nhiều thành công hơn trong các giải đấu cúp.
-            </Accordition>
+            <Accordition title='Mô tả sản phẩm'>{product.description}</Accordition>
           </div>
         </div>
       </div>
@@ -210,7 +297,7 @@ export default function ProductDetail() {
               <div className='ml-5 mt-8 flex flex-col'>
                 <div className='flex items-center gap-2'>
                   <div>Duy</div>
-                  <ProductRating />
+                  <ProductRating rating={3} />
                 </div>
                 <div className='my-1 flex items-center gap-2'>
                   <svg width={15} height={15} xmlns='http://www.w3.org/2000/svg'>
@@ -249,7 +336,7 @@ export default function ProductDetail() {
           {/* products */}
           <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
-            {Array(5)
+            {/* {Array(5)
               .fill(0)
               .map((productIndex) => (
                 <div
@@ -258,7 +345,7 @@ export default function ProductDetail() {
                 >
                   <Product />
                 </div>
-              ))}
+              ))} */}
           </div>
         </div>
       </div>

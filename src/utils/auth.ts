@@ -1,4 +1,4 @@
-import { User } from '~/types/user.type'
+import { Customer } from '~/types/customer.type'
 
 export const setAccessTokenToLocalStorage = (access_token: string) => {
   localStorage.setItem('access_token', access_token)
@@ -16,6 +16,6 @@ export const getProfileFromLocalStorage = () => {
   return result ? JSON.parse(result) : null
 }
 
-export const setProfileToLocalStorage = (profile: User) => {
+export const setProfileToLocalStorage = (profile: Customer) => {
   localStorage.setItem('profile', JSON.stringify(profile))
 }

@@ -366,11 +366,7 @@ export default function Header() {
               >
                 <Link to={PATH.profile} className='flex items-center'>
                   <div className='h-[24px] w-[24px] overflow-hidden rounded-full'>
-                    <img
-                      src='https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                      alt=''
-                      className='h-full w-full object-cover'
-                    />
+                    <img src={profile?.avatar} alt={profile?.name} className='h-full w-full object-cover' />
                   </div>
                   <span className='ml-2 hidden normal-case lg:inline-block'>{profile?.name}</span>
                 </Link>

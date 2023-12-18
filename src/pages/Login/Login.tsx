@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
-import { omit } from 'lodash'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -9,7 +8,7 @@ import Button from '~/components/Button'
 import Input from '~/components/Input'
 import PATH from '~/constants/path'
 import { AppContext } from '~/contexts/app.context'
-import { User } from '~/types/user.type'
+import { Customer } from '~/types/customer.type'
 import { ErrorResponse } from '~/types/utils.type'
 import { LoginSchema, loginSchema } from '~/utils/rules'
 import { isAxiosLoginError } from '~/utils/utils'
@@ -39,8 +38,11 @@ export default function Login() {
       onSuccess: (data) => {
         console.log('data_login', data)
         setIsAuthenticated(true)
-        const user: User = omit(data.data.data, ['access_token'])
-        setProfile(user)
+        const customer: Customer = data.data.data.customer
+        customer.email = data.data.data.email
+        customer.role = data.data.data.role
+        console.log('customer: ', customer)
+        setProfile(customer)
         navigate(PATH.home)
       },
       onError: (error) => {

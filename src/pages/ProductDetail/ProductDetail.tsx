@@ -12,15 +12,22 @@ import DEFAULT_VALUE from '~/constants/default'
 import useQueryParams from '~/hooks/useQueryParams'
 import { SIZE } from '~/constants/product'
 import classNames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ProductListConfig } from '~/types/product.type'
+import IMAGE from '~/assets/images'
 
 const sizes = Object.values(SIZE).map((size) => ({ size }))
+
+const draftImageList = [IMAGE.club_premier_league, IMAGE.club_bundesliga, IMAGE.club_laliga, IMAGE.club_serie_a]
 
 export default function ProductDetail() {
   const navigate = useNavigate()
   const location = useLocation()
 
   const [buyCount, setBuyCount] = useState<number>(1)
+  // const [currentIndexImage, setCurrentIndexImage] = useState
+  const [activeImage, setActiveImage] = useState('')
+  const imageRef = useRef<HTMLImageElement>(null)
 
   const queryParams: { size?: string } = useQueryParams()
   const size = queryParams.size || SIZE.S
@@ -34,6 +41,67 @@ export default function ProductDetail() {
     queryFn: () => productApi.getProductDetail(id)
   })
 
+  const product = productDetailData?.data
+
+  const imageList = useMemo(() => {
+    // return product ? [product.urlMain, product.urlSub1, product.urlSub2, product.urlThumb] : []
+    return product ? draftImageList : []
+  }, [product])
+
+  useEffect(() => {
+    if (product) {
+      // setActiveImage(product.urlMain)
+      setActiveImage(imageList[0])
+    }
+  }, [product, setActiveImage, imageList])
+
+  const chooseActiveImage = (img: string) => {
+    setActiveImage(img)
+  }
+
+  const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+
+    const image = imageRef.current as HTMLImageElement
+    const { naturalHeight, naturalWidth } = image
+
+    const { offsetX, offsetY } = event.nativeEvent
+    // recipe
+    const top = offsetY * (1 - naturalHeight / rect.height)
+    const left = offsetX * (1 - naturalWidth / rect.width)
+
+    image.style.width = naturalWidth + 'px'
+    image.style.height = naturalHeight + 'px'
+    image.style.top = top + 'px'
+    image.style.left = left + 'px'
+
+    const result = {
+      top: top,
+      left: left
+    }
+
+    console.log('position: ', result)
+  }
+
+  const handleRemoveZoom = () => {
+    imageRef.current?.removeAttribute('style')
+  }
+
+  // get list products
+
+  const queryConfig: ProductListConfig = {
+    productPerPage: 20,
+    page: 1,
+    sortBy: 'Name'
+  }
+
+  const { data: productsData } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => {
+      return productApi.getProducts(queryConfig)
+    }
+  })
+
   const isActiveSize = (sizeValue: keyof typeof SIZE) => {
     return size === sizeValue
   }
@@ -45,8 +113,6 @@ export default function ProductDetail() {
     })
     setBuyCount(1)
   }
-
-  const product = productDetailData?.data
 
   const getQuantityActiveSize = () => {
     switch (size) {
@@ -95,17 +161,27 @@ export default function ProductDetail() {
         <div className='grid grid-cols-12 gap-x-0 gap-y-10 sm:gap-10'>
           <div className='col-span-12 sm:col-span-9 md:col-span-7 lg:col-span-5'>
             {/* Main Image  */}
-            <div className='relative w-full overflow-hidden pt-[100%] shadow'>
-              <img
+            <div
+              className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
+              onMouseMove={handleZoom}
+              onMouseLeave={handleRemoveZoom}
+            >
+              {/* <img
                 src={product.urlMain}
                 alt={product.name}
                 className='absolute left-0 top-0 h-full w-full bg-white object-cover'
+              /> */}
+              <img
+                src={activeImage}
+                alt={product.name}
+                className='pointer-events-none absolute left-0 top-0 h-full w-full bg-white object-cover'
+                ref={imageRef}
               />
             </div>
 
             <div className='relative mt-4 grid grid-cols-4 gap-2'>
               {/* Slide Image */}
-              {Array(4)
+              {/* {Array(4)
                 .fill(0)
                 .map((_, index) => (
                   <div className='relative w-full pt-[100%]' key={index}>
@@ -116,7 +192,25 @@ export default function ProductDetail() {
                     />
                     <div className='absolute inset-0 border-2 border-football-primary' />
                   </div>
-                ))}
+                ))} */}
+              {imageList.map((image) => {
+                const isActive = image === activeImage
+                return (
+                  <div
+                    className='relative w-full cursor-pointer pt-[100%]'
+                    key={image}
+                    onMouseEnter={() => chooseActiveImage(image)}
+                  >
+                    <img
+                      src={image}
+                      alt={product.name}
+                      className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
+                    />
+                    {isActive && <div className='absolute inset-0 border-2 border-football-primary' />}
+                    {!isActive && <div className='absolute inset-0 border-2 border-football-gray7A/20' />}
+                  </div>
+                )
+              })}
             </div>
           </div>
 
@@ -336,6 +430,17 @@ export default function ProductDetail() {
           {/* products */}
           <div className='grid grid-cols-12 gap-x-3 gap-y-5 xs:gap-4 sm:gap-2 md:gap-4 2xl:grid-cols-10'>
             {/* product */}
+            {productsData &&
+              productsData.data.map((product) => {
+                return (
+                  <div
+                    className='col-span-6 xs:col-span-6 sm:col-span-4 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+                    key={product.id}
+                  >
+                    <Product product={product} />
+                  </div>
+                )
+              })}
             {/* {Array(5)
               .fill(0)
               .map((productIndex) => (

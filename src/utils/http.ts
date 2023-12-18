@@ -6,8 +6,7 @@ import {
   setAccessTokenToLocalStorage,
   setProfileToLocalStorage
 } from './auth'
-import { omit } from 'lodash'
-import { User } from '~/types/user.type'
+import { Customer } from '~/types/customer.type'
 
 class Http {
   instance: AxiosInstance
@@ -39,16 +38,21 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
+        console.log('url before: ', url)
         // if (url === '/login' || url === '/register')
-        if (url === '/api/Accounts/login') {
+        if (url === 'api/Accounts/login') {
+          console.log('into login http')
           const data = response.data as AuthResponse
           this.accessToken = `Bearer ${data.data.access_token}`
 
           // Save to local storage
           setAccessTokenToLocalStorage(this.accessToken)
-          const user: User = omit(data.data, ['access_token'])
-          setProfileToLocalStorage(user)
-        } else if (url === '/api/Accounts/logout') {
+          const customer: Customer = data.data.customer
+          customer.email = data.data.email
+          customer.role = data.data.role
+          console.log('customer http: ', customer)
+          setProfileToLocalStorage(customer)
+        } else if (url === 'api/Accounts/logout') {
           // clear storage
           this.accessToken = ''
           clearLocalStorage()

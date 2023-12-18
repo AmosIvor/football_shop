@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { isUndefined, omit, omitBy } from 'lodash'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
@@ -28,7 +28,6 @@ export default function Home() {
     isUndefined
   )
   const { club, nation } = queryConfig
-  console.log('query config: ', queryConfig)
 
   const navigate = useNavigate()
 
@@ -36,7 +35,9 @@ export default function Home() {
     queryKey: ['products', queryConfig],
     queryFn: () => {
       return productApi.getProducts(queryConfig as ProductListConfig)
-    }
+    },
+    placeholderData: keepPreviousData,
+    staleTime: 3 * 60 * 1000
   })
 
   const isActiveCategory = (nameCategory: keyof typeof CATEGORY) => () => {
@@ -68,8 +69,6 @@ export default function Home() {
       search: createSearchParams(omit(resultParams, ['productPerPage', 'page', 'sortBy'])).toString()
     })
   }
-
-  console.log('productList: ', productsData)
 
   return (
     <div className='bg-football-grayF6'>

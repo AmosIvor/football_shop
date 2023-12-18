@@ -37,13 +37,45 @@ export default function AsideFilter() {
         <div className='mb-4 mt-6 h-[1px] bg-gray-300' />
       </div>
 
-      {/* Catalogue */}
+      {/* Collections */}
       <div className='text-base font-normal text-black'>
+        <span className='text-lg'>Bộ sưu tập</span>
+
+        {/* catalogues */}
+        <div className='mt-[6px] flex flex-col flex-wrap gap-x-3 gap-y-3'>
+          <div className='flex flex-row items-center'>
+            <input
+              id='checkbox_club'
+              type='checkbox'
+              className='h-[18px] w-[18px] cursor-pointer bg-white text-football-primary'
+            />
+            <label htmlFor='checkbox_club' className='ml-3 capitalize'>
+              Câu lạc bộ
+            </label>
+          </div>
+
+          <div className='flex flex-row items-center'>
+            <input
+              id='checkbox-nation'
+              type='checkbox'
+              className='h-[18px] w-[18px] cursor-pointer bg-white text-football-primary'
+            />
+            <label htmlFor='checkbox-nation' className='ml-3 capitalize'>
+              Đội tuyển quốc gia
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div className='mt-7 h-[1px] bg-gray-300' />
+
+      {/* Catalogue */}
+      <div className='mt-4 text-base font-normal text-black'>
         <span className='text-lg'>Danh mục sản phẩm</span>
 
         {/* catalogues */}
         <div className='mt-2 flex flex-wrap gap-x-3'>
-          <button className='relative mb-2 overflow-hidden rounded-[4px] border border-transparent bg-gray-300/30 px-4 py-2 text-[#7A7A9D] hover:border-football-primary hover:bg-white hover:text-football-primary'>
+          <button className='relative mb-2 overflow-hidden rounded-[4px] border border-football-primary bg-gray-300/30 bg-white px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary'>
             <svg width={24} height={22} className='absolute right-0 top-0' xmlns='http://www.w3.org/2000/svg'>
               <path
                 fillRule='evenodd'

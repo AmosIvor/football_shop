@@ -12,8 +12,7 @@ import {
   useClick,
   useDismiss,
   useRole,
-  useInteractions,
-  safePolygon
+  useInteractions
 } from '@floating-ui/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -27,14 +26,13 @@ interface Props {
   arrowColor?: string
 }
 
-export default function DropdownMenu({
+export default function DropdownMenuNotArrow({
   children,
   className,
   renderPopover,
   as: Element = 'div',
   initialOpen,
-  placement = 'bottom-end',
-  arrowColor = 'football-primary'
+  placement = 'bottom-end'
 }: Props) {
   const [open, setOpen] = useState(initialOpen || false)
   const arrowRef = useRef<HTMLElement>(null)
@@ -73,14 +71,6 @@ export default function DropdownMenu({
               exit={{ opacity: 0, transform: `scale(0)` }}
               transition={{ duration: 0.2 }}
             >
-              <span
-                ref={arrowRef}
-                className={`absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-b-${arrowColor} border-t-transparent`}
-                style={{
-                  left: data.middlewareData.arrow?.x,
-                  top: data.middlewareData.arrow?.y
-                }}
-              />
               {renderPopover}
             </motion.div>
           )}

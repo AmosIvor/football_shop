@@ -1,3 +1,4 @@
+import { SORT_BY } from './../constants/product'
 export interface Product {
   id: string
   name: string
@@ -29,8 +30,8 @@ export interface ProductListConfig {
   nation?: boolean
   minPrice?: number
   maxPrice?: number
-  sortBy?: string
-  descending?: number
+  sortBy?: keyof typeof SORT_BY
+  descending?: boolean
   sizeS?: boolean
   sizeM?: boolean
   sizeL?: boolean

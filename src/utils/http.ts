@@ -38,7 +38,6 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        console.log('url before: ', url)
         // if (url === '/login' || url === '/register')
         if (url === 'api/Accounts/login') {
           console.log('into login http')

@@ -8,17 +8,13 @@ import Accordition from '~/components/Accordition'
 import { useQuery } from '@tanstack/react-query'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '~/utils/utils'
 import productApi from '~/apis/product.api'
-import DEFAULT_VALUE from '~/constants/default'
 import useQueryParams from '~/hooks/useQueryParams'
 import { SIZE } from '~/constants/product'
 import classNames from 'classnames'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ProductListConfig } from '~/types/product.type'
-import IMAGE from '~/assets/images'
 
 const sizes = Object.values(SIZE).map((size) => ({ size }))
-
-const draftImageList = [IMAGE.club_premier_league, IMAGE.club_bundesliga, IMAGE.club_laliga, IMAGE.club_serie_a]
 
 export default function ProductDetail() {
   const navigate = useNavigate()
@@ -44,8 +40,7 @@ export default function ProductDetail() {
   const product = productDetailData?.data
 
   const imageList = useMemo(() => {
-    // return product ? [product.urlMain, product.urlSub1, product.urlSub2, product.urlThumb] : []
-    return product ? draftImageList : []
+    return product ? [product.urlMain, product.urlSub1, product.urlSub2, product.urlThumb] : []
   }, [product])
 
   useEffect(() => {
@@ -242,7 +237,7 @@ export default function ProductDetail() {
             <div className='mt-8 flex items-center lg:mt-6 xl:mt-8'>
               <div className='flex items-start text-football-gray7A line-through'>
                 <span className='mr-[2px] mt-[2px] text-sm'>đ</span>
-                <span>{formatCurrency(product.price + 10)}</span>
+                <span>{formatCurrency(product.price + 50000)}</span>
               </div>
 
               <div className='ml-3 flex items-start text-4xl font-semibold text-football-primary'>
@@ -251,7 +246,7 @@ export default function ProductDetail() {
               </div>
 
               <div className='rouned-sm ml-5 hidden bg-football-primary px-2 py-[2px] text-sm font-semibold uppercase text-white xs:inline-block'>
-                {rateSale(product.price + 10, product.price)} giảm
+                {rateSale(product.price + 50000, product.price)} giảm
               </div>
             </div>
 
@@ -327,7 +322,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Description  */}
-            <div className='hidden 2xl:mt-10 2xl:inline-block 2xl:border-t 2xl:border-t-football-gray7A/30 2xl:pt-5'>
+            <div className='hidden w-full 2xl:mt-10 2xl:inline-block 2xl:border-t 2xl:border-t-football-gray7A/30 2xl:pt-5'>
               <Accordition title='Mô tả sản phẩm'>{product.description}</Accordition>
             </div>
           </div>

@@ -50,7 +50,7 @@ export default function ModalAddress({ isVisible, handleSubmit }: Props) {
                           <input
                             id='checkbox-default'
                             type='checkbox'
-                            className='h-5 w-5 cursor-pointer bg-white text-football-primary'
+                            className='-mt-[2px] h-5 w-5 cursor-pointer bg-white text-football-primary'
                           />
                           <label htmlFor='checkbox-default' className='ml-4'>
                             Đặt làm địa chỉ mặc định

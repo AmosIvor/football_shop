@@ -1,11 +1,68 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import classNames from 'classnames'
+import { omit } from 'lodash'
+import { useMemo, useState } from 'react'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import DropdownMenu from '~/components/DropdownMenu'
+import DropdownMenuNotArrow from '~/components/DropdownMenuNotArrow'
 import Filter from '~/components/Filter'
 import PATH from '~/constants/path'
+import { ORDER, SORT_BY } from '~/constants/product'
+import { QueryConfig } from '~/hooks/useQueryConfig'
 
-export default function SortProductList() {
+interface Props {
+  queryConfig: QueryConfig
+}
+
+const contentSortByPrices = {
+  undefined: 'Giá',
+  asc: 'Giá: Thấp đến Cao',
+  desc: 'Giá: Cao đến Thấp'
+}
+
+export default function SortProductList({ queryConfig }: Props) {
+  const navigate = useNavigate()
   const [isVisible, setIsVisible] = useState<boolean>(false)
+
+  const { sortBy, descending } = queryConfig
+
+  const contentPrice = useMemo(() => {
+    if (descending === String(ORDER.desc)) {
+      return contentSortByPrices.desc
+    } else if (descending === String(ORDER.asc)) {
+      return contentSortByPrices.asc
+    } else return contentSortByPrices.undefined
+  }, [descending])
+
+  const isActiveSortBy = (sortByValue: keyof typeof SORT_BY) => {
+    return sortBy === sortByValue
+  }
+
+  const handleSort = (sortByValue: keyof typeof SORT_BY) => {
+    navigate({
+      pathname: PATH.products,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+            sortBy: sortByValue
+          },
+          ['descending']
+        )
+      ).toString()
+    })
+  }
+
+  const handlePriceOrder = (isDescendingValue: boolean) => {
+    navigate({
+      pathname: PATH.products,
+      search: createSearchParams({
+        ...queryConfig,
+        sortBy: SORT_BY.Price,
+        descending: String(isDescendingValue)
+      }).toString()
+    })
+  }
+
   const showModal = () => {
     setIsVisible(true)
   }
@@ -19,25 +76,89 @@ export default function SortProductList() {
         <div className='hidden flex-wrap items-center gap-2 lg:flex'>
           <div>Sắp xếp theo</div>
 
-          <button className='ml-2 items-center justify-center border border-football-primary bg-white px-4 py-[6px] text-center text-base capitalize text-football-primary hover:border-football-primary hover:bg-football-primary hover:text-white'>
-            Phổ biến
-          </button>
-
-          <button className='ml-2 items-center justify-center border border-football-primary bg-white px-4 py-[6px] text-center text-base capitalize text-football-primary hover:border-football-primary hover:bg-football-primary hover:text-white'>
+          <button
+            className={classNames(
+              'ml-2 items-center justify-center border border-football-primary px-4 py-[6px] text-center text-base capitalize hover:border-football-primary hover:bg-football-primary hover:text-white',
+              {
+                'bg-football-primary text-white': isActiveSortBy(SORT_BY.Newest),
+                'bg-white text-football-primary': !isActiveSortBy(SORT_BY.Newest)
+              }
+            )}
+            onClick={() => handleSort(SORT_BY.Newest)}
+          >
             Mới nhất
           </button>
 
-          <button className='ml-2 items-center justify-center border border-football-primary bg-white px-4 py-[6px] text-center text-base capitalize text-football-primary hover:border-football-primary hover:bg-football-primary hover:text-white'>
+          <button
+            className={classNames(
+              'ml-2 items-center justify-center border border-football-primary px-4 py-[6px] text-center text-base capitalize hover:border-football-primary hover:bg-football-primary hover:text-white',
+              {
+                'bg-football-primary text-white': isActiveSortBy(SORT_BY.TopSelling),
+                'bg-white text-football-primary': !isActiveSortBy(SORT_BY.TopSelling)
+              }
+            )}
+            onClick={() => handleSort(SORT_BY.TopSelling)}
+          >
             Bán chạy
           </button>
 
-          <select className='ml-2 w-48 cursor-pointer appearance-none border border-football-primary bg-white px-4 py-[6px] text-base capitalize text-football-primary outline-none focus:border-football-primary'>
-            <option value='' selected disabled className='bg-white text-gray-400'>
-              Giá
-            </option>
-            <option className='bg-white text-black'>Giá: Thấp đến Cao</option>
-            <option className='bg-white text-black'>Giá: Cao đến Thấp</option>
-          </select>
+          <DropdownMenuNotArrow
+            renderPopover={
+              <div className='flex w-[200px] flex-col rounded-sm border border-gray-200 bg-white shadow-md'>
+                <button
+                  className={classNames(
+                    'flex items-start bg-white px-6 py-3 hover:bg-white hover:text-football-primary',
+                    {
+                      'text-football-primary': descending === String(ORDER.asc),
+                      'text-black': !(descending === String(ORDER.asc))
+                    }
+                  )}
+                  onClick={() => handlePriceOrder(ORDER.asc)}
+                >
+                  {contentSortByPrices.asc}
+                </button>
+                <button
+                  className={classNames(
+                    'flex items-start bg-white px-6 py-3 hover:bg-white hover:text-football-primary',
+                    {
+                      'text-football-primary': descending === String(ORDER.desc),
+                      'text-black': !(descending === String(ORDER.desc))
+                    }
+                  )}
+                  onClick={() => handlePriceOrder(ORDER.desc)}
+                >
+                  {contentSortByPrices.desc}
+                </button>
+              </div>
+            }
+          >
+            {
+              <div
+                className={classNames(
+                  'ml-2 flex w-[200px] cursor-pointer items-center justify-between border border-football-primary  px-4 py-[6px] text-base capitalize',
+                  {
+                    'bg-football-primary text-white':
+                      descending === String(ORDER.asc) || descending === String(ORDER.desc),
+                    'bg-white text-football-primary': !(
+                      descending === String(ORDER.asc) || descending === String(ORDER.desc)
+                    )
+                  }
+                )}
+              >
+                <span>{contentPrice}</span>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='h-[18px] w-[18px]'
+                >
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
+                </svg>
+              </div>
+            }
+          </DropdownMenuNotArrow>
         </div>
 
         <DropdownMenu
@@ -98,7 +219,7 @@ export default function SortProductList() {
           </svg>
         </button>
 
-        <div className='hidden items-center justify-self-end lg:flex'>
+        <div className='hidden items-center justify-self-end xl:flex'>
           <div>
             <span className='text-football-primary'>1</span>
             <span>/3</span>

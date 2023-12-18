@@ -23,7 +23,7 @@ export default function Product({ product }: Props) {
         <div className='overflow-hidden p-2 text-black'>
           <div className='line-clamp-1 min-h-[1.5rem] capitalize'>{product.name || DEFAULT_VALUE.club.name}</div>
           <div className='mt-2 flex flex-col items-start xs:flex-row xs:items-center'>
-            <div className='trucate max-w-[50%] text-gray-500 line-through'>
+            <div className='trucate max-w-[50%] text-football-gray7A/70 line-through'>
               <span className='text-sm'>đ</span>
               <span className='text-lg'>{formatCurrency(product.price + 10)}</span>
             </div>

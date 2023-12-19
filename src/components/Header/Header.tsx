@@ -56,7 +56,7 @@ export default function Header() {
             <span>Sports</span>
           </Link>
 
-          <div className='hidden h-[38px] grow rounded-md bg-white md:flex xl:h-[44px]'>
+          <div className='mr-0 hidden h-[38px] grow rounded-md bg-white md:flex xl:h-[44px] laptop:mr-32'>
             <input
               type='text'
               className='flex w-[100%] items-center rounded rounded-bl-md rounded-tl-md border-none pl-6 pr-3 text-base font-normal outline-none lg:text-lg'

@@ -28,7 +28,7 @@ export default function ProductList() {
           <div className='grid grid-cols-12 gap-6'>
             {/* Aside Filter */}
             <div className='hidden lg:col-span-3 lg:inline-flex'>
-              <AsideFilter />
+              <AsideFilter queryConfig={queryConfig} />
             </div>
 
             {/* Product List */}

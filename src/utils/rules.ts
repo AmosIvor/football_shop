@@ -21,7 +21,31 @@ const schema = yup.object({
     .string()
     .required('Nhập số điện thoại là bắt buộc')
     .min(8, 'Độ dài tối thiểu 8 ký tự')
-    .max(20, 'Độ dài tối đa là 20 ký tự')
+    .max(20, 'Độ dài tối đa là 20 ký tự'),
+  price_min: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Giá không phù hợp',
+    test: function (value) {
+      const price_min = value
+      const { price_max } = this.parent as { price_min: string; price_max: string }
+      if (price_min !== '' && price_max !== '') {
+        return Number(price_max) >= Number(price_min)
+      }
+      return price_min !== '' || price_max !== ''
+    }
+  }),
+  price_max: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Giá không phù hợp',
+    test: function (value) {
+      const price_max = value
+      const { price_min } = this.parent as { price_min: string; price_max: string }
+      if (price_min !== '' && price_max !== '') {
+        return Number(price_max) >= Number(price_min)
+      }
+      return price_min !== '' || price_max !== ''
+    }
+  })
 })
 export type Schema = yup.InferType<typeof schema>
 
@@ -30,6 +54,9 @@ export type RegisterSchema = yup.InferType<typeof registerSchema>
 
 export const loginSchema = schema.pick(['email', 'password'])
 export type LoginSchema = yup.InferType<typeof loginSchema>
+
+export const priceSchema = schema.pick(['price_min', 'price_max'])
+export type PriceSchema = yup.InferType<typeof priceSchema>
 
 // user schema
 export const userSchema = yup.object({

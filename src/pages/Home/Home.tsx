@@ -184,7 +184,16 @@ export default function Home() {
         <div className='pb-[70px] text-base font-medium text-football-blue11'>
           <div className='mb-6 flex items-center justify-between text-lg font-semibold'>
             <h2 className='capitalize'>Hàng mới về</h2>
-            <Link to={PATH.products} className='flex items-center gap-2'>
+            <Link
+              to={{
+                pathname: PATH.products,
+                search: createSearchParams({
+                  club: String(club),
+                  nation: String(nation)
+                }).toString()
+              }}
+              className='flex items-center gap-2'
+            >
               <h2 className='font-normal text-football-gray7A'>Xem thêm</h2>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -220,7 +229,16 @@ export default function Home() {
         <div className='pb-[70px] text-base font-medium text-football-blue11'>
           <div className='mb-6 flex items-center justify-between text-lg font-semibold'>
             <h2 className='capitalize'>HVPP Sports gợi ý</h2>
-            <Link to={PATH.products} className='flex items-center gap-2'>
+            <Link
+              to={{
+                pathname: PATH.products,
+                search: createSearchParams({
+                  club: String(club),
+                  nation: String(nation)
+                }).toString()
+              }}
+              className='flex items-center gap-2'
+            >
               <h2 className='font-normal text-football-gray7A'>Xem thêm</h2>
               <svg
                 xmlns='http://www.w3.org/2000/svg'

@@ -21,3 +21,8 @@ export const ORDER = {
   asc: false,
   desc: true
 } as const
+
+export const RESULT = {
+  true: 'true',
+  false: 'false'
+} as const

@@ -105,4 +105,6 @@ export const NATION = [
     imageNoText: IMAGE.nation_oceania,
     children: ['New Zealand', 'Papua New Guinea', 'Samoa']
   }
-]
+] as const
+
+export const LIST_NATION = Object.values(NATION).map((item) => item.name as string)

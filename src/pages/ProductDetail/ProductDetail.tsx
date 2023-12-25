@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const imageRef = useRef<HTMLImageElement>(null)
 
   const queryParams: { size?: string } = useQueryParams()
-  const size = queryParams.size || SIZE.S
+  const size = queryParams.size
 
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)

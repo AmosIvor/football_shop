@@ -155,3 +155,5 @@ export const CLUB = [
     ]
   }
 ] as const
+
+export const LIST_CLUB = Object.values(CLUB).map((item) => item.name as string)

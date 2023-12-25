@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, createSearchParams } from 'react-router-dom'
 import ModalRating from '~/components/Modal/ModalRating'
 import ProductRating from '~/components/ProductRating'
+import DEFAULT_VALUE from '~/constants/default'
 import PATH from '~/constants/path'
 import { RATING_STATUS } from '~/constants/rating'
 import useQueryParams from '~/hooks/useQueryParams'
@@ -60,7 +61,7 @@ export default function RatingProducted() {
                     <div className='h-[160px] w-[120px] flex-shrink-0 xs:h-[150px] xs:w-[150px] sm:h-[140px] sm:w-[140px]'>
                       <img
                         className='h-full w-full object-cover'
-                        src='https://m.media-amazon.com/images/I/51B0Mn43X8L._AC_UY1000_.jpg'
+                        src={DEFAULT_VALUE.club.image}
                         alt='manchester city'
                       />
                     </div>
@@ -101,7 +102,7 @@ export default function RatingProducted() {
                     <div className='h-[160px] w-[120px] flex-shrink-0 xs:h-[150px] xs:w-[150px] sm:h-[140px] sm:w-[140px]'>
                       <img
                         className='h-full w-full object-cover'
-                        src='https://m.media-amazon.com/images/I/51B0Mn43X8L._AC_UY1000_.jpg'
+                        src={DEFAULT_VALUE.club.image}
                         alt='manchester city'
                       />
                     </div>
@@ -128,7 +129,7 @@ export default function RatingProducted() {
                           </svg>
                         </button>
                       </div>
-                      <ProductRating />
+                      <ProductRating rating={4} />
                       <div className='mt-[6px] text-football-gray7A/80'>21:17 17/10/2023</div>
                       <div className='mr-16 line-clamp-1 text-football-gray7A/80'>
                         Giao hàng nhanh, nhưng gói Giao hàng nhanh, nhưng gói Giao hàng nhanh, nhưng gói Giao hàng

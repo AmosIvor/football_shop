@@ -9,7 +9,12 @@ const productApi = {
       params
     })
   },
-
+  getLeagues(nameLeague: string) {
+    return http.get<ProductList>(`${API.product}/get-by-league/${nameLeague}`)
+  },
+  getNations(nameNation: string) {
+    return http.get<ProductList>(`${API.product}/get-by-nation/${nameNation}`)
+  },
   getProductDetail(idProduct: string) {
     return http.get<Product>(`${API.product}/get-by-id/${idProduct}`)
   }

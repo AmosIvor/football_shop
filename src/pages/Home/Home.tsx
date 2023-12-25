@@ -117,10 +117,10 @@ export default function Home() {
         {/* Collection */}
         <div className='py-[70px] text-lg font-semibold text-football-blue11'>
           <h2 className='mb-8 capitalize'>Bộ sưu tập</h2>
-          <div className='mx-5 flex items-center justify-center gap-6 md:mx-10 md:gap-10'>
+          <div className='mx-0 flex items-center justify-center gap-6 xs:mx-5 md:mx-10 md:gap-10'>
             <button
               className={classNames(
-                'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',
+                'flex h-[50px] w-[50%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary md:w-[40%] lg:w-[30%]',
                 {
                   'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.club)(),
                   'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.club)()
@@ -133,7 +133,7 @@ export default function Home() {
 
             <button
               className={classNames(
-                'flex h-[50px] w-[30%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary',
+                'flex h-[50px] w-[50%] flex-col items-center justify-start border-b-[3px] font-bold uppercase hover:border-football-primary hover:text-football-primary md:w-[40%] lg:w-[30%]',
                 {
                   'border-b-football-primary text-football-primary': isActiveCategory(CATEGORY.nation)(),
                   'border-b-football-gray7A/80 text-football-gray7A/80': !isActiveCategory(CATEGORY.nation)()

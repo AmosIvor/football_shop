@@ -24,7 +24,8 @@ export default function useQueryConfig() {
       sizeS: queryParams.sizeS,
       sizeM: queryParams.sizeM,
       sizeL: queryParams.sizeL,
-      sizeXL: queryParams.sizeXL
+      sizeXL: queryParams.sizeXL,
+      category: queryParams.category
     },
     isUndefined
   )

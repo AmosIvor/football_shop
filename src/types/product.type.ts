@@ -38,4 +38,5 @@ export interface ProductListConfig {
   sizeXL?: boolean
   page?: number
   productPerPage?: number
+  category?: string
 }

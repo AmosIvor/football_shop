@@ -6,11 +6,24 @@ import { Controller, useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import Button from '~/components/Button'
 import InputNumber from '~/components/InputNumber'
+import { CLUB, LIST_CLUB } from '~/constants/club'
+import { LIST_NATION, NATION } from '~/constants/nation'
 import PATH from '~/constants/path'
 import { CATEGORY, RESULT, SIZE } from '~/constants/product'
 import { QueryConfig } from '~/hooks/useQueryConfig'
 import { PriceSchema, priceSchema } from '~/utils/rules'
 import { getSize } from '~/utils/utils'
+
+interface CollectionType {
+  club: {
+    isActive: string
+    children: string[]
+  }
+  nation: {
+    isActive: string
+    children: string[]
+  }
+}
 
 interface Props {
   queryConfig: QueryConfig
@@ -19,10 +32,20 @@ interface Props {
 type FormData = PriceSchema
 
 export default function AsideFilter({ queryConfig }: Props) {
-  const [collection, setCollection] = useState<{ club: string; nation: string }>({
-    club: queryConfig.club || RESULT.false,
-    nation: queryConfig.nation || RESULT.false
+  const navigate = useNavigate()
+
+  const [collection, setCollection] = useState<CollectionType>({
+    club: {
+      isActive: queryConfig.club || RESULT.false,
+      children: LIST_CLUB
+    },
+    nation: {
+      isActive: queryConfig.nation || RESULT.false,
+      children: LIST_NATION
+    }
   })
+
+  const { sizeS = RESULT.false, sizeM = RESULT.false, sizeL = RESULT.false, sizeXL = RESULT.false } = queryConfig
 
   const {
     control,
@@ -38,14 +61,16 @@ export default function AsideFilter({ queryConfig }: Props) {
     shouldFocusError: false
   })
 
-  const { sizeS = RESULT.false, sizeM = RESULT.false, sizeL = RESULT.false, sizeXL = RESULT.false } = queryConfig
-
-  const navigate = useNavigate()
-
   const handleChangeCollection =
     (nameCollection: keyof typeof CATEGORY) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setCollection((prev) => {
-        return { ...prev, [nameCollection]: String(event.target.checked) }
+        return {
+          ...prev,
+          [nameCollection]: {
+            isActive: String(event.target.checked),
+            ...prev[nameCollection].children
+          }
+        }
       })
 
       navigate({
@@ -53,6 +78,20 @@ export default function AsideFilter({ queryConfig }: Props) {
         search: createSearchParams({ ...queryConfig, [nameCollection]: String(event.target.checked) }).toString()
       })
     }
+
+  const isActiveCategory = (nameCategory: string) => {
+    return queryConfig.category && queryConfig.category === nameCategory
+  }
+
+  const handleChangeCategory = (nameCategory: string) => {
+    navigate({
+      pathname: PATH.products,
+      search: createSearchParams({
+        ...queryConfig,
+        category: nameCategory
+      }).toString()
+    })
+  }
 
   const isActiveSize = (sizeValue: keyof typeof SIZE) => {
     switch (sizeValue) {
@@ -162,7 +201,17 @@ export default function AsideFilter({ queryConfig }: Props) {
   }
 
   const handleRemoveAll = () => {
-    setCollection((prev) => ({ ...prev, club: RESULT.false, nation: RESULT.false }))
+    setCollection((prev) => ({
+      ...prev,
+      club: {
+        isActive: RESULT.false,
+        children: LIST_CLUB
+      },
+      nation: {
+        isActive: RESULT.false,
+        children: LIST_NATION
+      }
+    }))
     navigate({
       pathname: PATH.products,
       search: createSearchParams(
@@ -204,29 +253,6 @@ export default function AsideFilter({ queryConfig }: Props) {
                 </button>
               )
             })}
-          {/* <button className='mb-2 flex items-center justify-center gap-2 rounded-[4px] bg-football-primary px-3 py-[2px]'>
-            <svg width={14} height={14} className='fill-white' xmlns='http://www.w3.org/2000/svg'>
-              <path
-                d='M11.083 2.917l-8.166 8.166M2.917 2.917l8.166 8.166'
-                stroke='#fff'
-                strokeWidth={2}
-                strokeLinecap='round'
-              />
-            </svg>
-            <span className='capitalize text-white'>Premier League</span>
-          </button> */}
-
-          {/* <button className='mb-2 flex items-center justify-center gap-2 rounded-[4px] bg-football-primary px-3 py-[2px]'>
-            <svg width={14} height={14} className='fill-white' xmlns='http://www.w3.org/2000/svg'>
-              <path
-                d='M11.083 2.917l-8.166 8.166M2.917 2.917l8.166 8.166'
-                stroke='#fff'
-                strokeWidth={2}
-                strokeLinecap='round'
-              />
-            </svg>
-            <span className='capitalize text-white'>Premier League</span>
-          </button> */}
         </div>
         <div className='mb-4 mt-6 h-[1px] bg-gray-300' />
       </div>
@@ -239,7 +265,7 @@ export default function AsideFilter({ queryConfig }: Props) {
         <div className='mt-[6px] flex flex-col flex-wrap gap-x-3 gap-y-3'>
           <div className='flex flex-row items-center'>
             <input
-              checked={collection.club === RESULT.false ? false : true}
+              checked={collection.club.isActive === RESULT.false ? false : true}
               id='checkbox_club'
               value='hello'
               type='checkbox'
@@ -253,7 +279,7 @@ export default function AsideFilter({ queryConfig }: Props) {
 
           <div className='flex flex-row items-center'>
             <input
-              checked={collection.nation === RESULT.false ? false : true}
+              checked={collection.nation.isActive === RESULT.false ? false : true}
               id='checkbox-nation'
               type='checkbox'
               className='h-[18px] w-[18px] cursor-pointer bg-white text-football-primary'
@@ -270,48 +296,144 @@ export default function AsideFilter({ queryConfig }: Props) {
 
       {/* Catalogue */}
       <div className='mt-4 text-base font-normal text-black'>
-        <span className='text-lg'>Danh mục sản phẩm</span>
+        <span className='text-lg'>Danh mục giải đấu</span>
 
         {/* catalogues */}
+        <div className='mt-2 flex h-36 flex-wrap gap-x-3 overflow-y-auto scroll-smooth'>
+          {/* Club collection active */}
+          {collection.club.isActive === RESULT.true &&
+            Object.values(CLUB).map((club) => (
+              <div className='group relative mb-[10px] rounded-[4px] shadow' key={club.image}>
+                <button
+                  className={classNames(
+                    'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
+                    {
+                      'border-transparent bg-football-gray7A/10': !isActiveCategory(club.name),
+                      'border-football-primary bg-white': isActiveCategory(club.name)
+                    }
+                  )}
+                  onClick={() => handleChangeCategory(club.name)}
+                >
+                  <span className='capitalize'>{club.name}</span>
+                </button>
+                {isActiveCategory(club.name) && (
+                  <svg
+                    width={24}
+                    height={22}
+                    className='absolute -right-0 -top-0 hover:cursor-pointer'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
+                      fill='#EE4D2D'
+                    />
+                    <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
+                      <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
+                    </g>
+                    <defs>
+                      <clipPath id='prefix__clip0_33_1150'>
+                        <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </div>
+            ))}
+
+          {/* Nation collection active */}
+          {collection.nation.isActive === RESULT.true &&
+            Object.values(NATION).map((nation) => (
+              <div className='relative mb-2 rounded-[4px]' key={nation.image}>
+                <button
+                  className={classNames(
+                    'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
+                    {
+                      'border-transparent bg-football-gray7A/10': !isActiveCategory(nation.name),
+                      'border-football-primary bg-white': isActiveCategory(nation.name)
+                    }
+                  )}
+                  onClick={() => handleChangeCategory(nation.name)}
+                >
+                  <span className='capitalize'>{nation.name}</span>
+                </button>
+                {isActiveCategory(nation.name) && (
+                  <svg
+                    width={24}
+                    height={22}
+                    className='absolute -right-0 -top-0 hover:cursor-pointer'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
+                      fill='#EE4D2D'
+                    />
+                    <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
+                      <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
+                    </g>
+                    <defs>
+                      <clipPath id='prefix__clip0_33_1150'>
+                        <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className='mt-6 h-[1px] bg-gray-300' />
+
+      {/* List Category */}
+      <div className='mt-4 h-36 overflow-y-auto scroll-smooth text-base font-normal text-black'>
+        <span className='text-lg'>Danh mục các đội</span>
+
+        {/* categories */}
         <div className='mt-2 flex flex-wrap gap-x-3'>
-          {/* <div className='relative mb-2 rounded-[4px]'>
-            <button className='rounded-[4px] border border-football-primary bg-white px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary'>
-              <span className='capitalize'>Premier League</span>
-            </button>
-            <svg
-              width={24}
-              height={22}
-              className='absolute -right-0 -top-0 hover:cursor-pointer'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
-                fill='#EE4D2D'
-              />
-              <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
-                <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
-              </g>
-              <defs>
-                <clipPath id='prefix__clip0_33_1150'>
-                  <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
-                </clipPath>
-              </defs>
-            </svg>
-          </div> */}
-
-          <button className='mb-2 flex items-center justify-center rounded-[4px] border border-transparent bg-gray-300/30 px-4 py-2 text-[#7A7A9D] hover:border-football-primary hover:bg-white hover:text-football-primary'>
-            <span className='capitalize'>Premier League</span>
-          </button>
-
-          <button className='mb-2 flex items-center justify-center rounded-[4px] border border-transparent bg-gray-300/30 px-4 py-2 text-[#7A7A9D] hover:border-football-primary hover:bg-white hover:text-football-primary'>
-            <span className='capitalize'>League 1</span>
-          </button>
-
-          <button className='mb-2 flex items-center justify-center rounded-[4px] border border-transparent bg-gray-300/30 px-4 py-2 text-[#7A7A9D] hover:border-football-primary hover:bg-white hover:text-football-primary'>
-            <span className='capitalize'>Bundesliga</span>
-          </button>
+          {Object.values(SIZE).map((size) => (
+            <div className='group relative mb-[10px] rounded-[4px] shadow' key={size}>
+              <button
+                className={classNames(
+                  'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
+                  {
+                    'border-transparent bg-football-gray7A/10': !isActiveSize(size),
+                    'border-football-primary bg-white': isActiveSize(size)
+                  }
+                )}
+                onClick={() => handleChangeSize(size)}
+              >
+                <span className='capitalize'>{size}</span>
+              </button>
+              {isActiveSize(size) && (
+                <svg
+                  width={24}
+                  height={22}
+                  className='absolute -right-0 -top-0 hover:cursor-pointer'
+                  xmlns='http://www.w3.org/2000/svg'
+                  onClick={() => handleChangeSize(size)}
+                >
+                  <path
+                    fillRule='evenodd'
+                    clipRule='evenodd'
+                    d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
+                    fill='#EE4D2D'
+                  />
+                  <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
+                    <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
+                  </g>
+                  <defs>
+                    <clipPath id='prefix__clip0_33_1150'>
+                      <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -324,7 +446,7 @@ export default function AsideFilter({ queryConfig }: Props) {
         {/* sizes */}
         <div className='mt-2 flex flex-wrap gap-x-3'>
           {Object.values(SIZE).map((size) => (
-            <div className='group relative mb-2 rounded-[4px] hover:text-football-primary' key={size}>
+            <div className='group relative mb-2 rounded-[4px] shadow' key={size}>
               <button
                 className={classNames(
                   'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',

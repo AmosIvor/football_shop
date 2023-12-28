@@ -3,8 +3,15 @@ import useQueryParams from './useQueryParams'
 import { SORT_BY } from '~/constants/product'
 import { isUndefined, omitBy } from 'lodash'
 
+// export type QueryConfig = {
+//   [key in keyof ProductListConfig]: string
+// }
+
 export type QueryConfig = {
-  [key in keyof ProductListConfig]: string
+  [key in keyof Omit<ProductListConfig, 'groups' | 'names'>]: string
+} & {
+  groups?: string[] | undefined
+  names?: string[] | undefined
 }
 
 export default function useQueryConfig() {
@@ -25,7 +32,7 @@ export default function useQueryConfig() {
       sizeM: queryParams.sizeM,
       sizeL: queryParams.sizeL,
       sizeXL: queryParams.sizeXL,
-      category: queryParams.category
+      groups: queryParams.groups || ['']
     },
     isUndefined
   )

@@ -5,7 +5,7 @@ import { Link, createSearchParams, useLocation, useNavigate, useParams } from 'r
 import PATH from '~/constants/path'
 import QuantityController from '~/components/QuantityController'
 import Accordition from '~/components/Accordition'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '~/utils/utils'
 import productApi from '~/apis/product.api'
 import useQueryParams from '~/hooks/useQueryParams'
@@ -38,6 +38,11 @@ export default function ProductDetail() {
   })
 
   const product = productDetailData?.data
+
+  // add to cart
+  // const addToCartMutation = useMutation({
+  //   mutationFn: (body: )
+  // })
 
   const imageList = useMemo(() => {
     return product ? [product.urlMain, product.urlSub1, product.urlSub2, product.urlThumb] : []
@@ -175,19 +180,6 @@ export default function ProductDetail() {
             </div>
 
             <div className='relative mt-4 grid grid-cols-4 gap-2'>
-              {/* Slide Image */}
-              {/* {Array(4)
-                .fill(0)
-                .map((_, index) => (
-                  <div className='relative w-full pt-[100%]' key={index}>
-                    <img
-                      src={DEFAULT_VALUE.club.image}
-                      alt={product.name}
-                      className='absolute left-0 top-0 h-full w-full cursor-pointer object-cover'
-                    />
-                    <div className='absolute inset-0 border-2 border-football-primary' />
-                  </div>
-                ))} */}
               {imageList.map((image) => {
                 const isActive = image === activeImage
                 return (

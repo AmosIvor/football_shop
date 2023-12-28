@@ -3,6 +3,7 @@ import IMAGE from '~/assets/images'
 export const NATION = [
   {
     name: 'Châu Âu',
+    nameEnglish: 'Europe',
     image: IMAGE.nation_european,
     imageNoText: IMAGE.nation_european,
     children: [
@@ -30,6 +31,7 @@ export const NATION = [
   },
   {
     name: 'Châu Á',
+    nameEnglish: 'Asia',
     image: IMAGE.nation_asian,
     imageNoText: IMAGE.nation_asian_no_text,
     children: [
@@ -56,7 +58,8 @@ export const NATION = [
     ]
   },
   {
-    name: 'Châu Mỹ',
+    name: 'Nam Mỹ',
+    nameEnglish: 'SouthAmerica',
     image: IMAGE.nation_americas,
     imageNoText: IMAGE.nation_americas,
     children: [
@@ -73,7 +76,15 @@ export const NATION = [
     ]
   },
   {
+    name: 'Bắc Mỹ',
+    nameEnglish: 'NorthAmerica',
+    image: IMAGE.nation_americas,
+    imageNoText: IMAGE.nation_americas,
+    children: ['Canada', 'Mexico', 'USA']
+  },
+  {
     name: 'Châu Phi',
+    nameEnglish: 'Africa',
     image: IMAGE.nation_africa,
     imageNoText: IMAGE.nation_africa,
     children: [
@@ -98,13 +109,7 @@ export const NATION = [
       'Kenya',
       'Benin'
     ]
-  },
-  {
-    name: 'Châu Đại Dương',
-    image: IMAGE.nation_oceania,
-    imageNoText: IMAGE.nation_oceania,
-    children: ['New Zealand', 'Papua New Guinea', 'Samoa']
   }
 ] as const
 
-export const LIST_NATION = Object.values(NATION).map((item) => item.name as string)
+export const LIST_NATION = Object.values(NATION).map((item) => item.nameEnglish as string)

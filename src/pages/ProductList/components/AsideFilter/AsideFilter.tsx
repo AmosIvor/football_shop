@@ -1,9 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { omit } from 'lodash'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
+import productApi from '~/apis/product.api'
 import Button from '~/components/Button'
 import InputNumber from '~/components/InputNumber'
 import { CLUB, LIST_CLUB } from '~/constants/club'
@@ -47,6 +49,19 @@ export default function AsideFilter({ queryConfig }: Props) {
 
   const { sizeS = RESULT.false, sizeM = RESULT.false, sizeL = RESULT.false, sizeXL = RESULT.false } = queryConfig
 
+  const { groups } = queryConfig
+
+  const groupsConfig: { groups?: string[] } = { groups: groups }
+
+  const { data: groupsData } = useQuery({
+    queryKey: ['groups', groups],
+    queryFn: () => {
+      return productApi.getByGroups(groupsConfig as { groups?: string[] })
+    },
+    placeholderData: keepPreviousData,
+    staleTime: 3 * 60 * 1000
+  })
+
   const {
     control,
     handleSubmit,
@@ -79,16 +94,67 @@ export default function AsideFilter({ queryConfig }: Props) {
       })
     }
 
-  const isActiveCategory = (nameCategory: string) => {
-    return queryConfig.category && queryConfig.category === nameCategory
+  const isActiveGroup = (group: string) => {
+    if (groups) {
+      // hanbdle remove sapce group
+      const groupWithoutSpace: string = group.replace(/\s+/g, '')
+      return groups.includes(groupWithoutSpace)
+    }
+    return false
   }
 
-  const handleChangeCategory = (nameCategory: string) => {
+  const handleChangeGroup = (group: string) => {
+    // handle remove space group
+    let newGroups = queryConfig.groups || []
+    const groupWithoutSpace = group.replace(/\s+/g, '')
+    // // Check if group is not already in the array
+    if (!newGroups.includes(groupWithoutSpace)) {
+      newGroups = [...newGroups, groupWithoutSpace]
+    } else {
+      // If group is already in the array, remove it
+      newGroups = newGroups.filter((item) => item !== groupWithoutSpace)
+      if (newGroups.length === 1) {
+        console.log('into remove')
+        navigate({
+          pathname: PATH.products,
+          search: createSearchParams(omit(queryConfig, ['groups'])).toString()
+        })
+        return
+      }
+    }
+
     navigate({
       pathname: PATH.products,
       search: createSearchParams({
         ...queryConfig,
-        category: nameCategory
+        groups: newGroups
+      }).toString()
+    })
+  }
+
+  const isActiveName = (nameValue: string) => {
+    return Boolean(queryConfig.names?.includes(nameValue))
+  }
+
+  const handleChangeName = (nameValue: string) => {
+    if (!queryConfig.names) {
+      queryConfig.names = []
+    }
+    if (typeof queryConfig.names === 'string') {
+      const temp: string = queryConfig.names
+      queryConfig.names = [temp]
+    }
+    if (!queryConfig.names?.includes(nameValue)) {
+      queryConfig.names = [...(queryConfig.names as string[]), nameValue]
+    } else {
+      queryConfig.names = queryConfig.names.filter((item) => item !== nameValue)
+    }
+
+    navigate({
+      pathname: PATH.products,
+      search: createSearchParams({
+        ...queryConfig,
+        names: queryConfig.names || ['']
       }).toString()
     })
   }
@@ -215,7 +281,7 @@ export default function AsideFilter({ queryConfig }: Props) {
     navigate({
       pathname: PATH.products,
       search: createSearchParams(
-        omit(queryConfig, ['minPrice', 'maxPrice', 'club', 'nation', 'sizeS', 'sizeM', 'sizeL', 'sizeXL'])
+        omit(queryConfig, ['minPrice', 'maxPrice', 'club', 'nation', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'groups'])
       ).toString()
     })
   }
@@ -308,15 +374,17 @@ export default function AsideFilter({ queryConfig }: Props) {
                   className={classNames(
                     'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
                     {
-                      'border-transparent bg-football-gray7A/10': !isActiveCategory(club.name),
-                      'border-football-primary bg-white': isActiveCategory(club.name)
+                      // 'border-transparent bg-football-gray7A/10': !isActiveCategory(club.name),
+                      // 'border-football-primary bg-white': isActiveCategory(club.name)
+                      'border-transparent bg-football-gray7A/10': !isActiveGroup(club.name),
+                      'border-football-primary bg-white': isActiveGroup(club.name)
                     }
                   )}
-                  onClick={() => handleChangeCategory(club.name)}
+                  onClick={() => handleChangeGroup(club.name)}
                 >
                   <span className='capitalize'>{club.name}</span>
                 </button>
-                {isActiveCategory(club.name) && (
+                {isActiveGroup(club.name) && (
                   <svg
                     width={24}
                     height={22}
@@ -350,15 +418,15 @@ export default function AsideFilter({ queryConfig }: Props) {
                   className={classNames(
                     'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
                     {
-                      'border-transparent bg-football-gray7A/10': !isActiveCategory(nation.name),
-                      'border-football-primary bg-white': isActiveCategory(nation.name)
+                      'border-transparent bg-football-gray7A/10': !isActiveGroup(nation.nameEnglish),
+                      'border-football-primary bg-white': isActiveGroup(nation.nameEnglish)
                     }
                   )}
-                  onClick={() => handleChangeCategory(nation.name)}
+                  onClick={() => handleChangeGroup(nation.nameEnglish)}
                 >
                   <span className='capitalize'>{nation.name}</span>
                 </button>
-                {isActiveCategory(nation.name) && (
+                {isActiveGroup(nation.nameEnglish) && (
                   <svg
                     width={24}
                     height={22}
@@ -394,46 +462,47 @@ export default function AsideFilter({ queryConfig }: Props) {
 
         {/* categories */}
         <div className='mt-2 flex flex-wrap gap-x-3'>
-          {Object.values(SIZE).map((size) => (
-            <div className='group relative mb-[10px] rounded-[4px] shadow' key={size}>
-              <button
-                className={classNames(
-                  'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
-                  {
-                    'border-transparent bg-football-gray7A/10': !isActiveSize(size),
-                    'border-football-primary bg-white': isActiveSize(size)
-                  }
-                )}
-                onClick={() => handleChangeSize(size)}
-              >
-                <span className='capitalize'>{size}</span>
-              </button>
-              {isActiveSize(size) && (
-                <svg
-                  width={24}
-                  height={22}
-                  className='absolute -right-0 -top-0 hover:cursor-pointer'
-                  xmlns='http://www.w3.org/2000/svg'
-                  onClick={() => handleChangeSize(size)}
+          {groupsData &&
+            groupsData.data.map((item, index) => (
+              <div className='group relative mb-[10px] rounded-[4px] shadow' key={index}>
+                <button
+                  className={classNames(
+                    'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
+                    {
+                      'border-transparent bg-football-gray7A/10': !isActiveName(item),
+                      'border-football-primary bg-white': isActiveName(item)
+                    }
+                  )}
+                  onClick={() => handleChangeName(item)}
                 >
-                  <path
-                    fillRule='evenodd'
-                    clipRule='evenodd'
-                    d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
-                    fill='#EE4D2D'
-                  />
-                  <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
-                    <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
-                  </g>
-                  <defs>
-                    <clipPath id='prefix__clip0_33_1150'>
-                      <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
-                    </clipPath>
-                  </defs>
-                </svg>
-              )}
-            </div>
-          ))}
+                  <span className='capitalize'>{item}</span>
+                </button>
+                {isActiveName(item) && (
+                  <svg
+                    width={24}
+                    height={22}
+                    className='absolute -right-0 -top-0 hover:cursor-pointer'
+                    xmlns='http://www.w3.org/2000/svg'
+                    onClick={() => handleChangeName(item)}
+                  >
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
+                      fill='#EE4D2D'
+                    />
+                    <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
+                      <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
+                    </g>
+                    <defs>
+                      <clipPath id='prefix__clip0_33_1150'>
+                        <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </div>
+            ))}
         </div>
       </div>
 

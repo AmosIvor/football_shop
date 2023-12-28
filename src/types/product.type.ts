@@ -24,7 +24,7 @@ export interface Product {
 export type ProductList = Product[]
 
 export interface ProductListConfig {
-  names?: string
+  names?: string[]
   seasons?: string
   club?: boolean
   nation?: boolean
@@ -38,5 +38,5 @@ export interface ProductListConfig {
   sizeXL?: boolean
   page?: number
   productPerPage?: number
-  category?: string
+  groups?: string[]
 }

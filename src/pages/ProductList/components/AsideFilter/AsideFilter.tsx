@@ -177,7 +177,6 @@ export default function AsideFilter({ queryConfig }: Props) {
   const handleChangeSize = (sizeValue: keyof typeof SIZE) => {
     switch (sizeValue) {
       case SIZE.S:
-        console.log('into sizeS')
         navigate({
           pathname: PATH.products,
           search: createSearchParams({
@@ -187,7 +186,6 @@ export default function AsideFilter({ queryConfig }: Props) {
         })
         return
       case SIZE.M:
-        console.log('into sizeM')
         navigate({
           pathname: PATH.products,
           search: createSearchParams({
@@ -197,7 +195,6 @@ export default function AsideFilter({ queryConfig }: Props) {
         })
         return
       case SIZE.L:
-        console.log('into sizeL')
         navigate({
           pathname: PATH.products,
           search: createSearchParams({
@@ -250,6 +247,12 @@ export default function AsideFilter({ queryConfig }: Props) {
       results.push(`Từ ${queryConfig.minPrice} - ${queryConfig.maxPrice}`)
     }
 
+    if (typeof queryConfig.names === 'string') {
+      results.push(queryConfig.names)
+    } else if (Array.isArray(queryConfig.names)) {
+      results.push(...(queryConfig.names as string[]))
+    }
+
     return results
   }, [queryConfig])
 
@@ -257,13 +260,27 @@ export default function AsideFilter({ queryConfig }: Props) {
     if (choose.includes('size')) {
       const size = getSize(choose)
       handleChangeSize(size as keyof typeof SIZE)
+      return
     }
     if (choose.includes('-')) {
       navigate({
         pathname: PATH.products,
         search: createSearchParams(omit(queryConfig, ['minPrice', 'maxPrice'])).toString()
       })
+      return
     }
+    if (typeof queryConfig.names === 'string') {
+      const temp: string = queryConfig.names
+      queryConfig.names = [temp]
+    }
+    queryConfig.names = (queryConfig.names as string[]).filter((item) => item !== choose)
+    navigate({
+      pathname: PATH.products,
+      search: createSearchParams({
+        ...queryConfig,
+        names: queryConfig.names
+      }).toString()
+    })
   }
 
   const handleRemoveAll = () => {
@@ -281,7 +298,18 @@ export default function AsideFilter({ queryConfig }: Props) {
     navigate({
       pathname: PATH.products,
       search: createSearchParams(
-        omit(queryConfig, ['minPrice', 'maxPrice', 'club', 'nation', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'groups'])
+        omit(queryConfig, [
+          'minPrice',
+          'maxPrice',
+          'club',
+          'nation',
+          'sizeS',
+          'sizeM',
+          'sizeL',
+          'sizeXL',
+          'groups',
+          'names'
+        ])
       ).toString()
     })
   }
@@ -365,7 +393,7 @@ export default function AsideFilter({ queryConfig }: Props) {
         <span className='text-lg'>Danh mục giải đấu</span>
 
         {/* catalogues */}
-        <div className='mt-2 flex h-36 flex-wrap gap-x-3 overflow-y-auto scroll-smooth'>
+        <div className='mt-2 flex max-h-36 flex-wrap gap-x-3 overflow-y-auto scroll-smooth'>
           {/* Club collection active */}
           {collection.club.isActive === RESULT.true &&
             Object.values(CLUB).map((club) => (
@@ -374,8 +402,6 @@ export default function AsideFilter({ queryConfig }: Props) {
                   className={classNames(
                     'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
                     {
-                      // 'border-transparent bg-football-gray7A/10': !isActiveCategory(club.name),
-                      // 'border-football-primary bg-white': isActiveCategory(club.name)
                       'border-transparent bg-football-gray7A/10': !isActiveGroup(club.name),
                       'border-football-primary bg-white': isActiveGroup(club.name)
                     }
@@ -451,17 +477,100 @@ export default function AsideFilter({ queryConfig }: Props) {
                 )}
               </div>
             ))}
+
+          {collection.club.isActive === RESULT.false &&
+            collection.nation.isActive === RESULT.false &&
+            Object.values(CLUB).map((club) => (
+              <div className='group relative mb-[10px] rounded-[4px] shadow' key={club.image}>
+                <button
+                  className={classNames(
+                    'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
+                    {
+                      'border-transparent bg-football-gray7A/10': !isActiveGroup(club.name),
+                      'border-football-primary bg-white': isActiveGroup(club.name)
+                    }
+                  )}
+                  onClick={() => handleChangeGroup(club.name)}
+                >
+                  <span className='capitalize'>{club.name}</span>
+                </button>
+                {isActiveGroup(club.name) && (
+                  <svg
+                    width={24}
+                    height={22}
+                    className='absolute -right-0 -top-0 hover:cursor-pointer'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
+                      fill='#EE4D2D'
+                    />
+                    <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
+                      <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
+                    </g>
+                    <defs>
+                      <clipPath id='prefix__clip0_33_1150'>
+                        <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </div>
+            ))}
+          {collection.nation.isActive === RESULT.false &&
+            collection.club.isActive === RESULT.false &&
+            Object.values(NATION).map((nation) => (
+              <div className='relative mb-2 rounded-[4px]' key={nation.image}>
+                <button
+                  className={classNames(
+                    'rounded-[4px] border px-4 py-2 text-football-gray7A hover:border-football-primary hover:bg-white hover:text-football-primary group-hover:text-football-primary',
+                    {
+                      'border-transparent bg-football-gray7A/10': !isActiveGroup(nation.nameEnglish),
+                      'border-football-primary bg-white': isActiveGroup(nation.nameEnglish)
+                    }
+                  )}
+                  onClick={() => handleChangeGroup(nation.nameEnglish)}
+                >
+                  <span className='capitalize'>{nation.name}</span>
+                </button>
+                {isActiveGroup(nation.nameEnglish) && (
+                  <svg
+                    width={24}
+                    height={22}
+                    className='absolute -right-0 -top-0 hover:cursor-pointer'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M23.825 22H24V4a4 4 0 00-4-4H0v.548L23.825 22z'
+                      fill='#EE4D2D'
+                    />
+                    <g clipPath='url(#prefix__clip0_33_1150)' stroke='#fff' strokeWidth={2} strokeLinecap='round'>
+                      <path d='M20.333 3.667l-4.666 4.666M15.667 3.667l4.666 4.666' />
+                    </g>
+                    <defs>
+                      <clipPath id='prefix__clip0_33_1150'>
+                        <path fill='#fff' transform='translate(14 2)' d='M0 0h8v8H0z' />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </div>
+            ))}
         </div>
       </div>
 
       <div className='mt-6 h-[1px] bg-gray-300' />
 
       {/* List Category */}
-      <div className='mt-4 h-36 overflow-y-auto scroll-smooth text-base font-normal text-black'>
+      <div className='mt-4 text-base font-normal text-black'>
         <span className='text-lg'>Danh mục các đội</span>
 
         {/* categories */}
-        <div className='mt-2 flex flex-wrap gap-x-3'>
+        <div className='mt-2 flex max-h-36 flex-wrap gap-x-3 overflow-y-auto scroll-smooth'>
           {groupsData &&
             groupsData.data.map((item, index) => (
               <div className='group relative mb-[10px] rounded-[4px] shadow' key={index}>

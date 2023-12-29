@@ -1,6 +1,6 @@
 import { ProductListConfig } from '~/types/product.type'
 import useQueryParams from './useQueryParams'
-import { SORT_BY } from '~/constants/product'
+import { RESULT, SORT_BY } from '~/constants/product'
 import { isUndefined, omitBy } from 'lodash'
 
 // export type QueryConfig = {
@@ -22,8 +22,8 @@ export default function useQueryConfig() {
       productPerPage: queryParams.productPerPage || '8',
       names: queryParams.names,
       seasons: queryParams.seasons,
-      club: queryParams.club,
-      nation: queryParams.nation,
+      club: queryParams.club || RESULT.false,
+      nation: queryParams.nation || RESULT.false,
       minPrice: queryParams.minPrice,
       maxPrice: queryParams.maxPrice,
       sortBy: queryParams.sortBy || SORT_BY.TopSelling,

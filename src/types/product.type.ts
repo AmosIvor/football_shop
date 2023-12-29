@@ -15,6 +15,7 @@ export interface Product {
   description: string
   point: number
   sold: number
+  groupName: string
   urlMain: string
   urlSub1: string
   urlSub2: string

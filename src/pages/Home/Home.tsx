@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { isUndefined, omit, omitBy } from 'lodash'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import productApi from '~/apis/product.api'
 import Product from '~/components/Product'
@@ -16,6 +17,9 @@ type QueryConfig = {
 }
 
 export default function Home() {
+  const navigate = useNavigate()
+  const timeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [activeImage, setActiveImage] = useState<string>('')
   const queryParams: QueryConfig = useQueryParams()
   const queryConfig: QueryConfig = omitBy(
     {
@@ -29,8 +33,7 @@ export default function Home() {
   )
   const { club, nation } = queryConfig
 
-  const navigate = useNavigate()
-
+  // get list products
   const { data: productsData } = useQuery({
     queryKey: ['products', queryConfig],
     queryFn: () => {
@@ -39,6 +42,64 @@ export default function Home() {
     placeholderData: keepPreviousData,
     staleTime: 3 * 60 * 1000
   })
+
+  // get product detail
+  const { data: productDetailData } = useQuery({
+    queryKey: ['product'],
+    queryFn: () => productApi.getProductDetail('PD0001')
+  })
+
+  const imageList = useMemo(() => {
+    return productDetailData
+      ? [productDetailData.data.urlMain, productDetailData.data.urlSub1, productDetailData.data.urlSub2]
+      : []
+  }, [productDetailData])
+
+  useEffect(() => {
+    if (productDetailData) {
+      setActiveImage(imageList[0])
+    }
+  }, [productDetailData, imageList])
+
+  const currentIndexActiveImage = useMemo(() => {
+    return imageList.indexOf(activeImage)
+  }, [activeImage, imageList])
+
+  // setInterval(() => {
+  //   next(activeImage)
+  // }, 3000)
+  const next = useCallback(() => {
+    console.log('heel')
+    const currentIndexImage = imageList.indexOf(activeImage)
+    if (currentIndexImage === imageList.length - 1) {
+      setActiveImage(imageList[0])
+    } else {
+      setActiveImage(imageList[currentIndexImage + 1])
+    }
+  }, [activeImage, imageList])
+
+  useEffect(() => {
+    if (timeRef.current) {
+      clearTimeout(timeRef.current)
+    }
+    timeRef.current = setTimeout(() => {
+      next()
+    }, 2000)
+    return () => clearTimeout(timeRef.current as NodeJS.Timeout)
+  }, [next])
+
+  const prev = () => {
+    const currentIndexImage = imageList.indexOf(activeImage)
+    if (currentIndexImage === 0) {
+      setActiveImage(imageList[imageList.length - 1])
+    } else {
+      setActiveImage(imageList[currentIndexImage - 1])
+    }
+  }
+
+  const handleCarousel = (index: number) => {
+    setActiveImage(imageList[index])
+  }
 
   const isActiveCategory = (nameCategory: keyof typeof CATEGORY) => () => {
     if (nameCategory === CATEGORY.club) {
@@ -77,12 +138,13 @@ export default function Home() {
         <div className='relative'>
           <div className='md:h-[480px]'>
             <img
-              src='https://www.mykhel.com/img/2018/04/kevindebruyne-cropped_mj5kuoisho5611r2iq9at50tv.jpg'
+              // src='https://www.mykhel.com/img/2018/04/kevindebruyne-cropped_mj5kuoisho5611r2iq9at50tv.jpg'
+              src={activeImage}
               alt=''
               className='h-full w-full object-cover'
             />
           </div>
-          <button className='absolute left-[1%] top-[50%] -translate-y-1/2'>
+          <button className='absolute left-[1%] top-[50%] -translate-y-1/2' onClick={prev}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -94,7 +156,7 @@ export default function Home() {
               <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
             </svg>
           </button>
-          <button className='absolute right-[1%] top-[50%] -translate-y-1/2'>
+          <button className='absolute right-[1%] top-[50%] -translate-y-1/2' onClick={next}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -107,9 +169,18 @@ export default function Home() {
             </svg>
           </button>
           <div className='absolute bottom-[2%] left-[50%] flex w-auto -translate-x-1/2 items-center gap-2 bg-transparent'>
-            <button className='h-3 w-3 rounded-full border bg-football-primary'></button>
-            <button className='h-3 w-3 rounded-full border bg-white'></button>
-            <button className='h-3 w-3 rounded-full border bg-white'></button>
+            {Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <button
+                  className={classNames('h-3 w-3 rounded-full border', {
+                    'bg-football-primary': index === currentIndexActiveImage,
+                    'bg-white': !(index === currentIndexActiveImage)
+                  })}
+                  key={index}
+                  onClick={() => handleCarousel(index)}
+                ></button>
+              ))}
           </div>
         </div>
       </div>

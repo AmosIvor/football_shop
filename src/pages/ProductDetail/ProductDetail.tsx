@@ -16,8 +16,6 @@ import { Product as ProductType, ProductListConfig } from '~/types/product.type'
 import purchaseApi from '~/apis/purchase.api'
 import { AppContext } from '~/contexts/app.context'
 import { Customer } from '~/types/customer.type'
-import { toSafeInteger } from 'lodash'
-// import {Product as ProductType} from '~/types/product.type'
 
 const sizes = Object.values(SIZE).map((size) => ({ size }))
 
@@ -81,7 +79,7 @@ export default function ProductDetail() {
       // setActiveImage(product.urlMain)
       setActiveImage(imageList[0])
     }
-  }, [product, setActiveImage, imageList])
+  }, [product, imageList])
 
   const chooseActiveImage = (img: string) => {
     setActiveImage(img)
@@ -193,11 +191,6 @@ export default function ProductDetail() {
               onMouseMove={handleZoom}
               onMouseLeave={handleRemoveZoom}
             >
-              {/* <img
-                src={product.urlMain}
-                alt={product.name}
-                className='absolute left-0 top-0 h-full w-full bg-white object-cover'
-              /> */}
               <img
                 src={activeImage}
                 alt={product.name}

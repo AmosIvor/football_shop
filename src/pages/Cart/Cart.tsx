@@ -1,8 +1,6 @@
-import { useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import QuantityController from '~/components/QuantityController'
 import PATH from '~/constants/path'
-import useQueryParams from '~/hooks/useQueryParams'
 
 export default function Cart() {
   return (

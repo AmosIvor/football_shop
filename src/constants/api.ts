@@ -1,4 +1,5 @@
 export const API = {
   auth: 'api/Accounts',
-  product: 'api/Products'
+  product: 'api/Products',
+  cart: 'api/Carts'
 } as const

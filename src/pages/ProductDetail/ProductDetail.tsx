@@ -11,12 +11,18 @@ import productApi from '~/apis/product.api'
 import useQueryParams from '~/hooks/useQueryParams'
 import { SIZE } from '~/constants/product'
 import classNames from 'classnames'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { ProductListConfig } from '~/types/product.type'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { Product as ProductType, ProductListConfig } from '~/types/product.type'
+import purchaseApi from '~/apis/purchase.api'
+import { AppContext } from '~/contexts/app.context'
+import { Customer } from '~/types/customer.type'
+import { toSafeInteger } from 'lodash'
+// import {Product as ProductType} from '~/types/product.type'
 
 const sizes = Object.values(SIZE).map((size) => ({ size }))
 
 export default function ProductDetail() {
+  const { profile } = useContext(AppContext)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -40,9 +46,31 @@ export default function ProductDetail() {
   const product = productDetailData?.data
 
   // add to cart
-  // const addToCartMutation = useMutation({
-  //   mutationFn: (body: )
-  // })
+  const addToCartMutation = useMutation({
+    mutationFn: purchaseApi.addToCart
+  })
+
+  const addToCart = () => {
+    if (size) {
+      const currentSize = `Size${size}`
+      addToCartMutation.mutate(
+        {
+          CustomerID: (profile as Customer).id,
+          ProductID: (product as ProductType).id,
+          Size: currentSize,
+          Quantity: buyCount
+        },
+        {
+          onSuccess: (data) => {
+            console.log(data.data)
+          },
+          onError: (error) => {
+            console.log(error)
+          }
+        }
+      )
+    }
+  }
 
   const imageList = useMemo(() => {
     return product ? [product.urlMain, product.urlSub1, product.urlSub2, product.urlThumb] : []
@@ -88,7 +116,6 @@ export default function ProductDetail() {
   }
 
   // get list products
-
   const queryConfig: ProductListConfig = {
     productPerPage: 20,
     page: 1,
@@ -295,9 +322,9 @@ export default function ProductDetail() {
 
             {/* Add to cart */}
             <div className='mt-7 flex flex-col items-center xs:mt-8 xs:flex-row lg:mt-6 xl:mt-8'>
-              <Link
-                to={PATH.cart}
+              <button
                 className='flex h-12 w-full items-center justify-center rounded-sm border border-football-primary bg-white px-5 font-semibold capitalize text-football-primary shadow-sm hover:bg-gray-50 xs:w-auto'
+                onClick={addToCart}
               >
                 <svg width={24} height={24} className='mr-3 fill-football-primary' xmlns='http://www.w3.org/2000/svg'>
                   <path
@@ -306,7 +333,7 @@ export default function ProductDetail() {
                   />
                 </svg>
                 Thêm vào giỏ hàng
-              </Link>
+              </button>
 
               <button className='ml-0 mt-4 flex h-12 w-full items-center justify-center rounded-sm bg-football-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-football-primary/80 xs:ml-4 xs:mt-0 xs:w-auto'>
                 Mua ngay

@@ -1,7 +1,11 @@
+import { CartRequest } from './../types/purchase.type'
+import { API } from '~/constants/api'
+import { CartResponse } from '~/types/purchase.type'
 import http from '~/utils/http'
 
-// const purchaseApi = {
-//   addToCart(body: { customer_id: string; product_id: string; size: string; buy_count: number }) {
-//     return http.post<>
-//   }
-// }
+const purchaseApi = {
+  addToCart(body: CartRequest) {
+    return http.post<CartResponse>(`${API.cart}/add-to-cart`, body)
+  }
+}
+export default purchaseApi

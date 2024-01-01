@@ -1,8 +1,20 @@
+import { useQuery } from '@tanstack/react-query'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import purchaseApi from '~/apis/purchase.api'
 import QuantityController from '~/components/QuantityController'
 import PATH from '~/constants/path'
+import { AppContext } from '~/contexts/app.context'
+import { Customer } from '~/types/customer.type'
 
 export default function Cart() {
+  const { profile } = useContext(AppContext)
+  const idCustomer = (profile as Customer).id
+  const { data: dataCart } = useQuery({
+    queryKey: ['carts'],
+    queryFn: () => purchaseApi.getCart(idCustomer)
+  })
+  console.log('dataCart', dataCart)
   return (
     <div className='bg-football-grayF6 py-6'>
       <div className='asir-container text-lg font-normal text-black'>

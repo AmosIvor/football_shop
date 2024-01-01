@@ -9,6 +9,7 @@ import { AppContext } from '~/contexts/app.context'
 import { useMutation } from '@tanstack/react-query'
 import authApi from '~/apis/auth.api'
 import PopoverUser from '../PopoverUser'
+import useSearchProducts from '~/hooks/useSearchProducts'
 
 export default function Header() {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
@@ -16,6 +17,8 @@ export default function Header() {
   const [openNation, setOpenNation] = useState<boolean>(false)
   const [openUser, setOpenUser] = useState<boolean>(false)
   const [isVisible, setIsVisible] = useState<boolean>(false)
+
+  const { register, onSubmitSearch } = useSearchProducts()
 
   const cartMatch = useMatch('/cart')
   const isCart = Boolean(cartMatch)
@@ -56,11 +59,15 @@ export default function Header() {
             <span>Sports</span>
           </Link>
 
-          <div className='mr-0 hidden h-[38px] grow rounded-md bg-white md:flex xl:h-[44px] laptop:mr-32'>
+          <form
+            className='mr-0 hidden h-[38px] grow rounded-md bg-white md:flex xl:h-[44px] laptop:mr-32'
+            onSubmit={onSubmitSearch}
+          >
             <input
               type='text'
               className='flex w-[100%] items-center rounded rounded-bl-md rounded-tl-md border-none pl-6 pr-3 text-base font-normal outline-none lg:text-lg'
               placeholder='Tìm kiếm'
+              {...register('name')}
             />
             <button className='rounded-br-md rounded-tr-md border-none bg-football-primary px-7'>
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='h-5 w-5'>
@@ -71,7 +78,7 @@ export default function Header() {
                 />
               </svg>
             </button>
-          </div>
+          </form>
 
           <Popover
             placement='bottom-end'

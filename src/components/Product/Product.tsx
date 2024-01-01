@@ -15,7 +15,7 @@ export default function Product({ product }: Props) {
       <div className='font-medidum overflow-hidden rounded-sm bg-white text-base shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
           <img
-            src={product.urlMain || DEFAULT_VALUE.club.image}
+            src={product.urlThumb || DEFAULT_VALUE.club.image}
             alt={product.name || DEFAULT_VALUE.club.name}
             className='absolute left-0 top-0 h-full w-full bg-white object-cover'
           />

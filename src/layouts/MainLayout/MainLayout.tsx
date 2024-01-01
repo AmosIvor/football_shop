@@ -1,3 +1,4 @@
+import Chat from '~/components/Chat'
 import Footer from '~/components/Footer'
 import Header from '~/components/Header'
 
@@ -11,6 +12,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <Header />
       {children}
       <Footer />
+      <Chat />
     </div>
   )
 }

@@ -64,11 +64,12 @@ export type NameSchema = yup.InferType<typeof nameSchema>
 
 // user schema
 export const userSchema = yup.object({
+  id: yup.string(),
   name: yup.string().max(160, 'Độ dài tối đa là 160 ký tự'),
   phone: yup.string().max(20, 'Độ dài tối đa là 20 ký tự'),
   address: yup.string().max(160, 'Độ dài tối đa là 160 ký tự'),
-  avatar: yup.string().max(1000, 'Độ dài tối đa là 1000 ký tự'),
-  date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
+  avatar: yup.string(),
+  dateBirth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
   old_password: schema.fields['password'],
   password: schema.fields['password'],
   confirm_password: schema.fields['confirm_password']
@@ -76,7 +77,7 @@ export const userSchema = yup.object({
 
 export type UserSchema = yup.InferType<typeof userSchema>
 
-export const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
+export const profileSchema = userSchema.pick(['id', 'name', 'address', 'phone', 'dateBirth', 'avatar'])
 export type ProfileSchema = yup.InferType<typeof profileSchema>
 
 export const passwordSchema = userSchema.pick(['old_password', 'password', 'confirm_password'])

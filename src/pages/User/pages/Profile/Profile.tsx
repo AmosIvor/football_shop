@@ -1,16 +1,28 @@
 import Input from '~/components/Input'
 import DateSelect from '../../components/DateSelect'
-import { useContext } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { AppContext } from '~/contexts/app.context'
 import { ProfileSchema, profileSchema } from '~/utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '~/components/InputNumber'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import userApi from '~/apis/user.api'
+import { Customer } from '~/types/customer.type'
+import { UserUpdateRequestType } from '~/types/user.type'
+import { setProfileToLocalStorage } from '~/utils/auth'
 
 type FormData = ProfileSchema
 
 export default function Profile() {
-  const { setProfile } = useContext(AppContext)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { profile, setProfile } = useContext(AppContext)
+  const [file, setFile] = useState<File>()
+
+  const previewImage = useMemo(() => {
+    return file ? URL.createObjectURL(file) : ''
+  }, [file])
+
   const {
     register,
     control,
@@ -19,18 +31,88 @@ export default function Profile() {
     setValue
   } = useForm<FormData>({
     defaultValues: {
+      id: (profile as Customer).id,
       name: '',
       phone: '',
       address: '',
-      avatar: '',
-      date_of_birth: new Date(1990, 0, 1)
+      // avatar: '',
+      dateBirth: new Date(1990, 0, 1)
     },
     resolver: yupResolver(profileSchema)
   })
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  async function processImageAndSetValue(file: File) {
+    try {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+
+      await new Promise((resolve, reject) => {
+        reader.onload = () => {
+          const avatarBase64 = reader.result as string
+          const avatarResult = avatarBase64.split(',')[1] // Extract base64 data
+          setValue('avatar', avatarResult) // Call the provided setValue function
+          resolve('complete')
+        }
+
+        reader.onerror = (error) => {
+          reject(error)
+        }
+      })
+    } catch (error) {
+      console.error('Error processing image:', error)
+      // You might want to handle this error more gracefully based on your application's needs
+    }
+  }
+
+  // readme
+  const { data: profileData, refetch } = useQuery({
+    queryKey: ['profile'],
+    queryFn: userApi.getProfile
   })
+  const profileInfor = profileData?.data.data
+  // const profile = profileData?.data
+  useEffect(() => {
+    if (profileInfor) {
+      setValue('name', profileInfor.name)
+      setValue('phone', profileInfor.phone)
+      setValue('address', profileInfor.address)
+      setValue('dateBirth', profileInfor.dateBirth ? new Date(profileInfor.dateBirth) : new Date(1990, 0, 1))
+      // setValue('avatar', )
+    }
+  }, [profileInfor, setValue])
+
+  // update profile
+  const updateProfileMutation = useMutation({
+    mutationFn: userApi.updateInfo
+  })
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (file) {
+      await processImageAndSetValue(file)
+    }
+
+    const res = await updateProfileMutation.mutateAsync({
+      ...(data as UserUpdateRequestType)
+    })
+
+    console.log('res', res.data)
+    setProfile(res.data as Customer)
+    setProfileToLocalStorage(res.data as Customer)
+    refetch()
+  })
+
+  const handleUpload = () => {
+    fileInputRef.current?.click()
+  }
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // get file image
+    const fileFromLocal = event.target.files?.[0]
+    setFile(fileFromLocal)
+
+    // review image/show image
+    // recipe = URL.createObjectURL(file) => image
+  }
 
   return (
     <div className='rounded-sm bg-white px-7 py-5 text-lg font-normal text-black shadow xs:px-8'>
@@ -106,9 +188,9 @@ export default function Profile() {
           {/* Date Select */}
           <Controller
             control={control}
-            name='date_of_birth'
+            name='dateBirth'
             render={({ field }) => (
-              <DateSelect onChange={field.onChange} value={field.value} errorMessage={errors.date_of_birth?.message} />
+              <DateSelect onChange={field.onChange} value={field.value} errorMessage={errors.dateBirth?.message} />
             )}
           />
 
@@ -131,13 +213,17 @@ export default function Profile() {
           <div className='flex flex-col items-center'>
             <div className='my-2 h-24 w-24 xl:my-5'>
               <img
-                src='https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                src={previewImage || profileInfor?.avatar}
                 alt='imageupload'
                 className='h-full w-full rounded-full object-cover'
               />
             </div>
-            <input type='file' accept='.jpg,.jpeg,.png' className='hidden' />
-            <button className='flex h-[46px] w-auto items-center justify-center rounded-sm border bg-white px-6 text-lg text-football-gray7A shadow-sm'>
+            <input type='file' accept='.jpg,.jpeg,.png' className='hidden' ref={fileInputRef} onChange={onFileChange} />
+            <button
+              className='flex h-[46px] w-auto items-center justify-center rounded-sm border bg-white px-6 text-lg text-football-gray7A shadow-sm'
+              onClick={handleUpload}
+              type='button'
+            >
               Chọn ảnh
             </button>
             <div className='mt-3 text-base text-football-gray7A/80'>

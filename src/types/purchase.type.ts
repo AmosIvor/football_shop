@@ -21,3 +21,9 @@ export interface ExtendedPurchase extends CartResponse {
   disabled: boolean
   checked: boolean
 }
+
+export interface PurchaseUpdate {
+  customerID: string
+  productID: string
+  size: string
+}

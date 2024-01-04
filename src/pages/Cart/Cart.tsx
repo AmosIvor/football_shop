@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { keyBy } from 'lodash'
 import { useContext, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -15,11 +15,27 @@ export default function Cart() {
   const idCustomer = (profile as Customer).id
 
   // get purchases to display in cart page
-  const { data: cartsData } = useQuery({
+  const { data: cartsData, refetch } = useQuery({
     queryKey: ['carts'],
     queryFn: () => purchaseApi.getCart(idCustomer)
   })
   console.log('dataCart', cartsData)
+
+  // increase purchase
+  const increasePurchaseMutation = useMutation({
+    mutationFn: purchaseApi.increasePurchase,
+    onSuccess: () => {
+      refetch()
+    }
+  })
+
+  // decrease purchase
+  const decreasePurchaseMutation = useMutation({
+    mutationFn: purchaseApi.decreasePurchase,
+    onSuccess: () => {
+      refetch
+    }
+  })
 
   // handle buy now
   const location = useLocation()
@@ -83,9 +99,17 @@ export default function Cart() {
     )
   }
 
-  // const handleQuantity = (purchaseIndex: number, value: number, enabled: boolean) => {
-
-  // }
+  const handleQuantity = (purchaseIndex: number, value: number, enabled: boolean) => {
+    if (enabled) {
+      const purchase = extendedPurchases[purchaseIndex]
+      setExtendedPurchases(
+        produce((prev) => {
+          prev[purchaseIndex].disabled = true
+        })
+      )
+      // increasePurchaseMutation.mutate
+    }
+  }
 
   return (
     <div className='bg-football-grayF6 py-6'>

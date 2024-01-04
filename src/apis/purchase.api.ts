@@ -8,7 +8,7 @@ const purchaseApi = {
     return http.post<CartResponse>(`${API.cart}/add-to-cart`, body)
   },
   getCart(idCustomer: string) {
-    return http.get<CartResponse>(`${API.cart}/get-carts/${idCustomer}`)
+    return http.get<CartResponse[]>(`${API.cart}/get-carts/${idCustomer}`)
   }
 }
 export default purchaseApi

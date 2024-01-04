@@ -17,7 +17,7 @@ export default function Chat() {
     <>
       {!open && (
         <button
-          className='fixed bottom-0 right-4 flex h-[50px] w-[110px] items-center justify-center gap-x-3 rounded-t-[6px] bg-white text-xl font-semibold text-football-primary shadow'
+          className='fixed bottom-0 right-4 z-20 flex h-[50px] w-[110px] items-center justify-center gap-x-3 rounded-t-[6px] bg-white text-xl font-semibold text-football-primary shadow'
           onClick={handleOpenChat}
         >
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' className='h-7 w-7 fill-current'>
@@ -27,7 +27,7 @@ export default function Chat() {
         </button>
       )}
       {open && (
-        <div className='fixed bottom-0 right-4 flex h-[420px] w-[360px] flex-col rounded-t-[6px] bg-white text-base font-normal shadow'>
+        <div className='fixed bottom-0 right-4 z-20 flex h-[420px] w-[360px] flex-col rounded-t-[6px] bg-white text-base font-normal shadow'>
           {/* header */}
           <div className='flex items-center justify-between px-3 py-2'>
             <div className='text-xl font-semibold text-football-primary'>HVPP Chat</div>

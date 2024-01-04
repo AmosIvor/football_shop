@@ -16,3 +16,8 @@ export interface CartRequest {
   Size: string
   Quantity: number
 }
+
+export interface ExtendedPurchase extends CartResponse {
+  disabled: boolean
+  checked: boolean
+}

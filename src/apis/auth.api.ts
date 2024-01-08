@@ -14,8 +14,8 @@ const authApi = {
   loginAccount(body: { email: string; password: string }) {
     return http.post<AuthResponse>(`${API.auth}/login`, body)
   },
-  changePassword(params: UserPassword) {
-    return http.put<{ message: string }>(`${API.auth}/change-password`, { params })
+  changePassword(body: UserPassword) {
+    return http.put<{ message: string }>(`${API.auth}/change-password`, body)
   },
   logout() {
     return http.get(`${API.auth}/logout`)

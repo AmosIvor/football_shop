@@ -33,7 +33,7 @@ export default function Register() {
         console.log('data_register', data)
         navigate(PATH.login)
       },
-      onError: (error) => {
+      onError: () => {
         // console.log('error_register', error)~~~~
       }
     })

@@ -18,6 +18,6 @@ export interface UserUpdateRequestType {
 
 export interface UserPassword {
   email: string
-  old: string
-  newPw: string
+  oldPassword: string
+  newPassword: string
 }

@@ -24,6 +24,7 @@ interface Props {
   initialOpen?: boolean
   placement?: Placement
   arrowColor?: string
+  zIndex?: string
 }
 
 export default function DropdownMenuNotArrow({
@@ -32,7 +33,8 @@ export default function DropdownMenuNotArrow({
   renderPopover,
   as: Element = 'div',
   initialOpen,
-  placement = 'bottom-end'
+  placement = 'bottom-end',
+  zIndex = 'z-0'
 }: Props) {
   const [open, setOpen] = useState(initialOpen || false)
   const arrowRef = useRef<HTMLElement>(null)
@@ -70,6 +72,7 @@ export default function DropdownMenuNotArrow({
               animate={{ opacity: 1, transform: `scale(1)` }}
               exit={{ opacity: 0, transform: `scale(0)` }}
               transition={{ duration: 0.2 }}
+              className={zIndex}
             >
               {renderPopover}
             </motion.div>

@@ -1,3 +1,4 @@
+import { UserPassword } from './../types/user.type'
 import { API } from '~/constants/api'
 import { AuthResponse } from '~/types/auth.type'
 import { RegisterResponse } from '~/types/register.type'
@@ -12,6 +13,9 @@ const authApi = {
   },
   loginAccount(body: { email: string; password: string }) {
     return http.post<AuthResponse>(`${API.auth}/login`, body)
+  },
+  changePassword(params: UserPassword) {
+    return http.put<{ message: string }>(`${API.auth}/change-password`, { params })
   },
   logout() {
     return http.get(`${API.auth}/logout`)

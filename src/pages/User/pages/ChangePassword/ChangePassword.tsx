@@ -1,11 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
+import { omit } from 'lodash'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
+import authApi from '~/apis/auth.api'
+import userApi from '~/apis/user.api'
 import Input from '~/components/Input'
+import { AppContext } from '~/contexts/app.context'
+import { Customer } from '~/types/customer.type'
 import { PasswordSchema, passwordSchema } from '~/utils/rules'
 
 type FormData = PasswordSchema
 
 export default function ChangePassword() {
+  const { profile } = useContext(AppContext)
+  const emailUser = profile?.email as string
   const {
     register,
     formState: { errors },
@@ -14,8 +23,28 @@ export default function ChangePassword() {
     resolver: yupResolver(passwordSchema)
   })
 
+  // change password
+  const changePasswordMutation = useMutation({
+    mutationFn: authApi.changePassword
+  })
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    const body = omit(data, ['confirm_password'])
+    changePasswordMutation.mutate(
+      {
+        email: emailUser,
+        old: body.old_password as string,
+        newPw: body.password as string
+      },
+      {
+        onSuccess: (data) => {
+          console.log('data change', data)
+        },
+        onError: (error) => {
+          console.log(error)
+        }
+      }
+    )
   })
 
   return (

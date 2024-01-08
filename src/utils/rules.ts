@@ -72,7 +72,8 @@ export const userSchema = yup.object({
   dateBirth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
   old_password: schema.fields['password'],
   password: schema.fields['password'],
-  confirm_password: schema.fields['confirm_password']
+  confirm_password: schema.fields['confirm_password'],
+  default_address: yup.bool()
 })
 
 export type UserSchema = yup.InferType<typeof userSchema>
@@ -82,3 +83,12 @@ export type ProfileSchema = yup.InferType<typeof profileSchema>
 
 export const passwordSchema = userSchema.pick(['old_password', 'password', 'confirm_password'])
 export type PasswordSchema = yup.InferType<typeof passwordSchema>
+
+export const addressSchema = yup.object({
+  name: yup.string().required('Tên là bắt buộc').max(160, 'Độ dài tối đa là 160 ký tự'),
+  phone: yup.string().required('Số điện thoại là bắt buộc').max(20, 'Độ dài tối đa là 20 ký tự'),
+  address: yup.string().required('Địa chỉ là bắt buộc').max(160, 'Độ dài tối đa là 160 ký tự'),
+  default_address: yup.bool()
+})
+
+export type AddressSchema = yup.InferType<typeof addressSchema>

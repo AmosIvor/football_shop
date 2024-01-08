@@ -15,3 +15,9 @@ export interface UserUpdateRequestType {
   dateBirth?: string
   avatar?: string
 }
+
+export interface UserPassword {
+  email: string
+  old: string
+  newPw: string
+}

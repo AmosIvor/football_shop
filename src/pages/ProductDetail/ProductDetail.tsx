@@ -4,7 +4,7 @@ import Product from '~/components/Product'
 import { createSearchParams, useLocation, useNavigate, useParams } from 'react-router-dom'
 import QuantityController from '~/components/QuantityController'
 import Accordition from '~/components/Accordition'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '~/utils/utils'
 import productApi from '~/apis/product.api'
 import useQueryParams from '~/hooks/useQueryParams'
@@ -20,6 +20,7 @@ const sizes = Object.values(SIZE).map((size) => ({ size }))
 
 export default function ProductDetail() {
   const { profile } = useContext(AppContext)
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -60,6 +61,9 @@ export default function ProductDetail() {
         {
           onSuccess: (data) => {
             console.log(data.data)
+            queryClient.invalidateQueries({
+              queryKey: ['carts']
+            })
           },
           onError: (error) => {
             console.log(error)

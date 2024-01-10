@@ -78,6 +78,7 @@ export default function Profile() {
       setValue('address', profileInfor.address)
       setValue('dateBirth', profileInfor.dateBirth ? new Date(profileInfor.dateBirth) : new Date(1990, 0, 1))
       // setValue('avatar', )
+      console.log('get api date: ', new Date(profileInfor.dateBirth))
     }
   }, [profileInfor, setValue])
 
@@ -90,6 +91,8 @@ export default function Profile() {
     if (file) {
       await processImageAndSetValue(file)
     }
+
+    console.log('data submit', data)
 
     const res = await updateProfileMutation.mutateAsync({
       ...(data as UserUpdateRequestType)

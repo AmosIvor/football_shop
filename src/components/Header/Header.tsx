@@ -6,13 +6,19 @@ import { useContext, useState } from 'react'
 import Menu from '../Menu'
 import classNames from 'classnames'
 import { AppContext } from '~/contexts/app.context'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import authApi from '~/apis/auth.api'
 import PopoverUser from '../PopoverUser'
 import useSearchProducts from '~/hooks/useSearchProducts'
+import purchaseApi from '~/apis/purchase.api'
+import { Customer } from '~/types/customer.type'
+import IMAGE from '~/assets/images'
+import { formatCurrency } from '~/utils/utils'
+
+const MAX_PURCHASES = 5
 
 export default function Header() {
-  const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
+  const { profile, isAuthenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
   const [openClub, setOpenClub] = useState<boolean>(false)
   const [openNation, setOpenNation] = useState<boolean>(false)
   const [openUser, setOpenUser] = useState<boolean>(false)
@@ -23,6 +29,9 @@ export default function Header() {
   const cartMatch = useMatch('/cart')
   const isCart = Boolean(cartMatch)
 
+  const idCustomer = (profile as Customer).id
+
+  // logout
   const logoutMutation = useMutation({
     mutationFn: () => authApi.logout(),
     // it will auto navigate
@@ -30,6 +39,12 @@ export default function Header() {
       setIsAuthenticated(false)
       setProfile(null)
     }
+  })
+
+  // get cart
+  const { data: cartsData } = useQuery({
+    queryKey: ['carts'],
+    queryFn: () => purchaseApi.getCart(idCustomer)
   })
 
   const handleLogout = () => {
@@ -245,62 +260,73 @@ export default function Header() {
                 placement='bottom'
                 renderPopover={
                   <div className='relative w-[400px] rounded-sm border border-gray-200 bg-white shadow-md'>
-                    <div className='p-3'>
-                      <div className='font-normal capitalize text-football-gray7A/80'>Sản phẩm mới thêm</div>
-                      <div className='mt-3'>
-                        {/* List products */}
-                        <div className='mt-2 flex items-start py-2 hover:bg-gray-100'>
-                          <div className='w-13 h-16 flex-shrink-0'>
-                            <img
-                              src='https://img.ws.mms.shopee.com.my/247e19d54d939e36a748946c6ebeacd4'
-                              alt='shirt'
-                              className='h-full w-full object-cover'
-                            />
-                          </div>
-                          <div className='ml-2 flex h-16 flex-grow flex-col items-start justify-between'>
-                            {/* first row */}
-                            <div className='flex w-full flex-row items-center justify-between'>
-                              <div className='line-clamp-1 grow'>
-                                Manchester City 22/23 Manchester Manchester City 22/23 Manchester Manchester City 22/23
-                                Manchester
+                    {cartsData && cartsData.data.length > 0 ? (
+                      <div className='p-3'>
+                        <div className='font-normal capitalize text-football-gray7A/80'>Sản phẩm mới thêm</div>
+                        <div className='mt-3'>
+                          {/* List products */}
+                          {cartsData.data.slice(0, 5).map((purchase, index) => (
+                            <div className='mt-2 flex items-start py-2 hover:bg-gray-100' key={index}>
+                              <div className='w-13 h-16 flex-shrink-0'>
+                                <img
+                                  src={purchase.product.urlThumb}
+                                  alt={purchase.product.name}
+                                  className='h-full w-full object-cover'
+                                />
                               </div>
-                              <button className='ml-8 flex items-center bg-transparent'>
-                                <svg
-                                  width={20}
-                                  height={21}
-                                  className='fill-football-gray7A'
-                                  xmlns='http://www.w3.org/2000/svg'
-                                >
-                                  <path
-                                    d='M8 4h4a2 2 0 10-4 0zM6.5 4a3.5 3.5 0 117 0h5.75a.75.75 0 110 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0113.026 21H6.974a3.75 3.75 0 01-3.733-3.389L2.07 5.5H.75a.75.75 0 010-1.5H6.5zm2 4.75a.75.75 0 00-1.5 0v7.5a.75.75 0 101.5 0v-7.5zM12.25 8a.75.75 0 01.75.75v7.5a.75.75 0 11-1.5 0v-7.5a.75.75 0 01.75-.75zm-7.516 9.467a2.25 2.25 0 002.24 2.033h6.052a2.25 2.25 0 002.24-2.033L16.424 5.5H3.576l1.158 11.967z'
-                                    className='fill-inherit'
-                                  />
-                                </svg>
-                              </button>
-                            </div>
+                              <div className='ml-2 flex h-16 flex-grow flex-col items-start justify-between'>
+                                {/* first row */}
+                                <div className='flex w-full flex-row items-center justify-between'>
+                                  <div className='line-clamp-1 grow'>{purchase.product.name}</div>
+                                  <button className='ml-8 flex items-center bg-transparent'>
+                                    <svg
+                                      width={20}
+                                      height={21}
+                                      className='fill-football-gray7A'
+                                      xmlns='http://www.w3.org/2000/svg'
+                                    >
+                                      <path
+                                        d='M8 4h4a2 2 0 10-4 0zM6.5 4a3.5 3.5 0 117 0h5.75a.75.75 0 110 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0113.026 21H6.974a3.75 3.75 0 01-3.733-3.389L2.07 5.5H.75a.75.75 0 010-1.5H6.5zm2 4.75a.75.75 0 00-1.5 0v7.5a.75.75 0 101.5 0v-7.5zM12.25 8a.75.75 0 01.75.75v7.5a.75.75 0 11-1.5 0v-7.5a.75.75 0 01.75-.75zm-7.516 9.467a2.25 2.25 0 002.24 2.033h6.052a2.25 2.25 0 002.24-2.033L16.424 5.5H3.576l1.158 11.967z'
+                                        className='fill-inherit'
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>
 
-                            {/* second row */}
-                            <div className='flex w-full items-center justify-between'>
-                              <span className='text-base'>Số lượng: 1</span>
-                              <span className='text-lg text-football-primary'>đ200.000</span>
+                                {/* second row */}
+                                <div className='flex w-full items-center justify-between'>
+                                  <span className='text-base'>Số lượng: {purchase.quantity}</span>
+                                  <span className='text-lg text-football-primary'>
+                                    đ{formatCurrency(purchase.product.price * purchase.quantity)}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
+                          ))}
+                        </div>
+
+                        {/* cart */}
+                        <div className='mt-5 flex items-center justify-between'>
+                          <div className='text-sm capitalize text-football-gray7A/80'>
+                            <span>
+                              {cartsData?.data.length > MAX_PURCHASES ? cartsData?.data.length - MAX_PURCHASES : ''}{' '}
+                              Thêm vào giỏ hàng
+                            </span>
                           </div>
+                          <Link
+                            to={PATH.cart}
+                            className='rounded-sm bg-football-primary px-4 py-1 capitalize text-white hover:bg-football-primary/90'
+                          >
+                            Xem giỏ hàng
+                          </Link>
                         </div>
                       </div>
-
-                      {/* cart */}
-                      <div className='mt-5 flex items-center justify-between'>
-                        <div className='text-sm capitalize text-football-gray7A/80'>
-                          <span>14 Thêm vào giỏ hàng</span>
-                        </div>
-                        <Link
-                          to={PATH.cart}
-                          className='rounded-sm bg-football-primary px-4 py-1 capitalize text-white hover:bg-football-primary/90'
-                        >
-                          Xem giỏ hàng
-                        </Link>
+                    ) : (
+                      <div className='flex h-[300px] w-full flex-col items-center justify-center p-2'>
+                        <img src={IMAGE.no_product} alt='no-product' className='h-24 w-24' />
+                        <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 }
               >
@@ -320,9 +346,11 @@ export default function Header() {
                         d='M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
                       />
                     </svg>
-                    <div className='absolute left-[11px] top-[-5px] rounded-full bg-football-primary px-[8px] py-[1px] text-xs'>
-                      1
-                    </div>
+                    {cartsData && cartsData.data.length > 0 && (
+                      <div className='absolute left-[11px] top-[-5px] rounded-full bg-football-primary px-[8px] py-[1px] text-xs'>
+                        {cartsData.data.length}
+                      </div>
+                    )}
                   </div>
                   <span className='ml-[14px] hidden lg:inline-block'>Giỏ hàng</span>
                 </Link>

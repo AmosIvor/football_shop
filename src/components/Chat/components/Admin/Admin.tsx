@@ -18,3 +18,9 @@ export default function Admin({ message }: Props) {
     </div>
   )
 }
+
+{
+  /* <div className='rounded-l-[4px] rounded-r-[18px] bg-football-gray7A/10 px-3 py-[6px] text-gray-600 first:rounded-tl-[18px] last:rounded-bl-[18px]'>
+          {message}
+        </div> */
+}

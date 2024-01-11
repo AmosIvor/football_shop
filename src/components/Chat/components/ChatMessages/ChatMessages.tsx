@@ -1,29 +1,37 @@
 import LogoShop from '~/components/LogoShop'
 import Admin from '../Admin'
 import Client from '../Client'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { useMutation } from '@tanstack/react-query'
 import chatApi from '~/apis/chat.api'
 import { Customer } from '~/types/customer.type'
 import { AppContext } from '~/contexts/app.context'
+import { ChatRequest } from '~/types/chat.type'
 
 interface Props {
   setOpenChat: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function ChatMessages({ setOpenChat }: Props) {
+  const messageEndRef = useRef<HTMLDivElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { profile } = useContext(AppContext)
+  const idCustomer = (profile as Customer).id
   const [connection, setConnection] = useState<null | HubConnection>(null)
-  // // const [inputText, setInputText] = useState('')
-
-  // get all message api
-  // const
+  const [messages, setMessages] = useState<ChatRequest[]>([])
+  const [inputText, setInputText] = useState<string>('')
 
   // send message api
   const sendMessageMutation = useMutation({
     mutationFn: chatApi.sendMessage
   })
+
+  useEffect(() => {
+    if (messageEndRef) {
+      messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
 
   useEffect(() => {
     const connect = new HubConnectionBuilder()
@@ -44,34 +52,39 @@ export default function ChatMessages({ setOpenChat }: Props) {
         .then(() => {
           connection.on('ReceiveMessage', (message) => {
             console.log('message:', message)
+            setMessages((prev) => [...prev, message])
           })
         })
         .catch((error) => console.log(error))
     }
-  }, [connection])
+  }, [connection, idCustomer])
 
   // const sendMessage = async () => {
   //   if (connection) await connection.send('SendMessage', 'hello Vu')
   // }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('into submit')
     event.preventDefault()
 
     sendMessageMutation.mutate(
       {
         customerID: (profile as Customer).id,
-        content: 'hello Vu tran',
+        content: inputText,
         isCustomerSend: true
       },
       {
-        onSuccess: (data) => {
-          console.log('data chat', data)
-        }
+        onSuccess: (data) => {}
       }
     )
-    connection?.invoke('SendMessage', 'hello Vu')
+    textareaRef.current?.focus()
+    setInputText('')
   }
+
+  const handleClose = () => {
+    setOpenChat(false)
+    connection?.stop()
+  }
+
   return (
     <div className='fixed bottom-0 right-4 z-20 flex h-[420px] w-[360px] flex-col rounded-t-[6px] bg-white text-base font-normal shadow'>
       {/* header */}
@@ -79,7 +92,7 @@ export default function ChatMessages({ setOpenChat }: Props) {
         <div className='text-xl font-semibold text-football-primary'>HVPP Chat</div>
         <button
           className='rounded-[4px] p-[6px] hover:bg-football-primary/10 hover:text-football-gray7A'
-          onClick={() => setOpenChat(false)}
+          onClick={() => handleClose()}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -104,8 +117,15 @@ export default function ChatMessages({ setOpenChat }: Props) {
 
         {/* content chat */}
         <div className='mb-3 text-center text-football-gray7A'>07/11/2023</div>
-        <Admin message='hello' />
-        <Client message='hello shop' />
+        {messages.length !== 0 &&
+          messages.map((item, index) => {
+            if (item.isCustomerSend) {
+              return <Client key={index} message={item.content} />
+            } else {
+              return <Admin key={index} message={item.content} />
+            }
+          })}
+        <div ref={messageEndRef}></div>
       </div>
       <div className='h-[1px] w-full bg-football-gray7A/30 shadow'></div>
 
@@ -131,9 +151,12 @@ export default function ChatMessages({ setOpenChat }: Props) {
 
         <textarea
           id='chat'
+          ref={textareaRef}
           rows={1}
           className='mx-2 block w-full resize-none rounded-lg border border-football-gray7A/30 bg-white p-2.5 text-base leading-5 text-black focus:border-football-primary'
           placeholder='Your message...'
+          value={inputText}
+          onChange={(event) => setInputText(event.target.value)}
         />
 
         <button

@@ -6,7 +6,7 @@ import { useContext, useState } from 'react'
 import Menu from '../Menu'
 import classNames from 'classnames'
 import { AppContext } from '~/contexts/app.context'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import authApi from '~/apis/auth.api'
 import PopoverUser from '../PopoverUser'
 import useSearchProducts from '~/hooks/useSearchProducts'
@@ -14,11 +14,14 @@ import purchaseApi from '~/apis/purchase.api'
 import { Customer } from '~/types/customer.type'
 import IMAGE from '~/assets/images'
 import { formatCurrency } from '~/utils/utils'
+import { ChatContext } from '~/contexts/chat.context'
 
 const MAX_PURCHASES = 5
 
 export default function Header() {
+  const queryClient = useQueryClient()
   const { profile, isAuthenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const { setMessages } = useContext(ChatContext)
   const [openClub, setOpenClub] = useState<boolean>(false)
   const [openNation, setOpenNation] = useState<boolean>(false)
   const [openUser, setOpenUser] = useState<boolean>(false)
@@ -38,6 +41,8 @@ export default function Header() {
     onSuccess: () => {
       setIsAuthenticated(false)
       setProfile(null)
+      setMessages([])
+      queryClient.removeQueries({ queryKey: ['carts'] })
     }
   })
 

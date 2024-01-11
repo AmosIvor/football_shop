@@ -11,6 +11,7 @@ import userApi from '~/apis/user.api'
 import { Customer } from '~/types/customer.type'
 import { UserUpdateRequestType } from '~/types/user.type'
 import { setProfileToLocalStorage } from '~/utils/auth'
+import { handleDate } from '~/utils/utils'
 
 type FormData = ProfileSchema
 
@@ -92,7 +93,7 @@ export default function Profile() {
       await processImageAndSetValue(file)
     }
 
-    console.log('data submit', data)
+    setValue('dateBirth', handleDate(data.dateBirth as Date))
 
     const res = await updateProfileMutation.mutateAsync({
       ...(data as UserUpdateRequestType)

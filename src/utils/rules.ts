@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 
+// default schema
 const schema = yup.object({
   username: yup.string().required('Username là bắt buộc').max(20, 'Độ dài tối đa là 20 ký tự'),
   email: yup
@@ -84,6 +85,7 @@ export type ProfileSchema = yup.InferType<typeof profileSchema>
 export const passwordSchema = userSchema.pick(['old_password', 'password', 'confirm_password'])
 export type PasswordSchema = yup.InferType<typeof passwordSchema>
 
+// address schema
 export const addressSchema = yup.object({
   name: yup.string().required('Tên là bắt buộc').max(160, 'Độ dài tối đa là 160 ký tự'),
   phone: yup.string().required('Số điện thoại là bắt buộc').max(20, 'Độ dài tối đa là 20 ký tự'),
@@ -92,3 +94,10 @@ export const addressSchema = yup.object({
 })
 
 export type AddressSchema = yup.InferType<typeof addressSchema>
+
+// chatbot schema
+export const chatbotSchema = yup.object({
+  message: yup.string().required('Message là bắt buộc').max(400, 'Độ dài tối đa là 400 ký tự')
+})
+
+export type ChatbotSchema = yup.InferType<typeof chatbotSchema>

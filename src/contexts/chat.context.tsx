@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react'
-import { MessageChatBot } from '~/types/chatbot.type'
+import { MessageChatBot } from '~/types/chat.type'
 
 interface ChatContextInterface {
   messages: MessageChatBot[]

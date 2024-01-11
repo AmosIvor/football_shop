@@ -1,12 +1,77 @@
 import LogoShop from '~/components/LogoShop'
 import Admin from '../Admin'
 import Client from '../Client'
+import { useContext, useEffect, useState } from 'react'
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import { useMutation } from '@tanstack/react-query'
+import chatApi from '~/apis/chat.api'
+import { Customer } from '~/types/customer.type'
+import { AppContext } from '~/contexts/app.context'
 
 interface Props {
   setOpenChat: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function ChatMessages({ setOpenChat }: Props) {
+  const { profile } = useContext(AppContext)
+  const [connection, setConnection] = useState<null | HubConnection>(null)
+  // // const [inputText, setInputText] = useState('')
+
+  // get all message api
+  // const
+
+  // send message api
+  const sendMessageMutation = useMutation({
+    mutationFn: chatApi.sendMessage
+  })
+
+  useEffect(() => {
+    const connect = new HubConnectionBuilder()
+      .configureLogging(LogLevel.Debug)
+      .withUrl('https://localhost:7030/chathub', {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets
+      })
+      .withAutomaticReconnect()
+      .build()
+    setConnection(connect)
+  }, [])
+
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then(() => {
+          connection.on('ReceiveMessage', (message) => {
+            console.log('message:', message)
+          })
+        })
+        .catch((error) => console.log(error))
+    }
+  }, [connection])
+
+  // const sendMessage = async () => {
+  //   if (connection) await connection.send('SendMessage', 'hello Vu')
+  // }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log('into submit')
+    event.preventDefault()
+
+    sendMessageMutation.mutate(
+      {
+        customerID: (profile as Customer).id,
+        content: 'hello Vu tran',
+        isCustomerSend: true
+      },
+      {
+        onSuccess: (data) => {
+          console.log('data chat', data)
+        }
+      }
+    )
+    connection?.invoke('SendMessage', 'hello Vu')
+  }
   return (
     <div className='fixed bottom-0 right-4 z-20 flex h-[420px] w-[360px] flex-col rounded-t-[6px] bg-white text-base font-normal shadow'>
       {/* header */}
@@ -45,7 +110,7 @@ export default function ChatMessages({ setOpenChat }: Props) {
       <div className='h-[1px] w-full bg-football-gray7A/30 shadow'></div>
 
       {/* submit chat */}
-      <form className='flex h-[50px] items-center px-3 py-2'>
+      <form className='flex h-[50px] items-center px-3 py-2' onSubmit={handleSubmit}>
         {/* image */}
         <button className='text-gray7A inline-flex cursor-pointer justify-center rounded-full p-2 text-gray-600 hover:bg-football-primary/10 hover:text-football-gray7A'>
           <svg

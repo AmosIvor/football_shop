@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { keyBy } from 'lodash'
 import { useContext, useEffect, useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import purchaseApi from '~/apis/purchase.api'
 import QuantityController from '~/components/QuantityController'
 import PATH from '~/constants/path'
@@ -9,8 +9,10 @@ import { AppContext } from '~/contexts/app.context'
 import { Customer } from '~/types/customer.type'
 import { formatCurrency } from '~/utils/utils'
 import { produce } from 'immer'
+import { OrderRequest } from '~/types/order.type'
 
 export default function Cart() {
+  const navigate = useNavigate()
   const { profile, extendedPurchases, setExtendedPurchases } = useContext(AppContext)
   const idCustomer = (profile as Customer).id
 
@@ -19,7 +21,6 @@ export default function Cart() {
     queryKey: ['carts'],
     queryFn: () => purchaseApi.getCart(idCustomer)
   })
-  console.log('dataCart', cartsData)
 
   // increase purchase
   const increasePurchaseMutation = useMutation({
@@ -63,6 +64,15 @@ export default function Cart() {
       return result + 50000 * current.quantity
     }, 0)
   }, [checkedPurchases])
+
+  const handleSubmitCart = () => {
+    const selectedProducts = extendedPurchases.filter((item) => item.checked === true)
+    navigate(PATH.payment, {
+      state: {
+        selectedProducts: selectedProducts
+      }
+    })
+  }
 
   useEffect(() => {
     setExtendedPurchases((prev) => {
@@ -324,13 +334,13 @@ export default function Cart() {
             </div>
 
             {/* Button Purchase */}
-            <Link
-              to={PATH.payment}
+            <button
               className='ml-0 mt-4 flex w-full items-center justify-center bg-football-primary py-2 text-center text-lg uppercase text-white hover:bg-football-primary/90 xs:ml-4 xs:mt-0 xs:w-56'
+              onClick={handleSubmitCart}
             >
               <span>Mua hàng</span>
               <span className='ml-2 inline-block lg:ml-2 xl:hidden'>({checkedPurchasesCount})</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

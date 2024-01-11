@@ -3,5 +3,7 @@ export const API = {
   product: 'api/Products',
   cart: 'api/Carts',
   delivery: 'api/DeliveryInfoes',
-  chat: 'api/Chat'
+  chat: 'api/Chat',
+  order: 'api/Orders',
+  orderDetail: 'api/OrderDetails'
 } as const
